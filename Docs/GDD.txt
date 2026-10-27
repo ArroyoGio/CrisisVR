@@ -1,0 +1,3010 @@
+Crisis VR — Documento de
+diseño y producción (v1.0)
+Prototipo de Realidad Virtual para Unity 6 y Meta Quest 3 · Fuente única del alcance: tesis
+(versión Tanda 2) · 9 de octubre de 2026
+Cómo está organizado este documento
+ Parte     Contenido
+
+ 0         Síntesis del alcance extraído de la tesis y convenciones
+
+ 1         Diseño de la experiencia, de principio a fin
+
+ 2         Guion completo de los tres actos (diálogos, acciones, opciones, reacciones)
+
+ 3         Árbol de decisiones y lógica de estados
+
+ 4         Diseño técnico para Unity 6 y Meta Quest 3 (scripts y código inicial)
+
+ 5         Registro de información y reporte
+
+ 6         Recursos y producción
+
+ 7         Plan de implementación paso a paso
+
+ 8         Pruebas y validación
+
+ 9         Índice de propuestas que requieren validación de la clienta
+
+
+
+PARTE 0 — SÍNTESIS DEL ALCANCE (extraída de
+la tesis)
+0.1 Lo que la tesis establece
+ Aspecto            Qué dice la tesis
+
+ Producto           Simulador de Realidad Virtual, prototipo, en Unity 6 LTS con URP y Meta
+                    Quest 3 (Meta XR SDK)
+
+ Población          Estudiantes de primer ciclo de TECSUP
+
+ Propósito          Registrar decisiones y acciones del estudiante en situaciones académicas
+                    simuladas y presentarlas en un reporte descriptivo como insumo
+                    complementario para Psicopedagogía
+
+ Lo que NO es       No diagnostica, no es evaluación clínica, no asigna puntajes ni niveles, no
+                    mide competencias, no reemplaza al tutor
+Competencias    Autorregulación emocional (Acto 1), adaptabilidad (Acto 2), trabajo en
+priorizadas     equipo (Acto 3)
+
+Estructura      Una experiencia de tres actos interactivos secuenciales, de duración
+                prevista de 8 a 10 minutos (no medida)
+
+Acto 1          Calificación baja y retroalimentación negativa del docente (profesor Miguel).
+                Registro: reintentar la corrección o no actuar
+
+Acto 2          Cambio inesperado de modalidad y grupo; notificación, compañero nuevo,
+                objeto interactuable. Registro: plan nuevo, plan original o sin acción
+
+Acto 3          Videollamada; desacuerdo entre compañeros e integrante que no cumple
+                su tarea. Registro: opción A (mediar), B (apoyar), C (excluir) o D (pasivo)
+
+Rutas           Ninguna ruta bloquea el avance; todos los actos se recorren de forma
+                secuencial
+
+Dentro de la    No se muestran puntajes ni mensajes de valoración
+simulación
+
+Variables       Reintento, OpcionAdaptabilidad, OpcionTrabajoEnEquipo y
+registradas     metadatos de sesión (identificador seudonimizado, fecha, versión, estado
+                de finalización)
+
+Variables       Tiempos de respuesta, mirada, T_react (la clienta indicó que no aportan)
+retiradas
+
+Condición «no   Se determina por un tiempo de espera de diseño (parámetro técnico), no
+actúa»          por una medición del tiempo de respuesta
+
+Capas           Narrativa (Yarn Spinner 3.0) · Interacción (Meta XR SDK: objetos, zonas de
+                proximidad, botones en espacio 3D) · Registro de decisiones
+                (GameSessionData, Act Managers) · Reporte
+                (ReporteManager.GuardarReporte())
+
+Almacenamien    Archivo de texto estructurado (reporte.txt) en
+to              Application.persistentDataPath
+
+Reporte         Encabezado con código de sesión, fecha y versión · aviso de límites · por
+                acto: situación, frase descriptiva predefinida y preguntas orientadoras ·
+                calidad del registro. Lenguaje descriptivo, no interpretativo; frases escritas
+                de antemano, sin inteligencia artificial
+
+Fuera de        Diagnóstico, reemplazo de la tutoría, multijugador en línea, plataforma web,
+alcance         IA para diagnóstico o predicción, compatibilidad con otras gafas, análisis
+                longitudinal
+
+Ética           Consentimiento informado previo (aún sin documentar), código de sesión
+                sin nombre, acceso restringido, no uso académico ni disciplinario
+
+0.2 Convenciones de etiquetas
+ Etiqueta              Significado
+
+ [TESIS]               Está en la tesis
+
+ [PROPUESTA –          Propuesta de diseño pendiente de validación con la clienta. Es
+ VALIDAR CON           contenido que la tesis no define (diálogos, textos de opciones,
+ CLIENTA]              reacciones, frases del reporte, preguntas). No es un requisito
+                       confirmado
+
+ [PROPUESTA            Decisión técnica provisional, conservadora; no requiere a la clienta,
+ TÉCNICA]              pero no está en la tesis
+
+ [VERIFICAR]           Dato que debes comprobar en la documentación vigente antes de
+                       usarlo
+Aviso general. Todo el contenido narrativo de la Parte 2 (nombres de personajes, diálogos,
+textos de opciones, reacciones, frases y preguntas del reporte) es [PROPUESTA – VALIDAR
+CON CLIENTA]. El código de la Parte 4 no ha sido compilado ni probado.
+
+0.3 Decisiones globales de diseño (provisionales)
+ N.°    Decisión                                                     Etiqueta
+
+
+ G1     Una sola escena de Unity con tres actos que se activan       PROPUESTA TÉCNICA
+        por etapas
+
+ G2     Desplazamiento virtual con joystick del mando.               CONFIRMADO POR USUARIO
+        Postura y parámetros de confort pendientes de definir.
+
+ G3     Interacción por rayo desde el control derecho y gatillo      PROPUESTA TÉCNICA
+        para seleccionar; botón Menú del control izquierdo para
+        pausar
+
+ G4     Diálogos mostrados como subtítulos en un panel frente        PROPUESTA TÉCNICA
+        al estudiante, con voz opcional
+
+ G5     Los diálogos se escriben en Yarn Spinner como                PROPUESTA TÉCNICA
+        secuencias lineales; la lógica de ramificación (if/else)
+        está en C#
+
+ G6     Tiempo de espera de la decisión: 45 s en los Actos 1 y 2;    PROPUESTA TÉCNICA
+        el Acto 3 no tiene tiempo de espera
+
+ G7     Cada sesión genera un archivo reporte.txt con                TESIS (formato) +
+        nombre único; no se muestra al estudiante                    PROPUESTA TÉCNICA
+                                                                     (nombre)
+
+ G8     Los datos de tiempo no se registran. El único uso del        TESIS
+        tiempo es el tiempo de espera de G6
+
+ G9     Escala de calificación: 0 a 20 (vigesimal)                   PROPUESTA – VALIDAR
+                                                                     CON CLIENTA
+PARTE 1 — DISEÑO DE LA EXPERIENCIA
+1.1 Línea de tiempo
+La duración de cada etapa es un objetivo de diseño, no una medición. La tesis indica una
+duración prevista de 8 a 10 minutos.
+ N.°    Etapa                             Duración objetivo        Quién actúa
+
+ E1     Pantalla inicial                  0:20                     Quien conduce la sesión
+
+ E2     Bienvenida e información          0:50                     Estudiante
+
+ E3     Tutorial de controles             1:10                     Estudiante
+
+ E4     Acto 1                            2:00                     Estudiante
+
+ E5     Acto 2                            1:50                     Estudiante
+
+ E6     Acto 3                            2:10                     Estudiante
+
+ E7     Cierre                            0:30                     Estudiante
+
+ E8     Reporte                           automático               Sistema
+
+        Total orientativo                 ≈ 9:10
+
+1.2 Detalle de cada etapa
+E1 — Pantalla inicial (visor colocado, antes de la sesión)
+
+ Qué aparece                                 Qué se          Qué puede     Qué activa el
+                                             escucha         hacer         siguiente paso
+
+ Un entorno neutro (el aula, con luz         Sonido          Apuntar con   Gatillo sobre
+ suave). Panel frente al usuario: «CRISIS    ambiente        el control    INICIAR. Quien
+ VR» y debajo «Simulación de                 suave           derecho al    conduce la sesión
+ situaciones académicas». En la esquina      (opcional)      botón         puede presionarlo
+ del panel, en letra pequeña: «Versión                       INICIAR       cuando el estudiante
+ 0.1 · Código de sesión: CVR-… »                                           esté listo
+Al iniciar la aplicación se crea una sesión nueva con código seudonimizado. No se pide nombre
+ni dato personal.
+E2 — Bienvenida e información
+Panel central (texto literal, [PROPUESTA – VALIDAR CON CLIENTA]):
+Bienvenido/a. En esta experiencia verás tres situaciones de la vida académica y podrás decidir
+qué hacer en cada una. Tus decisiones se registran para apoyar una conversación posterior con
+el área de Psicopedagogía. No es una evaluación ni un diagnóstico. No hay respuestas
+correctas o incorrectas. Puedes detener la experiencia en cualquier momento presionando el
+botón Menú del control izquierdo.
+ Qué se escucha                            Qué puede hacer                 Qué activa el siguiente
+                                                                           paso
+
+ Voz de la guía (opcional): lee el texto   Leer; apuntar al botón          Gatillo sobre
+ del panel                                 CONTINUAR                       CONTINUAR
+Nota: esta pantalla no reemplaza el consentimiento informado, que debe obtenerse antes de
+colocar el visor. [TESIS: consentimiento pendiente de documentar]
+E3 — Tutorial de controles (sala de práctica)
+Ubicación: el mismo aula, con un panel de práctica sobre el escritorio. Nada de lo que se haga
+aquí se registra.
+Actualización T-23 (16/10/2026): antes de T1–T5, enseñar a iniciar, dirigir y detener
+el desplazamiento mediante joystick. Permitir repetir, pedir ayuda o continuar sin bloqueo.
+Después enseñar UI y las interacciones de los actos. No registrar movimiento ni desempeño.
+VERIFICAR: mando asignado, velocidad, dirección, giro, colisiones y confort.
+Revisar la duración prevista de E3. Los pasos siguientes cubren solo la interacción.
+ Paso      Qué aparece           Qué se escucha / lee               Qué puede       Avanza
+                                                                    hacer           cuando
+
+ T1        Rayo en el control    Guía: «Apunta con el control       Apuntar y       Se
+           derecho; botón        derecho y presiona el gatillo      presionar el    selecciona
+           PRACTICAR             para seleccionar»                  gatillo         PRACTICAR
+           brillante
+
+ T2        Dos cubos (azul y     Guía: «Ahora elige uno de los      Elegir          Se
+           verde)                dos cubos. Esta práctica no        cualquiera      selecciona un
+                                 se registra»                                       cubo
+
+ T3        Panel: «Espera        Guía: «A veces no                  No hacer        Pasan 5 s sin
+           unos segundos»        necesitarás actuar. Si no          nada 5          selección
+                                 haces nada, la experiencia         segundos
+                                 continúa»
+
+ T4        Panel con el botón    Guía: «Si necesitas pausar,        Leer            4s
+           Menú dibujado         presiona el botón Menú del
+                                 control izquierdo»
+
+ T5        Botón                 Guía: «Cuando estés listo,         Apuntar al      Se
+           COMENZAR              presiona COMENZAR»                 botón           selecciona
+                                                                                    COMENZAR
+
+E4 a E6 — Los tres actos
+Cada acto sigue la misma secuencia [PROPUESTA TÉCNICA]:
+    1.​ Transición de entrada (fundido a negro 1 s, tarjeta «Situación N de 3» 2,5 s, fundido de
+        entrada 1 s).
+    2.​ Presentación (instrucciones y diálogos de contexto).
+    3.​ Evento disparador.
+    4.​ Momento de decisión (opciones visibles, tiempo de espera cuando corresponde).
+    5.​ Reacción de los personajes según la decisión.
+    6.​ Cierre del acto y registro.
+El guion exacto está en la Parte 2.
+E7 — Cierre de la experiencia
+ Qué aparece                                    Qué se             Qué      Qué activa el
+                                                escucha            puede    siguiente paso
+                                                                   hacer
+
+ Fundido a negro y panel: «Gracias por          Voz de la          Nada     Pasan 10 s: aparece
+ participar.» · «La experiencia ha              guía                        el panel de quien
+ terminado.» · «No hay respuestas               (opcional) y                conduce la sesión
+ correctas ni incorrectas.» · «Entrega el       sonido suave                con NUEVA SESIÓN
+ visor al profesional que te acompaña.»                                     y SALIR
+[PROPUESTA – VALIDAR CON CLIENTA]: que el cierre no muestre al estudiante ninguna
+devolución de sus decisiones.
+E8 — Generación del reporte
+
+ Momento                       Qué ocurre
+
+ Al terminar el Acto 3         ReportWriter genera CrisisVR_<código>.txt en
+ (antes del cierre)            Application.persistentDataPath
+
+ Pausa → «Terminar             Se genera un reporte parcial con el estado «Interrumpida»
+ sesión»
+Visualización o exportación (alcance viable) [PROPUESTA TÉCNICA]. La tesis define que el
+reporte se guarda como archivo de texto y que el tutor lo consulta al término de la sesión. No se
+muestra dentro del visor (para no exponer los datos al estudiante). Para consultarlo: conectar el
+visor por cable USB y copiar el archivo desde la carpeta de datos de la aplicación (con Meta
+Quest Developer Hub o con adb pull). La ruta exacta se escribe en el registro de Unity al
+iniciar la aplicación (Debug.Log(Application.persistentDataPath)). Un visor integrado de
+reportes y la exportación en PDF requerirían ampliar el alcance (ver §8.4).
+
+1.3 Pausa, reinicio y finalización
+ Acción        Cómo se activa               Qué ocurre
+
+ Pausar        Botón Menú (control          Congela diálogos y tiempos de espera; aparece el
+               izquierdo)                   panel de pausa
+
+ Continuar     CONTINUAR en el              Reanuda donde estaba
+               panel
+
+ Terminar      TERMINAR SESIÓN              Guarda reporte parcial y vuelve a la pantalla inicial
+ sesión                                     con una sesión nueva
+
+ Nueva         NUEVA SESIÓN (pausa          Crea otro código; el reporte anterior no se
+ sesión        o cierre)                    sobrescribe
+
+ Salir         SALIR (solo en el panel      Cierra la aplicación
+               de cierre)
+
+1.4 Transiciones entre escenarios
+ Elemento     Especificación [PROPUESTA TÉCNICA]
+ Fundido      Esfera/quad negro delante de la cámara, alfa de 0 a 1 en 1 s y de 1 a 0 en 1 s
+
+ Tarjeta      Panel central con «Situación N de 3», 2,5 s
+
+ Sonido       Un tono suave al aparecer la tarjeta
+
+ Confort      Sin desplazamiento automático de cámara durante la transición; el cambio de utilería ocurre con la pantalla en negro
+
+
+
+PARTE 2 — GUION COMPLETO
+Todo el contenido narrativo de esta parte es [PROPUESTA – VALIDAR CON CLIENTA]. Los
+nombres de los personajes (excepto el profesor Miguel, que figura en la tesis), los diálogos, los
+textos de las opciones y las reacciones son propuestas conservadoras: lenguaje cotidiano,
+neutro y sin juicios. Si la clienta modifica un texto, solo hay que cambiar la línea correspondiente
+en el archivo .yarn.
+
+2.0 Comandos de Yarn usados en el guion
+ Comando              Qué hace                                            Ejemplo
+
+ <<say id             Muestra el subtítulo del personaje, activa su       <<say miguel
+ "texto">>            animación de hablar y espera el tiempo de           "Buenos días.">>
+                      lectura
+
+ <<instr              Muestra una instrucción en el panel superior        <<instr "Selecciona
+ "texto">>            hasta que se cambie o se limpie                     ENTREGAR.">>
+
+ <<instr_clear>       Oculta la instrucción
+ >
+
+ <<hold               Pausa en segundos (respeta la pausa del             <<hold 1.5>>
+ segundos>>           juego)
+
+ <<sfx nombre>>       Reproduce un efecto de sonido                       <<sfx
+                                                                          notificacion>>
+
+ <<prop id            Activa o desactiva un objeto de la escena           <<prop grade_card
+ on/off>>                                                                 on>>
+
+ <<npc id             Muestra u oculta a un personaje                     <<npc rodrigo
+ show/hide>>                                                              show>>
+
+ <<screen id          Cambia el texto de una pantalla del mundo           <<screen laptop
+ "texto">>            (laptop, tablet, videollamada)                      "Entrega enviada">>
+
+Identificadores de hablantes: guia (Guía), sistema (Aviso), miguel (Prof. Miguel), rodrigo
+(Rodrigo), lucia (Lucía), andres (Andrés), mateo (Mateo).
+
+
+2.1 ACTO 1 — «Entrega del proyecto» (autorregulación emocional) [TESIS:
+situación y rutas]
+ Campo            Contenido
+ Objetivo         Presentar una calificación baja con retroalimentación negativa del docente y
+                  registrar si el estudiante opta por corregir el proyecto o no actúa
+
+ Lugar y          Aula luminosa y sencilla: escritorio del estudiante en primer plano con una
+ ambientación     laptop; escritorio del profesor al fondo; pizarra; ventanas. Sonido ambiente
+                  de aula (suave)
+
+ Personajes       Profesor Miguel [TESIS] (de pie junto a su escritorio, a 3 m, frente al
+                  estudiante)
+
+ Objetos          Laptop (botón ENTREGAR; después botón CORREGIR PROYECTO),
+                  tarjeta de calificación (grade_card), silla del estudiante
+
+ Situación        Día de entrega del proyecto final del curso
+ inicial
+
+ Conflicto        El proyecto recibe 08 sobre 20 y el docente indica las razones
+
+Secuencia numerada
+
+ N    Evento                          Qué ve / escucha el estudiante           Responsable en
+ .°                                                                            Unity
+
+ 1    Transición de entrada           Fundido, tarjeta «Situación 1 de 3»      ActBase.Transi
+                                                                               tion
+
+ 2    Aparece el aula; Miguel         Aula con el docente                      Act1Controller
+      visible
+
+ 3    Nodo Act1_Intro                 Instrucción + saludo de Miguel (ver      Yarn
+                                      guion)
+
+ 4    Se activa el botón              Botón brillante                          ChoicePrompt
+      ENTREGAR en la laptop (sin
+      tiempo de espera)
+
+ 5    El estudiante selecciona        Sonido de envío; la laptop dice          Act1Controller
+      ENTREGAR                        «Entrega enviada»
+
+ 6    Nodo Act1_Retro                 Miguel anuncia la calificación y la      Yarn
+                                      retroalimentación; aparece la tarjeta
+                                      de calificación
+
+ 7    Se activa el botón              Botón visible en la laptop. No hay       ChoicePrompt
+      CORREGIR PROYECTO y             cuenta regresiva visible
+      empieza el tiempo de espera
+      de 45 s
+
+ 8    Ruta A: selecciona              Nodo Act1_Reaccion_Corregir              Act1Controller
+ a    CORREGIR PROYECTO
+ 8   Ruta B: vence el tiempo de       Nodo Act1_Reaccion_NoActuo             Act1Controller
+ b   espera sin selección
+
+ 9   Registro                         Se guarda la decisión (ver más         SessionRecorde
+                                      abajo)                                 r
+
+
+ 1   Nodo Act1_Cierre y               Tarjeta «Fin de la situación 1 de 3»   Yarn + ActBase
+ 0   transición de salida
+
+Diálogos y acciones (archivo Act1.yarn)
+title: Act1_Intro
+---
+<<instr "Hoy es la entrega de tu proyecto final del curso.">>
+<<say miguel "Buenos días. Hoy recibimos las entregas del proyecto del curso.">>
+<<say miguel "Cuando estés listo, envía tu proyecto desde la laptop.">>
+<<instr "Selecciona ENTREGAR en la laptop.">>
+===
+
+title: Act1_Retro
+---
+<<instr_clear>>
+<<sfx envio>>
+<<screen laptop "Entrega enviada">>
+<<hold 1.5>>
+<<say miguel "Gracias. Acabo de revisar tu proyecto.">>
+<<prop grade_card on>>
+<<say miguel "La calificación es 08 sobre 20.">>
+<<say miguel "Tu entrega no cumple varios criterios de la rúbrica: falta justificar
+las decisiones de diseño y no se incluyen pruebas de funcionamiento.">>
+<<say miguel "Con este resultado no puedo aprobar el proyecto tal como está.">>
+<<say miguel "Puedes corregirlo desde tu laptop. Estaré aquí unos minutos.">>
+===
+
+title: Act1_Reaccion_Corregir
+---
+<<sfx click>>
+<<screen laptop "Corrección en curso...">>
+<<say miguel "Bien. Revisaré tu corrección cuando la envíes.">>
+<<hold 1.5>>
+===
+
+title: Act1_Reaccion_NoActuo
+---
+<<say miguel "Entiendo. Si más adelante quieres comentarlo, puedes escribirme.">>
+<<hold 1.5>>
+===
+
+title: Act1_Cierre
+---
+<<prop grade_card off>>
+<<instr_clear>>
+===
+
+
+Instrucciones que ve el estudiante
+    1.​ «Hoy es la entrega de tu proyecto final del curso.»
+    2.​ «Selecciona ENTREGAR en la laptop.»
+En el momento de la decisión no se muestra ninguna instrucción: solo aparece el botón
+CORREGIR PROYECTO. Esto evita inducir la respuesta. [PROPUESTA – VALIDAR CON
+CLIENTA]
+Acciones posibles en realidad virtual
+
+ Acción                                                                  Resultado
+
+ Apuntar y seleccionar ENTREGAR                                          Avanza al paso 6
+
+ Apuntar y seleccionar CORREGIR PROYECTO                                 Ruta A
+
+ Mirar alrededor, no hacer nada                                          Tras 45 s: Ruta B
+
+Opciones de decisión (texto literal)
+
+ Ruta       Texto del botón                                       Cómo se activa
+
+ A          CORREGIR PROYECTO                                     Selección del botón
+
+ B          (no hay texto: es la ausencia de acción)              Vence el tiempo de espera
+[TESIS] El Acto 1 tiene solo estas dos rutas. Cualquier opción adicional queda como pregunta
+para la clienta.
+Condiciones para avanzar y finalizar
+   ●​ Avanza al Acto 2 cuando termina el nodo de reacción, sea cual sea la ruta.
+   ●​ El acto no se puede repetir.
+Qué se registra
+
+ Variable                                              Ruta A                  Ruta B
+
+ Reintento                                             true                    false
+
+ Acto1Ruta (metadato)                                  Corregir                NoActuo
+
+ Acto1Completado                                       true                    true
+
+Información descriptiva para el reporte (borrador) [PROPUESTA – VALIDAR CON CLIENTA]
+
+ Ruta     Frase
+
+ A        «Tras recibir la retroalimentación, el estudiante seleccionó la opción de corregir el
+          proyecto.»
+
+ B        «Tras recibir la retroalimentación, el estudiante no seleccionó ninguna acción durante
+          el tiempo disponible, y la sesión continuó.»
+
+ Amb      Pregunta orientadora: «¿Qué pensabas mientras escuchabas la retroalimentación del
+ as       profesor?»
+
+Recursos del acto
+
+ Tipo          Elemento
+ Modelos       Aula (cubos/planos), escritorios, silla, pizarra, ventanas (planos), laptop (dos
+ 3D            cubos y un plano para la pantalla), tarjeta de calificación (plano con texto)
+
+ Personaje     Miguel: cuerpo de cápsula, cabeza esférica, cabello y camisa con colores
+
+ Animacio      Reposo (leve balanceo), hablar (cabeceo suave), mirar al estudiante (giro de la
+ nes           cabeza). Se generan con scripts sencillos
+
+ Sonidos       Ambiente de aula, clic, envío, tono de tarjeta
+
+ Efectos       Brillo (emisión) en los botones activos; fundido
+
+
+2.2 ACTO 2 — «Aviso de cambio» (adaptabilidad) [TESIS: situación, objeto
+interactuable y opciones]
+ Campo             Contenido
+
+ Objetivo          Presentar un cambio inesperado de modalidad y de grupo y registrar si el
+                   estudiante adopta el plan nuevo, mantiene el plan original o no actúa
+
+ Lugar y           El mismo aula; el escritorio del profesor está vacío. Sobre el escritorio del
+ ambientación      estudiante: una carpeta (plan original) y, más tarde, una tablet (plan nuevo)
+
+ Personajes        Rodrigo, compañero nuevo (aparece junto al escritorio); la voz del «Aviso del
+                   campus»
+
+ Objetos           Carpeta PLAN ORIGINAL (folder_plan), tablet PLAN NUEVO
+                   (tablet_plan), panel de aviso
+
+ Situación         El estudiante se prepara para una práctica presencial en laboratorio con su
+ inicial           grupo
+
+ Conflicto         Llega un aviso: la práctica pasa a modalidad virtual y los grupos se
+                   reorganizan
+
+Secuencia numerada
+
+ N    Evento                              Qué ve / escucha el estudiante            Responsable
+ .°
+
+ 1    Transición de entrada               Tarjeta «Situación 2 de 3» (Miguel        ActBase
+                                          desaparece durante el negro)
+
+ 2    Nodo Act2_Intro                     Carpeta sobre el escritorio;              Yarn
+                                          instrucción y texto del plan original
+
+ 3    Nodo Act2_Aviso                     Sonido de notificación, panel del         Yarn
+                                          aviso, la tablet se enciende
+
+ 4    Nodo Act2_Rodrigo                   Aparece Rodrigo; saluda y pregunta        Yarn
+                                          cómo seguir
+ 5   Se activan carpeta y tablet      Ambos objetos brillan          ChoicePromp
+     como seleccionables; tiempo de                                  t
+     espera 45 s
+
+ 6   Selecciona la tablet             Nodo Act2_Reaccion_PlanNuevo   Act2Control
+ a                                                                   ler
+
+
+ 6   Selecciona la carpeta            Nodo                           Act2Control
+ b                                    Act2_Reaccion_PlanOriginal     ler
+
+
+ 6   Vence el tiempo de espera        Nodo Act2_Reaccion_SinAccion   Act2Control
+ c                                                                   ler
+
+
+ 7   Registro                         Se guarda la decisión          SessionReco
+                                                                     rder
+
+ 8   Nodo Act2_Cierre y transición    «Fin de la situación 2 de 3»   Yarn +
+     de salida                                                       ActBase
+
+Diálogos y acciones (archivo Act2.yarn)
+title: Act2_Intro
+---
+<<instr "Te preparas para la práctica del curso. Sobre el escritorio está tu
+plan.">>
+<<prop folder_plan on>>
+<<say sistema "Tu plan: realizar la práctica de forma presencial, en el
+laboratorio, con tu grupo actual.">>
+<<hold 1.5>>
+===
+
+title: Act2_Aviso
+---
+<<sfx notificacion>>
+<<instr_clear>>
+<<prop aviso_panel on>>
+<<say sistema "Aviso del campus: la práctica de hoy pasa a modalidad virtual. Los
+grupos se han reorganizado.">>
+<<prop tablet_plan on>>
+<<screen tablet "PLAN NUEVO: práctica virtual por videollamada con el grupo B">>
+<<say sistema "Tu tablet muestra el plan nuevo.">>
+<<prop aviso_panel off>>
+===
+
+title: Act2_Rodrigo
+---
+<<npc rodrigo show>>
+<<say rodrigo "Hola. Soy Rodrigo, me asignaron a tu grupo para la práctica
+virtual.">>
+<<say rodrigo "Acabo de ver el aviso. ¿Cómo lo hacemos?">>
+<<instr "Selecciona el material con el que quieres continuar: la tablet (plan
+nuevo) o la carpeta (plan original).">>
+===
+
+title: Act2_Reaccion_PlanNuevo
+---
+<<instr_clear>>
+<<sfx click>>
+<<screen tablet "Conectando con el grupo B...">>
+<<say rodrigo "Perfecto. Entonces entro a la sala virtual y empezamos con la
+introducción.">>
+<<say rodrigo "Cuando estés conectado, avanzamos con la parte práctica.">>
+===
+
+title: Act2_Reaccion_PlanOriginal
+---
+<<instr_clear>>
+<<sfx click>>
+<<say rodrigo "Entiendo, tú sigues con el plan original.">>
+<<say rodrigo "Yo me conecto a la sala virtual y coordinamos por el chat.">>
+===
+
+title: Act2_Reaccion_SinAccion
+---
+<<instr_clear>>
+<<say rodrigo "Bien, dejo ambos materiales aquí por ahora.">>
+<<say rodrigo "Cuando quieras, me avisas y vemos cómo seguimos.">>
+===
+
+title: Act2_Cierre
+---
+<<npc rodrigo hide>>
+<<prop folder_plan off>>
+<<prop tablet_plan off>>
+===
+
+
+Instrucciones que ve el estudiante
+    1.​ «Te preparas para la práctica del curso. Sobre el escritorio está tu plan.»
+    2.​ «Selecciona el material con el que quieres continuar: la tablet (plan nuevo) o la carpeta
+        (plan original).»
+Acciones posibles
+
+ Acción                                                               Resultado
+
+ Apuntar y seleccionar la tablet                                      Plan nuevo
+
+ Apuntar y seleccionar la carpeta                                     Plan original
+
+ No seleccionar durante 45 s                                          Sin acción
+
+Opciones de decisión (texto literal)
+
+ Opción                 Objeto y rótulo                                      Código interno
+                                                                             (neutro)
+
+ Adoptar el plan        Tablet con rótulo «PLAN NUEVO — práctica             PlanNuevo
+ nuevo                  virtual»
+
+ Mantener el plan       Carpeta con rótulo «PLAN ORIGINAL —                  PlanOriginal
+ original               práctica presencial»
+
+ No actuar              (ausencia de selección)                              SinAccion
+Los códigos internos son neutros: no se usan etiquetas como «adapta» o «mantiene», que
+sugieren una valoración. [PROPUESTA TÉCNICA]
+Condiciones para avanzar y finalizar
+Avanza al Acto 3 cuando termina el nodo de reacción.
+Qué se registra
+
+ Decisión                                                    OpcionAdaptabilidad
+
+ Plan nuevo                                                  1
+
+ Plan original                                               2
+
+ Sin acción                                                  3
+
+ Sin registro (acto no alcanzado)                            0
+
+Los códigos numéricos son [PROPUESTA TÉCNICA]; la tesis no los define.
+Información descriptiva para el reporte (borrador) [PROPUESTA – VALIDAR CON CLIENTA]
+
+ Decisión     Frase
+
+ Plan         «Ante el aviso de cambio de modalidad, el estudiante seleccionó el plan nuevo
+ nuevo        (práctica virtual).»
+
+ Plan         «Ante el aviso de cambio de modalidad, el estudiante seleccionó el plan original
+ original     (práctica presencial).»
+
+ Sin          «Ante el aviso de cambio de modalidad, el estudiante no seleccionó ninguna
+ acción       opción durante el tiempo disponible, y la sesión continuó.»
+
+ Todas        Pregunta orientadora: «¿Qué te llevó a elegir esa opción (o a no elegir)?»
+
+Recursos del acto
+
+ Tipo            Elemento
+
+ Modelos         Carpeta (cubo aplanado con etiqueta), tablet (cubo muy delgado con pantalla),
+ 3D              panel de aviso (plano), el aula
+
+ Personaje       Rodrigo (cápsula, esfera, color distinto al de Miguel)
+
+ Animacio        Aparición con fundido, reposo, hablar
+ nes
+
+ Sonidos         Notificación, clic, ambiente
+
+ Efectos         Brillo en carpeta y tablet cuando son seleccionables
+
+
+2.3 ACTO 3 — «Reunión de equipo» (trabajo en equipo) [TESIS: situación y
+opciones A–D]
+ Campo               Contenido
+ Objetivo              Presentar un desacuerdo entre compañeros y un integrante que no cumple
+                       su tarea, y registrar la opción de diálogo que elige el estudiante
+
+ Lugar y               El mismo aula, con una pantalla grande frente al estudiante que simula una
+ ambientación          videollamada con tres recuadros: Lucía, Andrés y Mateo
+
+ Personajes            Lucía (propone y organiza), Andrés (discrepa), Mateo (integrante que no
+                       entregó su parte). Los tres aparecen como recuadros de la videollamada
+
+ Objetos               Pantalla de videollamada (video_screen) con recuadros (tile_lucia,
+                       tile_andres, tile_mateo) y cuatro botones de respuesta (btn_a, btn_b,
+                       btn_c, btn_d)
+
+ Situación             Reunión virtual para terminar el trabajo final; quedan tres días
+ inicial
+
+ Conflicto             Lucía y Andrés discrepan sobre quién hace cada parte; Mateo no tiene lista
+                       la suya
+
+Secuencia numerada
+
+ N.°        Evento                                    Qué ve / escucha el                 Responsable
+                                                      estudiante
+
+ 1          Transición de entrada                     Tarjeta «Situación 3 de 3»          ActBase
+
+ 2          Se enciende la pantalla de                Tres recuadros con nombre;          Act3Control
+            videollamada                              sonido de conexión                  ler
+
+
+ 3          Nodo Act3_Intro                           Instrucción de contexto             Yarn
+
+ 4          Nodo Act3_Conflicto                       Diálogo de los tres                 Yarn
+                                                      compañeros; el recuadro del
+                                                      que habla se resalta
+
+ 5          Aparecen los cuatro botones; sin          Cuatro botones con texto            ChoicePromp
+            tiempo de espera                                                              t
+
+
+ 6          Si pasan 90 s sin selección:              Instrucción                         Act3Control
+            instrucción «Selecciona una opción                                            ler
+            para continuar» (no se registra)
+
+ 7a /       El estudiante selecciona A, B, C o D      Nodo Act3_Reaccion_A…D              Act3Control
+ 7b /                                                                                     ler
+ 7c /
+ 7d
+
+ 8          Registro                                  Se guarda la opción                 SessionReco
+                                                                                          rder
+
+ 9          Nodo Act3_Cierre y transición de          «Fin de la situación 3 de 3»        Yarn +
+            salida                                                                        ActBase
+Diálogos y acciones (archivo Act3.yarn)
+title: Act3_Intro
+---
+<<instr "Estás en una reunión virtual con tu equipo para terminar el trabajo
+final.">>
+<<hold 2>>
+<<instr "Escucha la conversación.">>
+===
+
+title: Act3_Conflicto
+---
+<<say lucia "Buenas. Ya estamos todos. Nos quedan tres días para entregar el
+trabajo final.">>
+<<say lucia "Falta la parte de resultados y la presentación. Propongo que Andrés
+termine el análisis y yo armo la presentación.">>
+<<say andres "No estoy de acuerdo. El análisis ya lo avancé casi todo yo. Me toca
+la presentación.">>
+<<say lucia "Yo también he aportado en el informe. Y todavía falta la parte de
+Mateo.">>
+<<say mateo "Sobre mi parte... todavía no la tengo lista.">>
+<<say andres "Siempre pasa lo mismo. Así no vamos a terminar a tiempo.">>
+<<say lucia "Necesito que decidamos cómo seguimos.">>
+<<say lucia "Y tú, ¿qué propones?">>
+<<instr_clear>>
+===
+
+title: Act3_Reaccion_A
+---
+<<say lucia "Me parece bien, ordenemos eso.">>
+<<say andres "De acuerdo. Yo termino el análisis para el jueves.">>
+<<say mateo "Yo puedo entregar mi parte el viernes.">>
+<<say lucia "Perfecto, lo anoto.">>
+===
+
+title: Act3_Reaccion_B
+---
+<<say lucia "Gracias, eso me ayuda.">>
+<<say andres "Entonces yo cierro el análisis.">>
+<<say mateo "Yo terminaré mi parte también.">>
+<<say lucia "Bien, avancemos así.">>
+===
+
+title: Act3_Reaccion_C
+---
+<<say mateo "Entiendo.">>
+<<say lucia "Está bien, repartamos su parte entre los tres.">>
+<<say andres "Bien, avancemos.">>
+===
+
+title: Act3_Reaccion_D
+---
+<<say lucia "Bien. Entonces decido yo: Andrés termina el análisis y yo armo la
+presentación.">>
+<<say andres "Está bien.">>
+<<say lucia "Mateo, ¿puedes enviar tu parte cuando la tengas?">>
+<<say mateo "Sí, la enviaré.">>
+===
+
+title: Act3_Cierre
+---
+<<say lucia "Gracias por conectarse. Seguimos por el chat del grupo.">>
+<<prop video_screen off>>
+===
+
+
+Instrucciones que ve el estudiante
+    1.​ «Estás en una reunión virtual con tu equipo para terminar el trabajo final.»
+    2.​ «Escucha la conversación.»
+    3.​ (Solo a los 90 s sin selección) «Selecciona una opción para continuar.»
+Opciones de decisión (texto literal) [TESIS: A mediar, B apoyar, C excluir, D pasivo]
+
+ Botó     Texto que aparece en el botón                           Tipo en la      Código interno
+ n                                                                tesis           (neutro)
+
+ A        «Propongo que cada uno diga qué parte puede             Mediar          Mediar
+          entregar y para cuándo, y armamos un plan juntos.»
+
+ B        «Lucía, yo puedo ayudarte con la presentación para      Apoyar          Apoyar
+          avanzar más rápido.»
+
+ C        «Mateo no ha avanzado nada; sigamos sin él y            Excluir         Excluir
+          repartamos su parte entre nosotros.»
+
+ D        «Prefiero esperar a ver qué deciden ustedes.»           Mantenerse      Pasivo
+                                                                  pasivo
+El orden de los botones es fijo: A, B, C, D, de izquierda a derecha. [PROPUESTA TÉCNICA]
+(Existe el riesgo de un sesgo de posición; ver §8.3.)
+Cuando el estudiante selecciona una opción, el sistema reproduce su texto en voz alta como
+subtítulo del estudiante (hablante tu, con el texto del botón) antes de las reacciones. En C# se
+hace con una llamada a say con el texto del botón; no se añade al guion Yarn.
+Acciones posibles
+Apuntar y seleccionar uno de los cuatro botones. No hay otra acción disponible en este acto.
+Condiciones para avanzar y finalizar
+Se avanza cuando se selecciona un botón y termina el nodo de reacción. Al terminar
+Act3_Cierre, la sesión se marca como completa, se escribe el reporte y comienza el cierre.
+
+Qué se registra
+
+ Opción                           OpcionTrabajoEnEquipo
+
+ A                                1 (Mediar)
+
+ B                                2 (Apoyar)
+
+ C                                3 (Excluir)
+
+ D                                4 (Pasivo)
+
+ Sin registro                     0
+
+Los códigos numéricos son [PROPUESTA TÉCNICA].
+Información descriptiva para el reporte (borrador) [PROPUESTA – VALIDAR CON CLIENTA]
+
+ Opci      Frase
+ ón
+
+ A         «Ante el conflicto en el equipo, el estudiante eligió la opción: "Propongo que cada uno
+           diga qué parte puede entregar y para cuándo, y armamos un plan juntos".»
+
+ B         «…eligió la opción: "Lucía, yo puedo ayudarte con la presentación para avanzar más
+           rápido".»
+
+ C         «…eligió la opción: "Mateo no ha avanzado nada; sigamos sin él y repartamos su
+           parte entre nosotros".»
+
+ D         «…eligió la opción: "Prefiero esperar a ver qué deciden ustedes".»
+
+ Toda      Pregunta orientadora: «¿Qué pensaste mientras tus compañeros discutían?»
+ s
+El reporte reproduce el texto literal de la opción elegida, sin etiquetas como «mediador» o
+«excluyente», para evitar interpretar la conducta.
+Recursos del acto
+
+ Tipo           Elemento
+
+ Modelos        Pantalla grande (cubo plano), marcos de recuadros, botones 3D (cubos con
+ 3D             texto TMP)
+
+ Personajes     Tres recuadros con silueta de busto y color distinto; el que habla se resalta con
+                un borde
+
+ Animacion      Borde que se enciende al hablar; leve movimiento de la silueta
+ es
+
+ Sonidos        Conexión de videollamada, clic, ambiente
+
+ Efectos        Brillo de los botones
+
+
+2.4 Guion de bienvenida, tutorial y cierre (archivo Marco.yarn)
+title: Welcome_Guia
+---
+<<say guia "Bienvenido o bienvenida. Vas a ver tres situaciones de la vida
+académica y podrás decidir qué hacer en cada una.">>
+<<say guia "Tus decisiones se registran para apoyar una conversación posterior. No
+es una evaluación ni un diagnóstico, y no hay respuestas correctas o
+incorrectas.">>
+<<say guia "Puedes detener la experiencia en cualquier momento con el botón Menú
+del control izquierdo.">>
+===
+
+title: Tut_T1
+---
+<<say guia "Apunta con el control derecho y presiona el gatillo para
+seleccionar.">>
+===
+
+title: Tut_T2
+---
+<<say guia "Ahora elige uno de los dos cubos. Esta práctica no se registra.">>
+===
+
+title: Tut_T3
+---
+<<say guia "A veces no necesitarás actuar. Si no haces nada, la experiencia
+continúa.">>
+===
+
+title: Tut_T4
+---
+<<say guia "Si necesitas pausar, presiona el botón Menú del control izquierdo.">>
+===
+
+title: Tut_T5
+---
+<<say guia "Cuando estés listo, presiona COMENZAR.">>
+===
+
+title: Cierre_Final
+---
+<<say guia "Gracias por participar. La experiencia ha terminado.">>
+<<say guia "No hay respuestas correctas ni incorrectas. Entrega el visor al
+profesional que te acompaña.">>
+===
+
+
+
+
+PARTE 3 — ÁRBOL DE DECISIONES Y LÓGICA
+DE ESTADOS
+3.1 Máquina de estados general
+Boot ─► Welcome ─► Tutorial ─► Act1 ─► Act2 ─► Act3 ─► Closing ─► Ended
+  │         │          │         │       │       │         │
+  └─────────┴──────────┴─────────┴───────┴───────┴─────────┴──► Paused (Menú)
+                                                                  ├─ CONTINUAR →
+vuelve al estado anterior
+                                                                  ├─ TERMINAR
+SESIÓN → reporte parcial → recarga escena
+                                                                  └─ NUEVA SESIÓN →
+reporte parcial → recarga escena
+
+
+ Estado      Entra cuando     Sale cuando               Acción de entrada
+
+ Boot        Se inicia la     Se selecciona INICIAR     Crea SessionData y el código
+             aplicación                                 de sesión
+
+ Welcome     Pulsa INICIAR    Pulsa CONTINUAR           Muestra el panel y el nodo
+                                                        Welcome_Guia
+    Tutorial      Pulsa               Pulsa COMENZAR            Panel de práctica
+                  CONTINUAR
+
+    Act1, Act2,   Termina el estado   Termina el nodo de        Fundido, tarjeta, utilería del acto
+    Act3          anterior            cierre del acto
+
+    Closing       Termina Act3        Pasan 10 s                Escribe el reporte completo y
+                                                                muestra el panel final
+
+    Ended         Termina Closing     Se pulsa NUEVA            —
+                                      SESIÓN o SALIR
+
+    Paused        Botón Menú          CONTINUAR /               Congela el reloj de juego y el
+                                      TERMINAR / NUEVA          audio
+
+3.2 Acto 1
+[Act1_Intro]
+     │
+     ▼
+(botón ENTREGAR activo, sin tiempo de espera)
+     │ selecciona ENTREGAR
+     ▼
+[Act1_Retro]
+     │
+     ▼
+(botón CORREGIR PROYECTO activo, tiempo de espera 45 s)
+     ├── selecciona CORREGIR ──► Reintento = true, Act1Ruta = Corregir ──►
+[Act1_Reaccion_Corregir] ─┐
+     └── vence 45 s ───────────► Reintento = false, Act1Ruta = NoActuo ──►
+[Act1_Reaccion_NoActuo] ──┤
+
+▼
+
+[Act1_Cierre] ─► Act2
+
+
+    Condición                               Estado resultante         Evento registrado
+
+    choice == "corregir"                    Reintento = true          ACTO1_ACCION_CORREGIR
+
+    choice == null (vence el tiempo)        Reintento = false         ACTO1_SIN_ACCION
+
+
+3.3 Acto 2
+[Act2_Intro] ─► [Act2_Aviso] ─► [Act2_Rodrigo]
+                                      │
+                                      ▼
+                (tablet y carpeta seleccionables, tiempo de espera 45 s)
+        ┌──────────────┬──────────────┬──────────────┐
+        │ tablet       │ carpeta      │ vence 45 s   │
+        ▼              ▼              ▼
+   PlanNuevo (1) PlanOriginal (2) SinAccion (3)
+        │              │              │
+        ▼              ▼              ▼
+ [..PlanNuevo] [..PlanOriginal] [..SinAccion] ─► [Act2_Cierre] ─► Act3
+ Condición                       OpcionAdaptabilidad        Evento
+
+ choice == "plan_nuevo"          1                          ACTO2_PLAN_NUEVO
+
+ choice == "plan_original"       2                          ACTO2_PLAN_ORIGINAL
+
+ choice == null                  3                          ACTO2_SIN_ACCION
+
+
+3.4 Acto 3
+[Act3_Intro] ─► [Act3_Conflicto]
+                       │
+                       ▼
+        (botones A B C D activos, sin tiempo de espera;
+         a los 90 s sin selección aparece un recordatorio)
+   ┌────────┬────────┬────────┬────────┐
+   │ A      │ B      │ C      │ D      │
+   ▼        ▼        ▼        ▼
+ Mediar(1) Apoyar(2) Excluir(3) Pasivo(4)
+   │        │        │        │
+   ▼        ▼        ▼        ▼
+[..A]     [..B]    [..C]    [..D] ─► [Act3_Cierre] ─► Closing
+
+
+ Condición              OpcionTrabajoEnEquipo               Evento
+
+ choice == "A"          1                                   ACTO3_OPCION_A
+
+ choice == "B"          2                                   ACTO3_OPCION_B
+
+ choice == "C"          3                                   ACTO3_OPCION_C
+
+ choice == "D"          4                                   ACTO3_OPCION_D
+
+
+3.5 Traducción a condiciones de Unity
+// Acto 1
+if (choice == "corregir") { rec.SetAct1(true); yield return
+Node("Act1_Reaccion_Corregir"); }
+else                      { rec.SetAct1(false); yield return
+Node("Act1_Reaccion_NoActuo"); }
+
+// Acto 2
+switch (choice) {
+  case "plan_nuevo":    rec.SetAct2(Act2Result.PlanNuevo);    yield return
+Node("Act2_Reaccion_PlanNuevo");    break;
+  case "plan_original": rec.SetAct2(Act2Result.PlanOriginal); yield return
+Node("Act2_Reaccion_PlanOriginal"); break;
+  default:              rec.SetAct2(Act2Result.SinAccion);    yield return
+Node("Act2_Reaccion_SinAccion");    break;
+}
+
+// Acto 3
+switch (choice) {
+  case "A": rec.SetAct3(Act3Result.Mediar);   yield return Node("Act3_Reaccion_A");
+break;
+  case "B": rec.SetAct3(Act3Result.Apoyar);   yield return Node("Act3_Reaccion_B");
+break;
+  case "C": rec.SetAct3(Act3Result.Excluir); yield return Node("Act3_Reaccion_C");
+break;
+  case "D": rec.SetAct3(Act3Result.Pasivo); yield return Node("Act3_Reaccion_D");
+break;
+}
+
+
+Versión mínima funcional. Cada acto tiene como máximo cuatro ramas y ninguna rama modifica
+las siguientes: todas se unen en el cierre del acto. No hay variables que afecten a otros actos, lo
+que mantiene el árbol simple para una sola persona.
+
+
+PARTE 4 — DISEÑO TÉCNICO PARA UNITY 6 Y
+META QUEST 3
+El código de esta parte es código inicial sin compilar ni probar. Las llamadas a Yarn Spinner y a
+Meta XR deben verificarse con la documentación de las versiones que instales [VERIFICAR].
+
+4.1 Configuración del proyecto
+La documentación de Meta indica Unity 6000.0.66f2 o posterior para sus tutoriales actuales
+[VERIFICAR versión vigente]. Pasos según la documentación consultada:
+    1.​ En Unity Hub, instala Unity 6 LTS con los módulos Android Build Support, Android SDK
+        & NDK Tools y OpenJDK.
+    2.​ Crea un proyecto 3D con plantilla Universal 3D (URP) llamado CrisisVR.
+    3.​ Menú File > Build Profiles: selecciona Meta Quest (o Android si no aparece) y cambia de
+        plataforma.
+    4.​ Instala el Meta XR Core SDK (paquete com.meta.xr.sdk.core, desde el Package
+        Manager o la Asset Store).
+    5.​ Edit > Project Settings > XR Plug-in Management, pestaña Android: activa OpenXR (la
+        documentación también contempla el proveedor Oculus) [VERIFICAR cuál recomienda
+        tu versión].
+    6.​ Menú Meta > Tools > Project Setup Tool: pestaña Android, Fix All.
+    7.​ Instala Yarn Spinner for Unity 3.x (Package Manager o el método que indique su
+        documentación) y TextMeshPro (Unity lo importa al primer uso).
+    8.​ Arrastra el prefab OVRCameraRig a la escena y elimina la cámara principal por defecto.
+    9.​ En Player Settings > Android: Package Name = com.crisisvr.prototipo, Minimum
+        API Level según indique el Project Setup Tool, Scripting Backend = IL2CPP,
+        Target Architecture = ARM64.
+    10.​En el visor: activa el modo desarrollador y la depuración por USB (aplicación Meta
+        Horizon en el teléfono).
+Actualización T-23 (16/10/2026): la locomoción por joystick está confirmada. La propuesta
+de selección siguiente no la implementa; revisar su integración con XR Interaction Toolkit
+presente en el proyecto. No añadir dependencias como parte de esta actualización documental.
+Propuesta original de selección (SIN VERIFICAR): el prototipo usa solo Meta XR Core SDK
+(OVRCameraRig, OVRInput). La selección se resuelve con un rayo propio. La tesis menciona
+además objetos agarrados y zonas de proximidad como parte de la capa de interacción; no son
+necesarios para el prototipo mínimo y pueden añadirse con el Interaction SDK (ver §7, fase 4).
+[PROPUESTA TÉCNICA]
+
+4.2 Estructura de carpetas
+Assets/
+  _Project/
+    Scenes/                Main.unity
+    Scripts/
+      Core/                GameManager, GameClock, SessionData, SessionRecorder
+      Acts/            ActBase, Act1Controller, Act2Controller, Act3Controller
+      Flow/            WelcomeFlow, TutorialFlow, ClosingFlow, PauseMenu
+      Interaction/     RayPointer, Selectable3D, ChoicePrompt
+      Dialogue/        YarnBridge, DialogueCommands, DialoguePanel,
+InstructionPanel,
+                       NpcActor, SceneRegistry
+       Report/         ReportBuilder, ReportWriter
+       Debug/          EditorDebugInput
+     Yarn/             CrisisVR.yarnproject, Marco.yarn, Act1.yarn, Act2.yarn,
+Act3.yarn
+     Prefabs/          Button3D, DialoguePanel, InstructionPanel, CardPanel, Npc,
+Tile
+     Materials/        (URP/Lit, URP/Unlit)
+     Audio/            sfx/, voz/ (opcional)
+     Fonts/
+
+
+
+4.3 La escena Main
+Main
+├── [Managers]
+│    ├── GameManager
+│    ├── YarnDialogueSystem          (prefab «Dialogue System» de Yarn:
+DialogueRunner)
+│    ├── YarnBridge
+│    ├── DialogueCommands
+│    └── SceneRegistry
+├── OVRCameraRig
+│    └── TrackingSpace
+│        ├── CenterEyeAnchor
+│        │   └── FadeCanvas          (Canvas World Space + Image negra +
+CanvasGroup)
+│        ├── RightHandAnchor
+│        │   └── RayPointer (LineRenderer)
+│        └── LeftHandAnchor
+├── Environment
+│    ├── Aula (suelo, paredes, ventanas, pizarra)
+│    ├── EscritorioEstudiante
+│    ├── EscritorioProfesor
+│    └── Luz (1 Directional, sin sombras)
+├── UI
+│    ├── DialoguePanel (World Space)
+│    ├── InstructionPanel (World Space)
+│    ├── CardPanel (World Space)
+│    ├── WelcomePanel / TutorialPanel / ClosingPanel / PausePanel
+├── Act1 (root)
+│    ├── Miguel (NpcActor)
+│    ├── Laptop (pantalla TMP)
+│    │   ├── Btn_Entregar (Selectable3D id="entregar")
+│    │   └── Btn_Corregir (Selectable3D id="corregir")
+│    └── GradeCard
+├── Act2 (root)
+│    ├── Folder_Plan   (Selectable3D id="plan_original")
+│    ├── Tablet_Plan   (Selectable3D id="plan_nuevo", pantalla TMP)
+│    ├── AvisoPanel
+│    └── Rodrigo (NpcActor)
+└── Act3 (root)
+     └── VideoScreen
+         ├── Tile_Lucia / Tile_Andres / Tile_Mateo (NpcActor)
+         └── Btn_A, Btn_B, Btn_C, Btn_D (Selectable3D id="A".."D")
+Capas de física: crea la capa Interactable y asígnala a todos los Selectable3D.
+
+4.4 Prefabs necesarios
+ Prefab            Contenido                                               Se usa en
+
+ Button3D          Cubo achatado + BoxCollider + TextMeshPro +             Todos los botones
+                   Selectable3D
+
+ DialoguePane      Canvas World Space (1,2 × 0,35 m) con textos de         Diálogos
+ l                 hablante y línea
+
+ InstructionP      Canvas World Space en la parte superior del             Instrucciones
+ anel              campo visual
+
+ CardPanel         Panel central con texto grande                          Tarjetas de transición
+
+ Npc               Cápsula + esfera + NpcActor                             Miguel, Rodrigo
+
+ Tile              Marco con silueta y borde resaltable                    Recuadros de
+                                                                           videollamada
+
+4.5 Scripts: función, variables y comunicación
+ Script                 Función              Variables principales           Se comunica con
+
+ GameManager            Orquesta el flujo    Session, State, referencias     Act*Controller,
+                        y la sesión          a actos y flujos                Flow*,
+                                                                             ReportWriter
+
+ GameClock              Reloj que            Paused                          Todos los que
+                        respeta la pausa                                     esperan
+
+ SessionData            Datos de la          sessionId, Reintento,           SessionRecorder,
+                        sesión               OpcionAdaptabilidad,            ReportBuilder
+                                             OpcionTrabajoEnEquipo,
+                                             eventLog
+
+ SessionRecorder        Escribe los          Session                         Actos
+                        datos en
+                        SessionData y
+                        el registro de
+                        eventos
+
+ ActBase                Utilidades de los    root, yarn, fade, card          YarnBridge,
+                        actos: transición,                                   FadeScreen
+                        nodo
+
+ Act1Controller /       Secuencia del        Selectables, tiempo de          ChoicePrompt,
+ Act2Controller /       acto y lógica        espera                          SessionRecorder,
+ Act3Controller         if/else                                              YarnBridge
+ RayPointer          Rayo del control    controller, maxDistance,   Selectable3D
+                     derecho y           mask
+                     selección con el
+                     gatillo
+
+ Selectable3D        Objeto o botón      id, Interactable, evento   RayPointer,
+                     seleccionable       Selected                   ChoicePrompt
+
+ ChoicePrompt        Espera una          opciones, timeout          Actos
+                     selección o el
+                     tiempo de
+                     espera
+
+ YarnBridge          Ejecuta un nodo     runner                     DialogueRunner
+                     y espera a que
+                     termine
+
+ DialogueCommands    Registra los        paneles, registro          DialoguePanel,
+                     comandos de                                    SceneRegistry
+                     Yarn
+
+ DialoguePanel       Muestra             textos                     DialogueCommand
+                     hablante y línea                               s
+
+ InstructionPanel    Muestra la          texto                      DialogueCommand
+                     instrucción                                    s
+
+ NpcActor            Estados de          talking                    DialogueCommand
+                     aparición y                                    s
+                     hablar
+
+ SceneRegistry       Diccionarios        listas serializadas        DialogueCommand
+                     id→objeto,                                     s
+                     pantalla,
+                     personaje
+
+ FadeScreen          Fundidos            CanvasGroup                ActBase, flujos
+
+ PauseMenu           Detecta el botón    panel                      GameManager,
+                     Menú y gestiona                                GameClock
+                     la pausa
+
+ ReportBuilder       Arma el texto del   frases                     ReportWriter
+                     reporte
+
+ ReportWriter        Escribe el          ruta                       Sistema de
+                     archivo                                        archivos
+
+ EditorDebugInput    Teclas para         —                          Selectable3D
+                     probar sin visor
+
+4.6 Código inicial
+Importante: en Unity, cada clase que hereda de MonoBehaviour debe estar en su propio archivo
+con el mismo nombre de la clase para poder añadirla a un objeto. Varios bloques de abajo
+agrupan clases para ahorrar espacio (DialoguePanel/InstructionPanel/NpcActor,
+PauseMenu/FadeScreen, WelcomeFlow/TutorialFlow/ClosingFlow, y las clases
+PropEntry/ScreenEntry/NpcEntry junto a SceneRegistry). Sepáralas en un archivo por clase
+al copiarlas. Las clases estáticas, los enum y las clases de datos (GameClock, SessionData,
+ChoicePrompt, ReportBuilder, ReportWriter) no tienen esa restricción.
+Core/GameClock.cs
+using System.Collections;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public static class GameClock
+    {
+        public static bool Paused { get; set; }
+
+        // Espera que no avanza mientras el juego está en pausa.
+        public static IEnumerator Wait(float seconds)
+        {
+            float t = 0f;
+            while (t < seconds)
+            {
+                if (!Paused) t += Time.deltaTime;
+                yield return null;
+            }
+        }
+    }
+}
+
+
+Core/SessionData.cs
+using System;
+using System.Collections.Generic;
+
+namespace CrisisVR
+{
+    public enum Act2Result { SinRegistro = 0, PlanNuevo = 1, PlanOriginal = 2,
+SinAccion = 3 }
+    public enum Act3Result { SinRegistro = 0, Mediar = 1, Apoyar = 2, Excluir = 3,
+Pasivo = 4 }
+
+    [Serializable]
+    public class SessionData
+    {
+        public string sessionId;
+        public string startedAt;          // fecha y hora de inicio (metadato)
+        public string appVersion;
+        public bool sessionCompleted;
+        public string endReason;          // "Completa" | "Interrumpida"
+
+        public bool act1Completed, act2Completed, act3Completed;
+
+        // Variables de la tesis
+        public bool Reintento;                            // Acto 1
+        public bool act1Registered;                       // distingue "false" de "sin
+registro"
+          public Act2Result OpcionAdaptabilidad;       // Acto 2
+          public Act3Result OpcionTrabajoEnEquipo;     // Acto 3
+
+          public List<string> eventLog = new List<string>(); // solo orden, sin
+tiempos
+    }
+
+    public static class SessionFactory
+    {
+        public static SessionData Create()
+        {
+            var now = DateTime.Now;
+            return new SessionData
+            {
+                sessionId =
+$"CVR-{now:yyyyMMdd-HHmmss}-{UnityEngine.Random.Range(0, 0xFFFF):X4}",
+                startedAt = now.ToString("yyyy-MM-dd HH:mm"),
+                appVersion = UnityEngine.Application.version,
+                endReason = "En curso"
+            };
+        }
+    }
+}
+
+
+Core/SessionRecorder.cs
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class SessionRecorder : MonoBehaviour
+    {
+        public SessionData Session => GameManager.I.Session;
+        int seq;
+
+          public void Log(string evt) { Session.eventLog.Add($"{++seq:00} {evt}"); }
+
+        public void SetAct1(bool reintento)
+        {
+            Session.Reintento = reintento; Session.act1Registered = true;
+Session.act1Completed = true;
+            Log(reintento ? "ACTO1_ACCION_CORREGIR" : "ACTO1_SIN_ACCION");
+        }
+        public void SetAct2(Act2Result r)
+        {
+            Session.OpcionAdaptabilidad = r; Session.act2Completed = true;
+            Log("ACTO2_" + r.ToString().ToUpperInvariant());
+        }
+        public void SetAct3(Act3Result r, string optionId)
+        {
+            Session.OpcionTrabajoEnEquipo = r; Session.act3Completed = true;
+            Log("ACTO3_OPCION_" + optionId);
+        }
+    }
+}
+
+
+Interaction/Selectable3D.cs
+using System;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    [RequireComponent(typeof(Collider))]
+    public class Selectable3D : MonoBehaviour
+    {
+        public string id;
+        public bool Interactable { get; set; }
+        public Color normalColor = new Color(0.25f, 0.45f, 0.9f);
+        public Color hoverColor = new Color(0.4f, 0.8f, 1f);
+        public Color disabledColor = new Color(0.4f, 0.4f, 0.4f);
+        public event Action<Selectable3D> Selected;
+
+        Renderer rend; MaterialPropertyBlock mpb;
+
+        void Awake() { rend = GetComponentInChildren<Renderer>(); mpb = new
+MaterialPropertyBlock(); Paint(disabledColor); }
+        public void SetInteractable(bool v) { Interactable = v; Paint(v ?
+normalColor : disabledColor); }
+        public void SetHover(bool h) { if (Interactable) Paint(h ? hoverColor :
+normalColor); }
+        public void Select() { if (Interactable) Selected?.Invoke(this); }
+
+        void Paint(Color c)
+        {
+            if (rend == null) return;
+            rend.GetPropertyBlock(mpb);
+            mpb.SetColor("_BaseColor", c);   // URP/Lit y URP/Unlit
+            rend.SetPropertyBlock(mpb);
+        }
+    }
+}
+
+
+Interaction/RayPointer.cs
+using System.Collections;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class RayPointer : MonoBehaviour
+    {
+        public OVRInput.Controller controller = OVRInput.Controller.RTouch;
+        public Transform origin;            // RightHandAnchor
+        public LineRenderer line;
+        public float maxDistance = 6f;
+        public LayerMask mask;              // capa Interactable
+
+        Selectable3D current;
+
+        void Update()
+        {
+            var ray = new Ray(origin.position, origin.forward);
+            Selectable3D hit = null; float d = maxDistance;
+            if (Physics.Raycast(ray, out RaycastHit h, maxDistance, mask))
+            {
+                hit = h.collider.GetComponentInParent<Selectable3D>(); d =
+h.distance;
+            }
+            if (hit != current)
+            {
+                if (current) current.SetHover(false);
+                current = hit;
+                if (current) current.SetHover(true);
+            }
+            line.SetPosition(0, origin.position);
+            line.SetPosition(1, origin.position + origin.forward * d);
+
+            if (current && current.Interactable &&
+                OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, controller))
+            {
+                current.Select();
+                StartCoroutine(Haptic());
+            }
+        }
+
+        IEnumerator Haptic()
+        {
+            OVRInput.SetControllerVibration(0.5f, 0.3f, controller);
+            yield return new WaitForSecondsRealtime(0.08f);
+            OVRInput.SetControllerVibration(0f, 0f, controller);
+        }
+    }
+}
+
+
+Interaction/ChoicePrompt.cs
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace CrisisVR
+{
+    public static class ChoicePrompt
+    {
+        // timeout <= 0: sin tiempo de espera. result(null) = no hubo selección.
+        public static IEnumerator Ask(IList<Selectable3D> options, float timeout,
+Action<string> result)
+        {
+            string chosen = null;
+            void OnSel(Selectable3D s) { chosen = s.id; }
+
+            foreach (var o in options) { o.gameObject.SetActive(true);
+o.SetInteractable(true); o.Selected += OnSel; }
+
+            float t = 0f;
+            while (chosen == null)
+            {
+                if (!GameClock.Paused)
+                {
+                    t += UnityEngine.Time.deltaTime;
+                    if (timeout > 0f && t >= timeout) break;
+                }
+                yield return null;
+            }
+            foreach (var o in options) { o.Selected -= OnSel;
+o.SetInteractable(false); }
+            result(chosen);
+        }
+    }
+}
+
+
+Dialogue/YarnBridge.cs
+using System.Collections;
+using UnityEngine;
+using Yarn.Unity;
+
+namespace CrisisVR
+{
+    public class YarnBridge : MonoBehaviour
+    {
+        public DialogueRunner runner;
+
+        public IEnumerator RunNode(string node)
+        {
+            runner.StartDialogue(node);
+            yield return null;                                   // deja que
+arranque
+            yield return new WaitUntil(() => !runner.IsDialogueRunning);
+        }
+    }
+}
+
+
+Dialogue/DialogueCommands.cs
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using Yarn.Unity;
+
+namespace CrisisVR
+{
+    public class DialogueCommands : MonoBehaviour
+    {
+        public DialogueRunner runner;
+        public SceneRegistry registry;
+        public DialoguePanel dialoguePanel;
+        public InstructionPanel instructionPanel;
+        public AudioSource sfxSource;
+        public AudioClip[] sfxClips;          // el nombre del clip es el
+identificador
+
+        void Awake()
+        {
+            // [VERIFICAR] firmas de AddCommandHandler en Yarn Spinner 3.x.
+            runner.AddCommandHandler<string, string>("say", Say);
+            runner.AddCommandHandler<string>("instr", Instr);
+            runner.AddCommandHandler("instr_clear", InstrClear);
+            runner.AddCommandHandler<float>("hold", Hold);
+            runner.AddCommandHandler<string>("sfx", Sfx);
+            runner.AddCommandHandler<string, string>("prop", Prop);
+            runner.AddCommandHandler<string, string>("npc", Npc);
+            runner.AddCommandHandler<string, string>("screen", ScreenText);
+        }
+
+        public IEnumerator Say(string speakerId, string text)
+        {
+            var npc = registry.GetNpc(speakerId);
+            if (npc) npc.SetTalking(true);
+            dialoguePanel.Show(registry.DisplayName(speakerId), text);
+            yield return GameClock.Wait(ReadingTime(text));
+            dialoguePanel.Hide();
+            if (npc) npc.SetTalking(false);
+            yield return GameClock.Wait(0.3f);
+        }
+
+        static float ReadingTime(string text) => Mathf.Clamp(1.2f + text.Length *
+0.055f, 2.5f, 9f);
+
+        void Instr(string text) => instructionPanel.Show(text);
+        void InstrClear() => instructionPanel.Hide();
+        IEnumerator Hold(float s) { yield return GameClock.Wait(s); }
+
+        void Sfx(string name)
+        {
+            foreach (var c in sfxClips) if (c != null && c.name == name) {
+sfxSource.PlayOneShot(c); return; }
+        }
+        void Prop(string id, string state) { var go = registry.GetProp(id); if (go)
+go.SetActive(state == "on"); }
+        void Npc(string id, string state) { var n = registry.GetNpc(id); if (n)
+n.gameObject.SetActive(state == "show"); }
+        void ScreenText(string id, string text) { var t = registry.GetScreen(id);
+if (t) t.text = text; }
+    }
+}
+
+
+Alternativa si las firmas de AddCommandHandler difieren en Yarn Spinner 3.x: declara los
+comandos como métodos estáticos con [YarnCommand("say")] que delegan en una instancia
+estática de DialogueCommands. La documentación indica que un comando cuyo método
+devuelve IEnumerator pausa el diálogo hasta terminar.
+Dialogue/SceneRegistry.cs
+using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    [Serializable] public class PropEntry   { public string id; public GameObject
+go; }
+    [Serializable] public class ScreenEntry { public string id; public TMP_Text
+text; }
+    [Serializable] public class NpcEntry    { public string id; public string
+displayName; public NpcActor npc; }
+
+    public class SceneRegistry : MonoBehaviour
+    {
+        public List<PropEntry> props; public List<ScreenEntry> screens; public
+List<NpcEntry> npcs;
+        public GameObject GetProp(string id)   => props.Find(p => p.id == id)?.go;
+        public TMP_Text GetScreen(string id)   => screens.Find(s => s.id ==
+id)?.text;
+        public NpcActor GetNpc(string id)      => npcs.Find(n => n.id == id)?.npc;
+        public string DisplayName(string id)
+        {
+            switch (id) { case "guia": return "Guía"; case "sistema": return
+"Aviso"; case "tu": return "Tú"; }
+            return npcs.Find(n => n.id == id)?.displayName ?? id;
+        }
+    }
+}
+
+
+Registra en el inspector: speakers miguel («Prof. Miguel»), rodrigo («Rodrigo»), lucia
+(«Lucía»), andres («Andrés»), mateo («Mateo»).
+Dialogue/DialoguePanel.cs, InstructionPanel.cs, NpcActor.cs
+using TMPro;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class DialoguePanel : MonoBehaviour
+    {
+        public TMP_Text speakerText, lineText; public GameObject box;
+        void Awake() { Hide(); }
+        public void Show(string speaker, string line) { speakerText.text = speaker;
+lineText.text = line; box.SetActive(true); }
+        public void Hide() { box.SetActive(false); }
+    }
+
+    public class InstructionPanel : MonoBehaviour
+    {
+        public TMP_Text text; public GameObject box;
+        void Awake() { Hide(); }
+        public void Show(string t) { text.text = t; box.SetActive(true); }
+        public void Hide() { box.SetActive(false); }
+    }
+
+    public class NpcActor : MonoBehaviour
+    {
+        public Transform visual;          // objeto que se mueve al hablar
+        public GameObject speakingBorder; // opcional (recuadros de videollamada)
+        bool talking; Vector3 baseScale;
+
+        void Awake() { if (visual) baseScale = visual.localScale; }
+        public void SetTalking(bool v) { talking = v; if (speakingBorder)
+speakingBorder.SetActive(v); if (!v && visual) visual.localScale = baseScale; }
+        void Update()
+        {
+            if (visual == null) return;
+            float k = talking ? 0.02f * Mathf.Sin(Time.time * 9f) : 0.008f *
+Mathf.Sin(Time.time * 1.5f);
+            visual.localScale = baseScale * (1f + k);
+        }
+    }
+}
+Acts/ActBase.cs
+using System.Collections;
+using TMPro;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public abstract class ActBase : MonoBehaviour
+    {
+        public GameObject root;
+        public YarnBridge yarn;
+        public FadeScreen fade;
+        public GameObject cardBox; public TMP_Text cardText;
+        public SessionRecorder rec;
+
+        protected IEnumerator Node(string node) { yield return
+StartCoroutine(yarn.RunNode(node)); }
+
+        protected IEnumerator Enter(string cardLabel)
+        {
+            yield return StartCoroutine(fade.FadeTo(1f, 1f));
+            cardText.text = cardLabel; cardBox.SetActive(true);
+            root.SetActive(true);
+            yield return GameClock.Wait(2.5f);
+            cardBox.SetActive(false);
+            yield return StartCoroutine(fade.FadeTo(0f, 1f));
+        }
+
+        protected IEnumerator Exit(string cardLabel)
+        {
+            yield return StartCoroutine(fade.FadeTo(1f, 1f));
+            cardText.text = cardLabel; cardBox.SetActive(true);
+            root.SetActive(false);
+            yield return GameClock.Wait(1.5f);
+            cardBox.SetActive(false);
+        }
+    }
+}
+
+
+Acts/Act1Controller.cs
+using System.Collections;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class Act1Controller : ActBase
+    {
+        public Selectable3D btnEntregar, btnCorregir;
+        public float decisionTimeout = 45f;      // parámetro técnico, no se
+reporta
+
+        public IEnumerator Run()
+        {
+            rec.Log("ACTO1_INICIO");
+            btnEntregar.gameObject.SetActive(false);
+btnCorregir.gameObject.SetActive(false);
+            yield return Enter("Situación 1 de 3");
+            yield return Node("Act1_Intro");
+            string c = null;
+            btnEntregar.gameObject.SetActive(true);
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { btnEntregar }, 0f,
+v => c = v));
+            btnEntregar.gameObject.SetActive(false);
+            rec.Log("ACTO1_ENTREGA_ENVIADA");
+
+            yield return Node("Act1_Retro");
+
+            c = null;                                   // evita confundir con la
+selección de «entregar»
+            btnCorregir.gameObject.SetActive(true);
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { btnCorregir },
+decisionTimeout, v => c = v));
+            btnCorregir.gameObject.SetActive(false);
+
+            if (c == "corregir") { rec.SetAct1(true); yield return
+Node("Act1_Reaccion_Corregir"); }
+            else                 { rec.SetAct1(false); yield return
+Node("Act1_Reaccion_NoActuo"); }
+
+            yield return Node("Act1_Cierre");
+            yield return Exit("Fin de la situación 1 de 3");
+        }
+    }
+}
+
+
+Acts/Act2Controller.cs
+using System.Collections;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class Act2Controller : ActBase
+    {
+        public Selectable3D tablet, folder;     // ids: "plan_nuevo",
+"plan_original"
+        public float decisionTimeout = 45f;
+
+        public IEnumerator Run()
+        {
+            rec.Log("ACTO2_INICIO");
+            yield return Enter("Situación 2 de 3");
+            yield return Node("Act2_Intro");
+            yield return Node("Act2_Aviso");
+            yield return Node("Act2_Rodrigo");
+
+            string c = null;
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { tablet, folder },
+decisionTimeout, v => c = v));
+
+            switch (c)
+            {
+                case "plan_nuevo":    rec.SetAct2(Act2Result.PlanNuevo);    yield
+return Node("Act2_Reaccion_PlanNuevo");    break;
+                case "plan_original": rec.SetAct2(Act2Result.PlanOriginal); yield
+return Node("Act2_Reaccion_PlanOriginal"); break;
+                default:              rec.SetAct2(Act2Result.SinAccion);    yield
+return Node("Act2_Reaccion_SinAccion");    break;
+            }
+            yield return Node("Act2_Cierre");
+            yield return Exit("Fin de la situación 2 de 3");
+        }
+    }
+}
+
+
+Acts/Act3Controller.cs
+using System.Collections;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class Act3Controller : ActBase
+    {
+        public Selectable3D btnA, btnB, btnC, btnD;     // ids "A".."D"
+        public string textA, textB, textC, textD;       // texto literal de cada
+opción
+        public DialogueCommands commands;               // para decir la opción
+elegida
+        public InstructionPanel instruction;
+        public float reminderAfter = 90f;
+
+        public IEnumerator Run()
+        {
+            rec.Log("ACTO3_INICIO");
+            yield return Enter("Situación 3 de 3");
+            yield return Node("Act3_Intro");
+            yield return Node("Act3_Conflicto");
+
+            Coroutine rem = StartCoroutine(Remind());
+            string c = null;
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { btnA, btnB, btnC,
+btnD }, 0f, v => c = v));
+            StopCoroutine(rem); instruction.Hide();
+
+            switch (c)
+            {
+                case "A": rec.SetAct3(Act3Result.Mediar, "A"); yield return
+StartCoroutine(commands.Say("tu", textA)); yield return Node("Act3_Reaccion_A");
+break;
+                case "B": rec.SetAct3(Act3Result.Apoyar, "B"); yield return
+StartCoroutine(commands.Say("tu", textB)); yield return Node("Act3_Reaccion_B");
+break;
+                case "C": rec.SetAct3(Act3Result.Excluir, "C"); yield return
+StartCoroutine(commands.Say("tu", textC)); yield return Node("Act3_Reaccion_C");
+break;
+                case "D": rec.SetAct3(Act3Result.Pasivo, "D"); yield return
+StartCoroutine(commands.Say("tu", textD)); yield return Node("Act3_Reaccion_D");
+break;
+            }
+            yield return Node("Act3_Cierre");
+            yield return Exit("Fin de la situación 3 de 3");
+        }
+
+        IEnumerator Remind()
+        {
+            yield return GameClock.Wait(reminderAfter);
+            instruction.Show("Selecciona una opción para continuar.");     // no se
+registra
+        }
+    }
+}
+
+
+Core/GameManager.cs
+using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace CrisisVR
+{
+    public enum GameState { Boot, Welcome, Tutorial, Act1, Act2, Act3, Closing,
+Paused, Ended }
+
+    public class GameManager : MonoBehaviour
+    {
+        public static GameManager I { get; private set; }
+        public SessionData Session { get; private set; }
+        public GameState State { get; private set; }
+
+        public WelcomeFlow welcome; public TutorialFlow tutorial; public
+ClosingFlow closing;
+        public Act1Controller act1; public Act2Controller act2; public
+Act3Controller act3;
+        public SessionRecorder rec;
+
+        void Awake() { I = this; Session = SessionFactory.Create(); }
+
+        void Start()
+        {
+            Debug.Log("Datos en: " + Application.persistentDataPath);
+            StartCoroutine(MainFlow());
+        }
+
+        IEnumerator MainFlow()
+        {
+            State = GameState.Welcome; yield return StartCoroutine(welcome.Run());
+            State = GameState.Tutorial; yield return
+StartCoroutine(tutorial.Run());
+            State = GameState.Act1;     yield return StartCoroutine(act1.Run());
+            State = GameState.Act2;     yield return StartCoroutine(act2.Run());
+            State = GameState.Act3;     yield return StartCoroutine(act3.Run());
+
+            State = GameState.Closing;
+            Session.sessionCompleted = true; Session.endReason = "Completa";
+            rec.Log("SESION_COMPLETA");
+            ReportWriter.Write(Session);
+            yield return StartCoroutine(closing.Run());
+            State = GameState.Ended;
+        }
+
+        // Pausa → Terminar sesión / Nueva sesión
+        public void EndSessionAndRestart()
+        {
+            if (!Session.sessionCompleted) { Session.endReason = "Interrumpida";
+ReportWriter.Write(Session); }
+            GameClock.Paused = false; AudioListener.pause = false;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);    //
+reinicia todo
+        }
+
+        public void Quit() { Application.Quit(); }
+    }
+}
+
+
+Flow/PauseMenu.cs y FadeScreen.cs
+using System.Collections;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class PauseMenu : MonoBehaviour
+    {
+        public GameObject panel; public Transform head;
+        public Selectable3D btnContinue, btnEnd, btnNew;
+
+        void Start()
+        {
+            btnContinue.Selected += _ => Resume();
+            btnEnd.Selected += _ => GameManager.I.EndSessionAndRestart();
+            btnNew.Selected += _ => GameManager.I.EndSessionAndRestart();
+            panel.SetActive(false);
+        }
+
+        void Update()
+        {
+            if (OVRInput.GetDown(OVRInput.Button.Start,
+OVRInput.Controller.LTouch))
+            { if (GameClock.Paused) Resume(); else Pause(); }
+        }
+
+        void Pause()
+        {
+            GameClock.Paused = true; AudioListener.pause = true;
+            Vector3 f = head.forward; f.y = 0; f.Normalize();
+            panel.transform.position = head.position + f * 1.5f;
+            panel.transform.rotation = Quaternion.LookRotation(f);
+            panel.SetActive(true);
+            foreach (var b in new[] { btnContinue, btnEnd, btnNew })
+b.SetInteractable(true);
+        }
+
+        void Resume() { panel.SetActive(false); GameClock.Paused = false;
+AudioListener.pause = false; }
+    }
+
+    public class FadeScreen : MonoBehaviour
+    {
+        public CanvasGroup group;
+        public IEnumerator FadeTo(float target, float seconds)
+        {
+            float start = group.alpha, t = 0f;
+            while (t < seconds) { t += Time.unscaledDeltaTime; group.alpha =
+Mathf.Lerp(start, target, t / seconds); yield return null; }
+            group.alpha = target;
+        }
+    }
+}
+
+
+En la pausa, el botón «Terminar sesión» y «Nueva sesión» hacen lo mismo (guardar parcial y
+recargar). Si prefieres que «Terminar» salga de la aplicación, llama a Quit().
+Flow/WelcomeFlow.cs, TutorialFlow.cs, ClosingFlow.cs (esqueleto)
+VERIFICAR T-23: este borrador no incluye la práctica de joystick confirmada el 16/10/2026.
+Requiere adaptación; no representa una implementación actualizada.
+using System.Collections;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class WelcomeFlow : MonoBehaviour
+    {
+        public GameObject titlePanel, infoPanel; public Selectable3D btnIniciar,
+btnContinuar; public YarnBridge yarn;
+        public IEnumerator Run()
+        {
+            titlePanel.SetActive(true); infoPanel.SetActive(false);
+            string c = null;
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { btnIniciar }, 0f,
+v => c = v));
+            titlePanel.SetActive(false); infoPanel.SetActive(true);
+            StartCoroutine(yarn.RunNode("Welcome_Guia"));                 // la voz
+acompaña al texto
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { btnContinuar },
+0f, v => c = v));
+            infoPanel.SetActive(false);
+        }
+    }
+
+    public class TutorialFlow : MonoBehaviour
+    {
+        public GameObject panel; public Selectable3D btnPracticar, cubeBlue,
+cubeGreen, btnComenzar;
+        public GameObject txtT1, txtT2, txtT3, txtT4, txtT5; public YarnBridge
+yarn;
+        public IEnumerator Run()
+        {
+            panel.SetActive(true); string c = null;
+            txtT1.SetActive(true); StartCoroutine(yarn.RunNode("Tut_T1"));
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { btnPracticar },
+0f, v => c = v)); txtT1.SetActive(false);
+            txtT2.SetActive(true); yield return
+StartCoroutine(yarn.RunNode("Tut_T2"));
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { cubeBlue,
+cubeGreen }, 0f, v => c = v)); txtT2.SetActive(false);
+            txtT3.SetActive(true); yield return
+StartCoroutine(yarn.RunNode("Tut_T3")); yield return GameClock.Wait(5f);
+txtT3.SetActive(false);
+            txtT4.SetActive(true); yield return
+StartCoroutine(yarn.RunNode("Tut_T4")); yield return GameClock.Wait(1f);
+txtT4.SetActive(false);
+            txtT5.SetActive(true); StartCoroutine(yarn.RunNode("Tut_T5"));
+            yield return StartCoroutine(ChoicePrompt.Ask(new[] { btnComenzar }, 0f,
+v => c = v));
+            txtT5.SetActive(false); panel.SetActive(false);
+        }
+    }
+
+    public class ClosingFlow : MonoBehaviour
+    {
+        public FadeScreen fade; public GameObject finalPanel, facilitatorPanel;
+public Selectable3D btnNew, btnQuit; public YarnBridge yarn;
+        public IEnumerator Run()
+        {
+            yield return StartCoroutine(fade.FadeTo(0f, 1f));
+            finalPanel.SetActive(true); facilitatorPanel.SetActive(false);
+            yield return StartCoroutine(yarn.RunNode("Cierre_Final"));
+            yield return GameClock.Wait(10f);
+            facilitatorPanel.SetActive(true);
+            btnNew.SetInteractable(true); btnQuit.SetInteractable(true);
+            btnNew.Selected += _ => GameManager.I.EndSessionAndRestart();
+            btnQuit.Selected += _ => GameManager.I.Quit();
+        }
+    }
+}
+
+
+Importante: el Acto 3 termina con un fundido a negro; ClosingFlow abre el fundido. Los flujos
+de tutorial y bienvenida reutilizan ChoicePrompt; el tutorial no registra nada.
+Debug/EditorDebugInput.cs (para probar sin visor)
+#if UNITY_EDITOR
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public class EditorDebugInput : MonoBehaviour
+    {
+        void Update()
+        {
+            // Teclas 1-4: selecciona la n-ésima opción interactuable activa.
+            for (int i = 0; i < 4; i++)
+                if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+                {
+                    var all =
+FindObjectsByType<Selectable3D>(FindObjectsSortMode.None);
+                    var active = new
+System.Collections.Generic.List<Selectable3D>();
+                    foreach (var s in all) if (s.Interactable) active.Add(s);
+                    active.Sort((a, b) => string.Compare(a.id, b.id));
+                    if (i < active.Count) active[i].Select();
+                }
+            if (Input.GetKeyDown(KeyCode.P)) GameClock.Paused = !GameClock.Paused;
+        }
+    }
+}
+#endif
+
+
+Si en Unity 6 el nuevo Input System está activo, Input.GetKeyDown no funcionará; usa
+UnityEngine.InputSystem.Keyboard.current o activa «Both» en Player Settings
+[VERIFICAR].
+4.7 Sistema de diálogos con Yarn Spinner
+    1.​ Crea CrisisVR.yarnproject en Assets/_Project/Yarn y añade los cuatro archivos
+        .yarn.
+    2.​ Añade a la escena el Dialogue System de Yarn (menú GameObject > Yarn Spinner >
+        Dialogue System). La documentación indica que el diálogo se inicia llamando a
+        StartDialogue del Dialogue Runner.
+    3.​ Asigna el proyecto de Yarn al Dialogue Runner.
+    4.​ Como todo el contenido se escribe con comandos (<<say …>>), el presentador de líneas
+        incorporado no se usa; puedes dejarlo desactivado.
+    5.​ Un comando que devuelve IEnumerator pausa el diálogo hasta terminar, por eso say,
+        hold y los demás esperan correctamente.
+Plan B si Yarn bloquea el avance: guarda los diálogos como arreglos de (hablante, texto)
+en un ScriptableObject por nodo y reproduce con el mismo método Say. Los textos de la
+Parte 2 no cambian.
+
+4.8 Pausa, reinicio y finalización
+ Función       Implementación
+
+ Pausa         GameClock.Paused = true y AudioListener.pause = true. Todas las
+               esperas usan GameClock.Wait, por lo que el tiempo de espera de la decisión
+               también se congela
+
+ Reinicio      EndSessionAndRestart() escribe el reporte parcial (si la sesión no está
+               completa) y recarga la escena: se reinician todas las rutinas y variables
+
+ Finalizac     Al terminar el Acto 3 se marca sessionCompleted = true y se escribe el
+ ión           reporte completo
+
+4.9 Consideraciones de rendimiento para Meta Quest 3 [PROPUESTA
+TÉCNICA]
+ Aspecto        Recomendación
+
+ Luces          Una luz direccional sin sombras en tiempo real; iluminación horneada o
+                ambiental simple
+
+ Materiales     URP/Lit sencillos o URP/Unlit; evita transparencias complejas
+
+ Geometría      Primitivas de Unity; pocas decenas de objetos activos por acto
+
+ Texturas       Pocas, comprimidas (el Project Setup Tool aplica los ajustes recomendados)
+
+ Post-proce     Desactivado
+ sado
+
+ Antialiasin    MSAA configurado en el URP Asset (probar 4x)
+ g
+
+ Interfaz       Canvas World Space pequeños; evita muchos Canvas activos a la vez
+Medición     Usa el overlay de rendimiento de Meta Quest Developer Hub o Unity Profiler
+             conectado al visor [PENDIENTE DE EVIDENCIA: tasa de cuadros medida]
+
+Confort      Locomoción por joystick iniciada por el usuario; fundidos suaves. Parámetros SIN VERIFICAR.
+
+
+
+PARTE 5 — REGISTRO DE INFORMACIÓN Y
+REPORTE
+5.1 Esquema de datos de la sesión
+Campo                    Tipo     Valores                Origen                  Quién lo
+                                                                                 escribe
+
+sessionId                texto    CVR-AAAAMMDD-H         Metadato de la          SessionFact
+                                  HMMSS-XXXX             tesis (código           ory
+                                                         seudonimizado)
+
+startedAt                texto    AAAA-MM-DD             Metadato de la          SessionFact
+                                  HH:MM                  tesis (fecha)           ory
+
+appVersion               texto    0.1.0                  Metadato de la          SessionFact
+                                                         tesis (versión)         ory
+
+endReason                texto    Completa ·             Metadato de la          GameManager
+                                  Interrumpida           tesis (estado de
+                                                         finalización)
+
+act1Completed,           lógico   true/false             Calidad del registro    Actos
+act2Completed,
+act3Completed
+
+Reintento                lógico   true (corrigió) ·      Variable de la tesis    Act1Control
+                                  false (no actuó)                               ler
+
+OpcionAdaptabilidad      enter    0 sin registro · 1     Variable de la tesis;   Act2Control
+                         o        plan nuevo · 2         códigos                 ler
+                                  plan original · 3      [PROPUESTA
+                                  sin acción             TÉCNICA]
+
+OpcionTrabajoEnEqui      enter    0 sin registro · 1 A   Variable de la tesis;   Act3Control
+po                       o        ·2B·3C·4D              códigos                 ler
+                                                         [PROPUESTA
+                                                         TÉCNICA]
+
+eventLog                 lista    Eventos                [PROPUESTA              SessionReco
+                         de       numerados, sin         TÉCNICA], para          rder
+                         texto    tiempos                verificar el orden en
+                                                         las pruebas
+No se guardan: nombre ni datos personales, tiempos de respuesta, mirada, posición de la
+cabeza o de las manos, audio, video.
+Nota sobre eventLog: la tesis no lo menciona. Se propone solo para comprobar el orden de los
+eventos y detectar errores. Contiene números de secuencia, no marcas de tiempo. Si el asesor
+o la clienta prefieren que no exista, se puede eliminar sin afectar al reporte.
+
+5.2 Vocabulario de eventos
+ Evento                                                     Cuándo
+
+ ACTO1_INICIO, ACTO2_INICIO, ACTO3_INICIO                   Al entrar a cada acto
+
+ ACTO1_ENTREGA_ENVIADA                                      El estudiante selecciona
+                                                            ENTREGAR
+
+ ACTO1_ACCION_CORREGIR / ACTO1_SIN_ACCION                   Decisión del Acto 1
+
+ ACTO2_PLANNUEVO / ACTO2_PLANORIGINAL /                     Decisión del Acto 2
+ ACTO2_SINACCION
+
+ ACTO3_OPCION_A … ACTO3_OPCION_D                            Decisión del Acto 3
+
+ SESION_COMPLETA                                            Termina el Acto 3
+
+5.3 Ejemplo de registro interno (datos ficticios)
+sessionId: CVR-20261015-101530-A3F9
+startedAt: 2026-10-15 10:15
+appVersion: 0.1.0
+endReason: Completa
+Reintento: true
+OpcionAdaptabilidad: 2
+OpcionTrabajoEnEquipo: 1
+eventLog:
+  01 ACTO1_INICIO
+  02 ACTO1_ENTREGA_ENVIADA
+  03 ACTO1_ACCION_CORREGIR
+  04 ACTO2_INICIO
+  05 ACTO2_PLANORIGINAL
+  06 ACTO3_INICIO
+  07 ACTO3_OPCION_A
+  08 SESION_COMPLETA
+
+
+
+5.4 Reglas de redacción del reporte
+ Se permite                                       No se permite
+
+ Describir qué opción seleccionó el estudiante    Atribuir rasgos («es impulsivo», «tiene baja
+                                                  tolerancia»)
+
+ Citar el texto literal de la opción              Etiquetas valorativas («mediador»,
+                                                  «excluyente», «adaptado»)
+
+ Señalar que no hubo selección y que la sesión    Interpretar la ausencia de acción como un
+ continuó                                         déficit
+ Relacionar cada situación con la competencia   Afirmar que se midió o evaluó la
+ en el diseño del proyecto                      competencia
+
+ Proponer preguntas abiertas para la            Puntajes, niveles, porcentajes,
+ conversación                                   comparaciones entre estudiantes
+
+ Recordar los límites de interpretación         Recomendaciones clínicas o de
+                                                intervención
+
+5.5 Código del reporte
+Report/ReportBuilder.cs
+using System.Text;
+
+namespace CrisisVR
+{
+    public static class ReportBuilder
+    {
+        // Todos los textos son [PROPUESTA – VALIDAR CON CLIENTA].
+        const string Aviso =
+            "Este reporte describe decisiones y acciones del estudiante en una
+simulación breve. " +
+            "No constituye un diagnóstico ni una evaluación clínica, no asigna
+niveles ni puntajes " +
+            "y no reemplaza el criterio del profesional de Psicopedagogía.";
+
+        const string OpA = "Propongo que cada uno diga qué parte puede entregar y
+para cuándo, y armamos un plan juntos.";
+        const string OpB = "Lucía, yo puedo ayudarte con la presentación para
+avanzar más rápido.";
+        const string OpC = "Mateo no ha avanzado nada; sigamos sin él y repartamos
+su parte entre nosotros.";
+        const string OpD = "Prefiero esperar a ver qué deciden ustedes.";
+
+         public static string Build(SessionData s)
+         {
+             var b = new StringBuilder();
+             b.AppendLine("CRISIS VR — REPORTE DESCRIPTIVO DE SESIÓN");
+             b.AppendLine("Código de sesión: " + s.sessionId);
+             b.AppendLine("Fecha y hora de inicio: " + s.startedAt);
+             b.AppendLine("Versión de la aplicación: " + s.appVersion);
+             b.AppendLine("Estado de la sesión: " + s.endReason);
+             b.AppendLine();
+             b.AppendLine("AVISO DE LÍMITES");
+             b.AppendLine(Aviso);
+             b.AppendLine();
+
+            // Situación 1
+            b.AppendLine("SITUACIÓN 1 — Retroalimentación negativa del docente");
+            b.AppendLine("Situación diseñada en relación con: autorregulación
+emocional (marco del proyecto; no se mide).");
+            if (s.act1Registered)
+            {
+                b.AppendLine("Lo que ocurrió: el estudiante entregó su proyecto y
+el docente le comunicó una calificación de 08 sobre 20 y la retroalimentación
+correspondiente.");
+                b.AppendLine("Decisión registrada: " + (s.Reintento
+                    ? "tras recibir la retroalimentación, el estudiante seleccionó
+la opción de corregir el proyecto."
+                    : "tras recibir la retroalimentación, el estudiante no
+seleccionó ninguna acción durante el tiempo disponible, y la sesión continuó."));
+                b.AppendLine("Pregunta orientadora: ¿Qué pensabas mientras
+escuchabas la retroalimentación del profesor?");
+            }
+            else b.AppendLine("Sin registro: la sesión terminó antes de esta
+situación.");
+            b.AppendLine();
+
+            // Situación 2
+            b.AppendLine("SITUACIÓN 2 — Aviso de cambio de modalidad y de grupo");
+            b.AppendLine("Situación diseñada en relación con: adaptabilidad (marco
+del proyecto; no se mide).");
+            if (s.OpcionAdaptabilidad != Act2Result.SinRegistro)
+            {
+                b.AppendLine("Lo que ocurrió: llegó un aviso de cambio de la
+práctica a modalidad virtual y de reorganización de los grupos; apareció un
+compañero nuevo.");
+                switch (s.OpcionAdaptabilidad)
+                {
+                    case Act2Result.PlanNuevo:    b.AppendLine("Decisión
+registrada: ante el aviso, el estudiante seleccionó el plan nuevo (práctica
+virtual)."); break;
+                    case Act2Result.PlanOriginal: b.AppendLine("Decisión
+registrada: ante el aviso, el estudiante seleccionó el plan original (práctica
+presencial)."); break;
+                    default:                      b.AppendLine("Decisión
+registrada: ante el aviso, el estudiante no seleccionó ninguna opción durante el
+tiempo disponible, y la sesión continuó."); break;
+                }
+                b.AppendLine("Pregunta orientadora: ¿Qué te llevó a elegir esa
+opción (o a no elegir)?");
+            }
+            else b.AppendLine("Sin registro: la sesión terminó antes de esta
+situación.");
+            b.AppendLine();
+
+            // Situación 3
+            b.AppendLine("SITUACIÓN 3 — Reunión de equipo");
+            b.AppendLine("Situación diseñada en relación con: trabajo en equipo
+(marco del proyecto; no se mide).");
+            if (s.OpcionTrabajoEnEquipo != Act3Result.SinRegistro)
+            {
+                b.AppendLine("Lo que ocurrió: en una videollamada, dos compañeros
+discreparon sobre el reparto de tareas y un integrante informó que no tenía lista
+su parte.");
+                string txt = s.OpcionTrabajoEnEquipo == Act3Result.Mediar ? OpA :
+                             s.OpcionTrabajoEnEquipo == Act3Result.Apoyar ? OpB :
+                             s.OpcionTrabajoEnEquipo == Act3Result.Excluir ? OpC :
+OpD;
+                b.AppendLine("Decisión registrada: ante el conflicto en el equipo,
+el estudiante eligió la opción: \"" + txt + "\"");
+                b.AppendLine("Pregunta orientadora: ¿Qué pensaste mientras tus
+compañeros discutían?");
+            }
+            else b.AppendLine("Sin registro: la sesión terminó antes de esta
+situación.");
+            b.AppendLine();
+
+            b.AppendLine("CALIDAD DEL REGISTRO");
+            b.AppendLine("Situación 1 completada: " + (s.act1Completed ? "sí" :
+"no"));
+            b.AppendLine("Situación 2 completada: " + (s.act2Completed ? "sí" :
+"no"));
+            b.AppendLine("Situación 3 completada: " + (s.act3Completed ? "sí" :
+"no"));
+            b.AppendLine("En las situaciones 1 y 2, la ausencia de selección se
+determina porque vence un tiempo de espera definido en el diseño; no se mide el
+tiempo de respuesta del estudiante.");
+            b.AppendLine();
+            b.AppendLine("LIMITACIONES DE INTERPRETACIÓN");
+            b.AppendLine("Este reporte refleja una decisión por situación en una
+simulación acotada. Una decisión puede obedecer a razones muy distintas. " +
+                         "Solo cobra sentido dentro de la conversación del
+profesional con el estudiante y junto con otras fuentes de información.");
+            return b.ToString();
+        }
+    }
+}
+
+
+Duplicar los textos de las opciones del Acto 3 en ReportBuilder y en el inspector de
+Act3Controller genera riesgo de desajuste. Solución: crea un ScriptableObject con los
+cuatro textos y haz que ambos lo lean [PROPUESTA TÉCNICA].
+Report/ReportWriter.cs
+using System.IO;
+using System.Text;
+using UnityEngine;
+
+namespace CrisisVR
+{
+    public static class ReportWriter
+    {
+        public static string Write(SessionData s)
+        {
+            string path = Path.Combine(Application.persistentDataPath,
+$"CrisisVR_{s.sessionId}.txt");
+            File.WriteAllText(path, ReportBuilder.Build(s), new
+UTF8Encoding(false));
+            Debug.Log("Reporte guardado en: " + path);
+            return path;
+        }
+    }
+}
+
+
+
+5.6 Ejemplo de reporte final (datos ficticios — NO es un resultado)
+CRISIS VR — REPORTE DESCRIPTIVO DE SESIÓN
+Código de sesión: CVR-20261015-101530-A3F9
+Fecha y hora de inicio: 2026-10-15 10:15
+Versión de la aplicación: 0.1.0
+Estado de la sesión: Completa
+
+AVISO DE LÍMITES
+Este reporte describe decisiones y acciones del estudiante en una simulación breve.
+No constituye un
+diagnóstico ni una evaluación clínica, no asigna niveles ni puntajes y no reemplaza
+el criterio del
+profesional de Psicopedagogía.
+
+SITUACIÓN 1 — Retroalimentación negativa del docente
+Situación diseñada en relación con: autorregulación emocional (marco del proyecto;
+no se mide).
+Lo que ocurrió: el estudiante entregó su proyecto y el docente le comunicó una
+calificación de 08 sobre 20 y
+la retroalimentación correspondiente.
+Decisión registrada: tras recibir la retroalimentación, el estudiante seleccionó la
+opción de corregir el proyecto.
+Pregunta orientadora: ¿Qué pensabas mientras escuchabas la retroalimentación del
+profesor?
+
+SITUACIÓN 2 — Aviso de cambio de modalidad y de grupo
+Situación diseñada en relación con: adaptabilidad (marco del proyecto; no se mide).
+Lo que ocurrió: llegó un aviso de cambio de la práctica a modalidad virtual y de
+reorganización de los grupos;
+apareció un compañero nuevo.
+Decisión registrada: ante el aviso, el estudiante seleccionó el plan original
+(práctica presencial).
+Pregunta orientadora: ¿Qué te llevó a elegir esa opción (o a no elegir)?
+
+SITUACIÓN 3 — Reunión de equipo
+Situación diseñada en relación con: trabajo en equipo (marco del proyecto; no se
+mide).
+Lo que ocurrió: en una videollamada, dos compañeros discreparon sobre el reparto de
+tareas y un integrante
+informó que no tenía lista su parte.
+Decisión registrada: ante el conflicto en el equipo, el estudiante eligió la
+opción: "Propongo que cada uno diga
+qué parte puede entregar y para cuándo, y armamos un plan juntos."
+Pregunta orientadora: ¿Qué pensaste mientras tus compañeros discutían?
+
+CALIDAD DEL REGISTRO
+Situación 1 completada: sí
+Situación 2 completada: sí
+Situación 3 completada: sí
+En las situaciones 1 y 2, la ausencia de selección se determina porque vence un
+tiempo de espera definido en
+el diseño; no se mide el tiempo de respuesta del estudiante.
+
+LIMITACIONES DE INTERPRETACIÓN
+Este reporte refleja una decisión por situación en una simulación acotada. Una
+decisión puede obedecer a
+razones muy distintas. Solo cobra sentido dentro de la conversación del profesional
+con el estudiante y
+junto con otras fuentes de información.
+
+
+
+5.7 Reporte parcial (sesión interrumpida)
+Cuando la sesión se interrumpe, el reporte lleva Estado de la sesión: Interrumpida,
+completa las situaciones alcanzadas y escribe «Sin registro: la sesión terminó antes de esta
+situación» en las demás. No se muestra ninguna conclusión.
+PARTE 6 — RECURSOS Y PRODUCCIÓN
+Principio: no se depende de assets de pago. Todo lo imprescindible se construye con primitivas
+de Unity, texto (TextMeshPro) y sonidos propios o de licencia libre. Verifica la licencia de
+cualquier recurso externo antes de usarlo y conserva su atribución [VERIFICAR].
+
+6.1 Modelos 3D y escenarios
+ ID    Recurso                            Cómo se hace                         Categoría
+
+ M-    Aula (suelo, paredes, techo,       Cubos y planos con materiales de     Imprescindible ·
+ 01    ventanas, pizarra)                 color                                básico
+
+ M-    Escritorio del estudiante y        Cubos                                Imprescindible ·
+ 02    silla                                                                   básico
+
+ M-    Escritorio del profesor            Cubos                                Imprescindible ·
+ 03                                                                            básico
+
+ M-    Laptop                             Dos cubos aplanados y un plano       Imprescindible ·
+ 04                                       con TMP para la pantalla             básico
+
+ M-    Tarjeta de calificación            Plano con TMP                        Imprescindible ·
+ 05                                                                            básico
+
+ M-    Carpeta «PLAN ORIGINAL»            Cubo aplanado con etiqueta TMP       Imprescindible ·
+ 06                                                                            básico
+
+ M-    Tablet «PLAN NUEVO»                Cubo muy delgado y plano con         Imprescindible ·
+ 07                                       TMP                                  básico
+
+ M-    Panel de aviso del campus          Plano con TMP                        Imprescindible ·
+ 08                                                                            básico
+
+ M-    Pantalla de videollamada con       Cubo plano y tres planos con         Imprescindible ·
+ 09    tres recuadros                     siluetas o colores                   básico
+
+ M-    Botones 3D (A–D,                   Cubo achatado + TMP                  Imprescindible ·
+ 10    CORREGIR, ENTREGAR,                                                     básico
+       etc.)
+
+ M-    Aula más detallada (estantes,      Primitivas o assets gratuitos        Opcional
+ 11    plantas, posters)
+
+6.2 Personajes y animaciones
+ ID   Recurso                        Cómo se hace                              Categoría
+
+ P-   Profesor Miguel                Cápsula + esfera + cabello y camisa con   Imprescindible ·
+ 01                                  colores                                   básico
+
+ P-   Rodrigo                        Igual, con colores distintos              Imprescindible ·
+ 02                                                                            básico
+ P-     Siluetas de Lucía, Andrés    Planos con color y la inicial del nombre     Imprescindible ·
+ 03     y Mateo en recuadros                                                      básico
+
+ A-     Reposo y hablar              Script NpcActor (escala con seno)            Imprescindible ·
+ 01                                                                               básico
+
+ A-     Aparición con fundido        Cambio de alfa o activar/desactivar          Imprescindible ·
+ 02                                                                               básico
+
+ A-     Borde que resalta al         Objeto activable en el recuadro              Imprescindible ·
+ 03     hablante                                                                  básico
+
+ A-     Personajes humanoides        Modelos y animaciones gratuitos (p. ej.,     Opcional
+ 04     con animaciones reales       de una biblioteca libre; revisar licencia)
+
+6.3 Interfaz y elementos visuales
+ ID       Recurso                                                                 Categoría
+
+ U-01     Panel de título (CRISIS VR)                                             Imprescindible
+
+ U-02     Panel de bienvenida y botones CONTINUAR / INICIAR                       Imprescindible
+
+ U-03     Panel de diálogo (hablante + línea)                                     Imprescindible
+
+ U-04     Panel de instrucciones                                                  Imprescindible
+
+ U-05     Tarjeta de transición                                                   Imprescindible
+
+ U-06     Panel de pausa (CONTINUAR, TERMINAR SESIÓN, NUEVA                       Imprescindible
+          SESIÓN)
+
+ U-07     Panel de cierre y panel de quien conduce la sesión                      Imprescindible
+
+ U-08     Rayo del control (LineRenderer)                                         Imprescindible
+
+ U-09     Brillo (emisión) en objetos seleccionables                              Imprescindible
+
+ U-10     Maqueta de interfaz en Figma                                            Opcional
+Fuente de texto: la predeterminada de TextMeshPro. Tamaño sugerido para el panel de diálogo
+a 1,8 m: letra legible sin esfuerzo (probar en el visor) [PENDIENTE DE EVIDENCIA].
+
+6.4 Audio
+ ID     Archivo (nombre =           Uso                 Cómo conseguirlo             Categoría
+        identificador de sfx)
+
+ S-     click                       Selección           Generador gratuito de        Imprescindi
+ 01                                                     sonidos o grabación propia   ble
+
+ S-     envio                       Enviar entrega      Ídem                         Imprescindi
+ 02                                                                                  ble
+ S-   notificacion               Aviso del             Ídem                              Imprescindi
+ 03                              campus                                                  ble
+
+ S-   conexion                   Videollamada          Ídem                              Imprescindi
+ 04                                                                                      ble
+
+ S-   tarjeta                    Transición            Ídem                              Opcional
+ 05
+
+ S-   Ambiente de aula           Fondo                 Grabación propia o sonido         Opcional
+ 06                                                    libre (revisar licencia)
+
+ V-   Voz de la guía             Bienvenida,           Síntesis de voz libre o tu        Opcional
+ 01                              tutorial, cierre      propia voz
+
+ V-   Voces de personajes        Diálogos              Igual                             Opcional
+ 02
+Sin voces, la experiencia funciona con subtítulos. Las voces mejoran la inmersión pero no son
+indispensables para demostrar el funcionamiento. Si grabas voces, usa la voz de personas que
+hayan dado su permiso.
+
+6.5 Resumen de lo imprescindible y lo opcional
+ Imprescindible                                            Opcional
+
+ Primitivas de Unity, TMP, sonidos click, envio,           Voces, ambiente, modelos
+ notificacion, conexion, scripts de animación              humanoides, aula detallada, música,
+                                                           Figma
+No se usa música en la versión mínima, para no condicionar el estado emocional de la situación
+[PROPUESTA – VALIDAR CON CLIENTA].
+
+
+PARTE 7 — PLAN DE IMPLEMENTACIÓN PASO A
+PASO
+Orden: primero un prototipo mínimo funcional del Acto 1 con reporte de punta a punta, después
+los otros dos actos y por último el marco (bienvenida, tutorial, pausa, cierre).
+
+Fase 0 — Proyecto y dispositivo
+ N.   Crear o configurar               Resultado               Cómo comprobar                Requie
+ °                                                                                           re
+
+ T    Proyecto URP, plataforma         Proyecto sin            Pestaña Android sin           —
+ 01   Android, Meta XR Core SDK,       errores del             pendientes
+      OpenXR, Project Setup Tool       Project Setup
+      (§4.1)                           Tool
+
+ T    Escena Main con                  Build and Run en        Ves el cubo en el visor       T01
+ 02   OVRCameraRig y un cubo           Quest 3
+T    Capa Interactable,               Rayo visible y        En el visor, apuntar            T02
+03   RayPointer y un Button3D         botón que cambia      cambia el color y el gatillo
+                                      de color              imprime un mensaje en el
+                                                            registro
+
+T    Repositorio GitHub y primer      Historial con la      Commit visible                  T01
+04   commit                           configuración
+
+Fase 1 — Acto 1 mínimo
+N.   Crear o configurar                   Resultado               Cómo comprobar           Requiere
+°
+
+T    GameClock, Selectable3D,             Esperar una             Botón de prueba:         T03
+05   ChoicePrompt                         selección o un          seleccionar y
+                                          tiempo de espera        dejar vencer 5 s
+
+T    Aula con cubos, escritorio, laptop   Escenario del Acto      Se ve en el visor        T05
+06   y botones ENTREGAR y CORREGIR        1
+     PROYECTO
+
+T    Instalar Yarn Spinner,               Proyecto de Yarn        Consola de Yarn          T01
+07   CrisisVR.yarnproject,                sin errores             sin errores
+     Act1.yarn, Dialogue System
+
+T    YarnBridge,                          Comandos say,           Act1_Intro               T07
+08   DialogueCommands,                    instr, hold, prop,      muestra los
+     DialoguePanel,                       screen operativos       subtítulos
+     InstructionPanel,
+     SceneRegistry
+
+T    Miguel (cápsula) y NpcActor          Personaje que           Se anima al decir        T08
+09                                        «habla»                 una línea
+
+T    FadeScreen y ActBase                 Transición con          Fundido y                T05
+10                                        tarjeta                 «Situación 1 de
+                                                                  3»
+
+T    Act1Controller con las dos           Acto 1 completo         Probar Ruta A y          T06,
+11   rutas                                                        Ruta B                   T08,
+                                                                                           T09, T10
+
+T    SessionData,                         Datos de sesión         eventLog en el           T11
+12   SessionRecorder, GameManager                                 registro de Unity
+     (solo Acto 1)
+
+T    ReportBuilder y ReportWriter         Archivo .txt            El archivo existe        T12
+13                                                                y es legible
+ T    Build and Run y copiar el .txt        Reporte en tu          Lo abres y            T13
+ 14   desde el visor                        computadora            coincide con tu
+                                                                   elección
+Hito 1 (prototipo mínimo): una persona completa el Acto 1 en el Quest y obtiene un reporte
+coherente con su decisión.
+
+Fase 2 — Actos 2 y 3
+ N.   Crear o configurar                   Resultado        Cómo comprobar                Requie
+ °                                                                                        re
+
+ T    Utilería del Acto 2 (carpeta,        Objetos          Brillan y se pueden           T14
+ 15   tablet, panel de aviso)              seleccionables   seleccionar
+
+ T    Act2.yarn y Rodrigo                  Diálogos del     Act2_Aviso y                  T15
+ 16                                        Acto 2           Act2_Rodrigo se
+                                                            muestran
+
+ T    Act2Controller con tres              Acto 2           Probar plan nuevo, plan       T16
+ 17   ramas                                completo         original y 45 s sin acción
+
+ T    Pantalla de videollamada con         Utilería del     Se ve y se puede apuntar      T14
+ 18   tres recuadros y cuatro botones      Acto 3
+
+ T    Act3.yarn y resaltado de             Diálogos del     El recuadro correcto se       T18
+ 19   hablante                             Acto 3           resalta
+
+ T    Act3Controller con cuatro            Acto 3           Probar A, B, C, D y los 90    T19
+ 20   ramas y recordatorio                 completo         s
+
+ T    GameManager con los tres actos       Sesión de tres   Reporte con las tres          T17,
+ 21   y reporte completo                   actos            situaciones                   T20
+Hito 2: sesión completa con reporte para todas las combinaciones de decisiones.
+
+Fase 3 — Marco de la experiencia
+ N.   Crear o configurar              Resultado               Cómo comprobar              Requie
+ °                                                                                        re
+
+ T    WelcomeFlow y paneles de        Bienvenida              Se llega a CONTINUAR        T21
+ 22   título e información
+
+ T    TutorialFlow (joystick, UI,     Tutorial                Practicar movimiento,       T22
+ 23   cubos y espera de 5 s)                                  detenerse y continuar
+                                                           sin registro
+
+ T    PauseMenu                       Pausa que congela       Pausar a mitad de un        T21
+ 24                                   diálogos y tiempos      diálogo y reanudar
+
+ T    ClosingFlow, panel de           Cierre y nueva          NUEVA SESIÓN crea           T21
+ 25   quien conduce la sesión         sesión                  otro código
+ T    Terminar sesión desde la       Reporte parcial         El archivo dice             T24
+ 26   pausa                                                  «Interrumpida»
+
+Fase 4 — Pulido y ampliaciones opcionales
+ N.   Crear o configurar                     Resultado      Cómo comprobar               Requie
+ °                                                                                       re
+
+ T    Sonidos y ambiente                     Audio          Se escucha en el visor       T21
+ 27
+
+ T    Voces (opcional)                       Voz de la      Coincide con el subtítulo    T21
+ 28                                          guía
+
+ T    Rendimiento: revisar luces,            Tasa estable   Medición en el visor         T21
+ 29   materiales y overlay de cuadros                       [PENDIENTE DE
+                                                            EVIDENCIA]
+
+ T    Agarre y zonas de proximidad con       Interacción    Se agarra un objeto          T21
+ 30   el Interaction SDK (opcional, ver la   adicional
+      tesis)
+
+Cómo ampliar del Acto 1 a los otros dos
+Cada acto repite el patrón: utilería (objetos con Selectable3D) + archivo .yarn + controlador
+que (1) hace la transición, (2) ejecuta nodos, (3) llama a ChoicePrompt.Ask, (4) registra con
+SessionRecorder y (5) ejecuta la reacción. Para un acto nuevo se copia Act1Controller, se
+cambian los nombres de nodo y las opciones.
+
+
+PARTE 8 — PRUEBAS Y VALIDACIÓN
+8.1 Pruebas que puedes ejecutar tú (desarrolladora)
+Resultado de cada prueba: [PENDIENTE DE RESULTADO REAL]. Estas son casos a ejecutar;
+no hay resultados.
+ ID       Qué verifica         Pasos                        Resultado esperado
+
+ TP-01    Rayo y selección     Apuntar a un botón y         El botón cambia de color y dispara
+                               presionar el gatillo         su evento
+
+ TP-02    Botón                Intentar seleccionar un      No ocurre nada
+          desactivado          botón no activo
+
+ TP-03    Diálogo              Ejecutar Act1_Intro          Aparecen las líneas con el
+                                                            hablante correcto
+
+ TP-04    Instrucciones        Revisar cada instr           Se muestran y se limpian donde
+                                                            corresponde
+
+ TP-05    Acto 1, Ruta A       Seleccionar CORREGIR         Reintento = true; nodo
+                               PROYECTO                     Act1_Reaccion_Corregir
+TP-06   Acto 1, Ruta B      No hacer nada 45 s            Reintento = false; nodo
+                                                          Act1_Reaccion_NoActuo
+
+TP-07   Acto 2, plan        Seleccionar la tablet         OpcionAdaptabilidad = 1
+        nuevo
+
+TP-08   Acto 2, plan        Seleccionar la carpeta        OpcionAdaptabilidad = 2
+        original
+
+TP-09   Acto 2, sin         No hacer nada 45 s            OpcionAdaptabilidad = 3
+        acción
+
+TP-10   Acto 3, opciones    Seleccionar cada botón        OpcionTrabajoEnEquipo = 1, 2,
+a       A–D                                               3, 4; reacción correcta
+TP-13
+
+TP-14   Recordatorio del    Esperar 90 s sin              Aparece la instrucción; no se
+        Acto 3              seleccionar                   registra nada
+
+TP-15   Todas las rutas     Recorrer las                  Ninguna ruta bloquea el avance
+        continúan           combinaciones
+
+TP-16   Orden de actos      Recorrer una sesión           Acto 1, 2, 3 en ese orden
+
+TP-17   Pausa               Menú a mitad de un            Se congela el diálogo
+                            diálogo
+
+TP-18   Pausa y tiempo      Pausar 60 s durante un        El tiempo de espera no avanza
+        de espera           tiempo de espera de 45 s      durante la pausa
+
+TP-19   Reanudar            CONTINUAR                     Continúa en el mismo punto
+
+TP-20   Terminar sesión     TERMINAR SESIÓN               Reporte «Interrumpida» y sesión
+                                                          nueva
+
+TP-21   Reporte             Terminar una sesión           Archivo con las tres situaciones
+        completo
+
+TP-22   Coincidencia        Repetir las                   El reporte describe cada decisión
+        decisión-reporte    combinaciones                 tomada
+
+TP-23   Reporte parcial     Terminar en el Acto 2         El Acto 3 aparece como «Sin
+                                                          registro»
+
+TP-24   Sin sobrescritura   Dos sesiones seguidas         Dos archivos distintos
+
+TP-25   Ruta del archivo    Leer el registro de Unity y   El archivo se obtiene desde el visor
+                            copiar el archivo
+
+TP-26   Codificación        Abrir el .txt                 Los acentos se ven bien
+ TP-27    Ausencia de          Revisar el reporte          No contiene nombres ni tiempos
+          datos personales
+
+ TP-28    Rendimiento          Medir la tasa de cuadros    Estable [PENDIENTE DE
+                                                           EVIDENCIA]
+
+ TP-29    Confort              Probar con una persona      Confort con locomoción por
+                               (con su permiso)            joystick [SIN VERIFICAR]
+
+ TP-30    Duración             Cronometrar una sesión      Anotar el valor real y reemplazar
+                               completa                    «8–10 minutos» en la tesis
+
+8.2 Aspectos que debe revisar y validar la clienta
+Marca [VALIDACIÓN PENDIENTE DE LA CLIENTA] hasta contar con su respuesta por escrito.
+ N.   Qué revisar                                    Pregunta sencilla
+ °
+
+ C-   Realismo de las tres situaciones               ¿Se parecen a lo que viven los
+ 01                                                  estudiantes de primer ciclo?
+
+ C-   Acto 1: calificación 08 sobre 20, dureza y     ¿Es realista y no excesivamente fuerte ni
+ 02   redacción de la retroalimentación              suave?
+
+ C-   Acto 1: solo dos rutas                         ¿Falta alguna reacción importante que el
+ 03                                                  estudiante deba poder elegir?
+
+ C-   Acto 2: plan nuevo y plan original             ¿Son alternativas realistas ante un
+ 04                                                  cambio de modalidad?
+
+ C-   Acto 3: texto de las cuatro opciones           ¿Cada una suena natural y no
+ 05                                                  juzgadora? ¿Falta alguna?
+
+ C-   Diálogos de los personajes                     ¿Algún diálogo resulta inadecuado o
+ 06                                                  sensible?
+
+ C-   Frases del reporte                             ¿Describen sin interpretar? ¿Qué
+ 07                                                  palabras evitarías?
+
+ C-   Preguntas orientadoras                         ¿Te sirven para conversar con el
+ 08                                                  estudiante?
+
+ C-   Aviso de límites                               ¿Lo redactarías distinto?
+ 09
+
+ C-   Texto de bienvenida y cierre                   ¿Es claro y tranquilizador?
+ 10
+
+ C-   Orden fijo de los actos y de los botones       ¿Hay riesgo de que una situación influya
+ 11   A–D                                            en la siguiente?
+ C-   Formato y entrega del reporte                        ¿Un archivo de texto te sirve o necesitas
+ 12                                                        otro formato?
+
+8.3 Riesgos de diseño para la defensa
+ Riesgo                               Cómo se atenúa en este diseño
+
+ Sesgo de posición en los             Orden fijo; se menciona como limitación. Alternar el orden
+ botones A–D                          requeriría que el reporte lo documente
+
+ Efecto de la secuencia fija          Se menciona como limitación de la tesis
+
+ Deseabilidad social                  El tutorial aclara que no hay respuestas correctas; sigue
+                                      existiendo y se menciona como limitación
+
+ Texto del Acto 3 con carga           Validación de la clienta (C-05)
+ social (opción C)
+
+ Inducción por las                    En el Acto 1 no se da instrucción en el momento de la
+ instrucciones                        decisión
+
+8.4 Cambios que requerirían modificar el alcance de la tesis
+ Cambio                                                     Por qué sale del alcance
+
+ Registrar tiempos de respuesta, mirada o                   La tesis retiró esos datos por indicación
+ movimiento                                                 de la clienta
+
+ Puntajes, niveles, clasificación o comparación             La tesis excluye la medición de
+ entre estudiantes                                          competencias y el diagnóstico
+
+ Texto generado con inteligencia artificial                 Excluido por la tesis
+
+ Más de tres actos o más de una situación por               La tesis define tres actos; sería
+ competencia                                                ampliación
+
+ Competencias adicionales (comunicación asertiva,           Están fuera del alcance operativo
+ empatía, toma de decisiones)
+
+ Captar voz o texto libre del estudiante                    No está en la tesis; implica datos más
+                                                            sensibles
+
+ Visor de reportes dentro del casco, PDF,                   La tesis define un archivo de texto y
+ plataforma web o panel del tutor                           excluye la plataforma web
+
+ Compatibilidad con otras gafas                             Excluida
+
+ Multijugador o colaboración en línea                       Excluido
+
+ Análisis longitudinal entre ciclos                         Excluido (trabajo futuro)
+
+ Modificar el orden o la cantidad de opciones por           Cambia la Tabla 3 y la matriz de
+ acto                                                       consistencia
+PARTE 9 — ÍNDICE DE PROPUESTAS QUE
+REQUIEREN VALIDACIÓN DE LA CLIENTA
+Todo lo siguiente es «Propuesta de diseño pendiente de validación con la clienta». No debe
+presentarse en la tesis como validado.
+ N.°    Propuesta                                                                  Dónde
+                                                                                   está
+
+ V-01   Texto de la pantalla de bienvenida y del cierre                            §1.2, §2.4
+
+ V-02   Escala de calificación 0–20 y la nota «08 sobre 20»                        Acto 1
+
+ V-03   Diálogos del profesor Miguel (contenido y dureza de la                     Acto 1
+        retroalimentación)
+
+ V-04   Ausencia de instrucción en el momento de decisión del Acto 1               Acto 1
+
+ V-05   Frases y pregunta orientadora del Acto 1                                   Acto 1
+
+ V-06   Situación y diálogos del aviso y de Rodrigo                                Acto 2
+
+ V-07   Rótulos «PLAN NUEVO» y «PLAN ORIGINAL»                                     Acto 2
+
+ V-08   Frases y pregunta orientadora del Acto 2                                   Acto 2
+
+ V-09   Nombres Lucía, Andrés y Mateo y todos sus diálogos                         Acto 3
+
+ V-10   Texto literal de las opciones A, B, C y D                                  Acto 3
+
+ V-11   Reacciones a cada opción                                                   Acto 3
+
+ V-12   Frases y pregunta orientadora del Acto 3                                   Acto 3
+
+ V-13   Aviso de límites y secciones del reporte                                   Parte 5
+
+ V-14   Que el cierre no muestre devolución de las decisiones                      §1.2 E7
+
+ V-15   Ausencia de música                                                         §6.5
+
+ V-16   Orden fijo de los botones A–D                                              §2.3
+Propuestas técnicas (no requieren a la clienta, pero deben quedar documentadas como
+decisiones del prototipo): una sola escena; selección por
+rayo; tiempo de espera de 45 s y recordatorio a los 90 s; códigos numéricos de las opciones;
+eventLog sin tiempos; escena recargada para reiniciar.
+Actualización T-23 (16/10/2026): desplazamiento con joystick confirmado por el usuario;
+sustituye la decisión previa de no locomoción. Mandos como entrada prevista; hand tracking
+no confirmado. Postura, mano del joystick, giro y parámetros pendientes. SIN VERIFICAR.
+

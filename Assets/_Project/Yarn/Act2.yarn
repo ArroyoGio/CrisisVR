@@ -1,0 +1,43 @@
+// PROPUESTA – VALIDAR CON CLIENTA: V-06, V-07, V-08.
+title: Act2_Intro
+---
+Indicaciones: Te preparas para la práctica del curso. Sobre el escritorio está tu plan.
+Sistema: Tu plan: realizar la práctica de forma presencial, en el laboratorio, con tu grupo actual.
+===
+
+title: Act2_Aviso
+---
+Aviso del campus: la práctica de hoy pasa a modalidad virtual. Los grupos se han reorganizado.
+Tablet: PLAN NUEVO: práctica virtual por videollamada con el grupo B
+Sistema: Tu tablet muestra el plan nuevo.
+===
+
+title: Act2_Rodrigo
+---
+Rodrigo: Hola. Soy Rodrigo, me asignaron a tu grupo para la práctica virtual.
+Rodrigo: Acabo de ver el aviso. ¿Cómo lo hacemos?
+Indicaciones: Selecciona el material con el que quieres continuar: la tablet (plan nuevo) o la carpeta (plan original).
+===
+
+title: Act2_Reaccion_PlanNuevo
+---
+Rodrigo: Perfecto. Entonces entro a la sala virtual y empezamos con la introducción.
+Rodrigo: Cuando estés conectado, avanzamos con la parte práctica.
+===
+
+title: Act2_Reaccion_PlanOriginal
+---
+Rodrigo: Entiendo, tú sigues con el plan original.
+Rodrigo: Yo me conecto a la sala virtual y coordinamos por el chat.
+===
+
+title: Act2_Reaccion_SinAccion
+---
+Rodrigo: Bien, dejo ambos materiales aquí por ahora.
+Rodrigo: Cuando quieras, me avisas y vemos cómo seguimos.
+===
+
+title: Act2_Cierre
+---
+Indicaciones: Fin de la situación 2 de 3.
+===

@@ -1,0 +1,21 @@
+
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5745700813747042508}
+  - component: {fileID: 2442306273320644280}
+  - component: {fileID: 1722882099693224055}
+  - component: {fileID: 7104419533170684624}
+  - component: {fileID: 1255647619390271626}
+  - component: {fileID: 3179295312718945089}
+  m_Layer: 0
+  m_Name: Left_NearFarInteractor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1

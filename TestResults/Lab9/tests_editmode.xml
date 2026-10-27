@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="8" result="Passed" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-21 05:50:06Z" end-time="2026-10-21 05:50:07Z" duration="0.6770747">
+  <test-suite type="TestSuite" id="1000" name="CrisisVR" fullname="CrisisVR" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-21 05:50:06Z" end-time="2026-10-21 05:50:07Z" duration="0.677075" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1011" name="CrisisVR.Tests.EditMode.dll" fullname="C:/Users/USER/AppData/Local/Temp/opencode/CrisisVR_LAB9/Library/ScriptAssemblies/CrisisVR.Tests.EditMode.dll" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-10-21 05:50:06Z" end-time="2026-10-21 05:50:07Z" duration="0.662656" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="36604" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="CrisisVREditModeTests" fullname="CrisisVREditModeTests" classname="CrisisVREditModeTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-21 05:50:06Z" end-time="2026-10-21 05:50:07Z" duration="0.618636" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1002" name="E01_EscenasExistenEnProyecto" fullname="CrisisVREditModeTests.E01_EscenasExistenEnProyecto" methodname="E01_EscenasExistenEnProyecto" classname="CrisisVREditModeTests" runstate="Runnable" seed="752642937" result="Passed" start-time="2026-10-21 05:50:06Z" end-time="2026-10-21 05:50:06Z" duration="0.014396" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1003" name="E02_ArchivoYarnExiste" fullname="CrisisVREditModeTests.E02_ArchivoYarnExiste" methodname="E02_ArchivoYarnExiste" classname="CrisisVREditModeTests" runstate="Runnable" seed="1040274426" result="Passed" start-time="2026-10-21 05:50:06Z" end-time="2026-10-21 05:50:06Z" duration="0.000737" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1004" name="E03_TiposCrisisVRCompilan" fullname="CrisisVREditModeTests.E03_TiposCrisisVRCompilan" methodname="E03_TiposCrisisVRCompilan" classname="CrisisVREditModeTests" runstate="Runnable" seed="314490404" result="Passed" start-time="2026-10-21 05:50:06Z" end-time="2026-10-21 05:50:07Z" duration="0.577223" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1005" name="TutorialFunctionalTests" fullname="TutorialFunctionalTests" classname="TutorialFunctionalTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-21 05:50:07Z" end-time="2026-10-21 05:50:07Z" duration="0.040944" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1006" name="T01_PasosDelTutorial_SonUnicosYCompletos" fullname="TutorialFunctionalTests.T01_PasosDelTutorial_SonUnicosYCompletos" methodname="T01_PasosDelTutorial_SonUnicosYCompletos" classname="TutorialFunctionalTests" runstate="Runnable" seed="346145168" result="Passed" start-time="2026-10-21 05:50:07Z" end-time="2026-10-21 05:50:07Z" duration="0.011029" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1007" name="T02_OrdenDeLaSecuencia_CubreTodosLosPasos" fullname="TutorialFunctionalTests.T02_OrdenDeLaSecuencia_CubreTodosLosPasos" methodname="T02_OrdenDeLaSecuencia_CubreTodosLosPasos" classname="TutorialFunctionalTests" runstate="Runnable" seed="14415004" result="Passed" start-time="2026-10-21 05:50:07Z" end-time="2026-10-21 05:50:07Z" duration="0.003730" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1008" name="T03_Ejercicio_ConservaSusTextos" fullname="TutorialFunctionalTests.T03_Ejercicio_ConservaSusTextos" methodname="T03_Ejercicio_ConservaSusTextos" classname="TutorialFunctionalTests" runstate="Runnable" seed="1130942255" result="Passed" start-time="2026-10-21 05:50:07Z" end-time="2026-10-21 05:50:07Z" duration="0.002486" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1009" name="T04_Panel_MuestraElPasoActual" fullname="TutorialFunctionalTests.T04_Panel_MuestraElPasoActual" methodname="T04_Panel_MuestraElPasoActual" classname="TutorialFunctionalTests" runstate="Runnable" seed="1659045791" result="Passed" start-time="2026-10-21 05:50:07Z" end-time="2026-10-21 05:50:07Z" duration="0.008685" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1010" name="T05_Panel_SinReferencias_NoBloquea" fullname="TutorialFunctionalTests.T05_Panel_SinReferencias_NoBloquea" methodname="T05_Panel_SinReferencias_NoBloquea" classname="TutorialFunctionalTests" runstate="Runnable" seed="776251819" result="Passed" start-time="2026-10-21 05:50:07Z" end-time="2026-10-21 05:50:07Z" duration="0.010244" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: C:/Users/USER/AppData/LocalLow/DefaultCompany/CrisisVR\TestResults.xml
+Saving results to: C:/Users/USER/AppData/LocalLow/DefaultCompany/CrisisVR\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

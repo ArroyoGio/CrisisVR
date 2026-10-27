@@ -1,0 +1,79 @@
+// PROPUESTA – VALIDAR CON CLIENTA
+// Contenido estático T-23. Nodos sin comandos; integración Yarn Spinner pendiente de T-07/T-08.
+title: Tutorial_Orientation
+---
+Conoce el espacio
+Mueve el joystick del mando con el que prefieras desplazarte.
+El mando de movimiento se elige aquí. Si necesitas ayuda, puedes continuar acompañado. No necesitas caminar físicamente.
+===
+title: Tutorial_Movement
+---
+Desplázate y detente
+Inclina el joystick para moverte. Suéltalo para detenerte.
+El joystick mueve tu posición virtual. Mira la referencia del suelo mientras practicas; no tienes que llegar a un punto exacto.
+===
+title: Tutorial_Turn
+---
+Cambia de orientación
+Inclina el joystick del otro mando hacia un lado para girar.
+Girar cambia hacia dónde estás orientado. Desplazarte cambia tu posición. El giro conserva la configuración del paquete.
+===
+title: Tutorial_Interface
+---
+Apunta y selecciona
+Apunta a Practicar selección y presiona el gatillo resaltado.
+El borde cambia al apuntar. Para activar el botón necesitas presionar el gatillo; mirar el botón no lo activa.
+===
+title: Tutorial_Object
+---
+Selecciona un objeto
+Apunta al objeto y presiona el gatillo.
+Usa el mismo rayo y gatillo del ejercicio anterior. Puedes repetir o continuar con ayuda.
+===
+title: Tutorial_Options
+---
+Elige una alternativa
+Elige cualquiera de los dos objetos con el gatillo.
+Ambos objetos se seleccionan de la misma manera. El cambio visual confirma tu selección, sin valorar tu elección.
+===
+title: Tutorial_Grab
+---
+Agarra y suelta
+Acerca el mando, mantén el botón lateral y levanta. Suéltalo para soltar.
+El botón lateral sirve para agarrar. El gatillo sirve para seleccionar. Al soltar, el objeto vuelve a la mesa para repetir.
+===
+title: Tutorial_Wait
+---
+Una espera breve
+Espera un momento. La práctica continuará sola.
+Esta espera es parte del diseño de la práctica. No se registra cuánto tardas en responder.
+===
+title: Tutorial_PauseInfo
+---
+Pausa y acompañamiento
+Si necesitas una pausa, avisa a quien te acompaña.
+No tienes que terminar la práctica si sientes incomodidad. Avisa a quien te acompaña.
+===
+title: Tutorial_Integration
+---
+Practica a tu ritmo
+Muévete, detente y selecciona un objeto con el gatillo.
+Las acciones son las mismas que acabas de practicar. Nada de esta práctica se guarda en el reporte.
+===
+title: Tutorial_Finished
+---
+Fin de la práctica
+Consulta con quien te acompaña antes de continuar.
+Puedes pedir acompañamiento antes de iniciar las situaciones.
+===
+title: Tutorial_Labels
+---
+Ayuda
+Repetir
+Continuar
+Practicar selección
+Movimiento: izquierdo · Giro: derecho
+Movimiento: derecho · Giro: izquierdo
+Puedes continuar o seguir practicando.
+CRISIS VR / PRÁCTICA
+===

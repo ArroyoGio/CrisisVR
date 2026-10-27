@@ -1,0 +1,30 @@
+// PROPUESTA – VALIDAR CON CLIENTA: V-02, V-03, V-04, V-05.
+title: Act1_Intro
+---
+Indicaciones: Hoy es la entrega de tu proyecto final del curso.
+Miguel: Buenos días. Hoy recibimos las entregas del proyecto del curso.
+Miguel: Cuando estés listo, envía tu proyecto desde la laptop.
+Indicaciones: Selecciona ENTREGAR en la laptop.
+===
+
+title: Act1_Retro
+---
+Laptop: Entrega enviada.
+Miguel: Gracias. Acabo de revisar tu proyecto.
+Miguel: La calificación es 08 sobre 20.
+Miguel: Tu entrega no cumple varios criterios de la rúbrica: falta justificar las decisiones de diseño y no se incluyen pruebas de funcionamiento.
+Miguel: Con este resultado no puedo aprobar el proyecto tal como está.
+Miguel: Puedes corregirlo desde tu laptop. Estaré aquí unos minutos.
+===
+
+title: Act1_Reaccion_Corregir
+---
+Laptop: Corrección en curso...
+Miguel: Bien. Revisaré tu corrección cuando la envíes.
+===
+
+title: Act1_Reaccion_NoActuo
+---
+Miguel: Entiendo. Si más adelante quieres comentarlo, puedes escribirme.
+===
+

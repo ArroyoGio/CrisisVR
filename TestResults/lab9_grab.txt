@@ -1,0 +1,84 @@
+=== line 9440 m_Name: PracticeObject2
+   9372 --- !u!33 &752239118646568084
+   9380 --- !u!224 &761636376690320542
+   9399 --- !u!114 &767216737659914377
+   9406   m_Enabled: 1
+   9408   m_Script: {fileID: 11500000, guid: 9d08e8c71e1a9c945b10c215a061cb2f, type: 3}
+   9409   m_Name:
+   9422 --- !u!1 &797617232143551749
+   9439   m_Layer: 0
+   9440   m_Name: PracticeObject2
+   9441   m_TagString: Untagged
+   9446 --- !u!222 &801989054013373800
+   9454 --- !u!65 &817294236207867408
+   9455 BoxCollider:
+   9471   m_Enabled: 0
+   9475 --- !u!1 &845753891795869304
+=== line 10552 m_Name: ExampleHeldObject
+   10453 --- !u!23 &2323345670683716133
+   10460   m_Enabled: 1
+   10502 --- !u!1 &2328585183332698055
+   10513   m_Layer: 0
+   10514   m_Name: TouchPad
+   10515   m_TagString: Untagged
+   10520 --- !u!224 &2364100337293365731
+   10539 --- !u!1 &2364232789999523850
+   10551   m_Layer: 0
+   10552   m_Name: ExampleHeldObject
+   10553   m_TagString: Untagged
+   10558 --- !u!1 &2370744077929389103
+   10569   m_Layer: 0
+   10570   m_Name: ThumbStick_Base
+   10571   m_TagString: Untagged
+   10576 --- !u!114 &2396830103880303949
+   10583   m_Enabled: 1
+   10585   m_Script: {fileID: 11500000, guid: a56315c560ed024449e72cd2126e3b4f, type: 3}
+   10586   m_Name:
+=== line 12548 m_Name: ExampleSelectableObject
+   12431 --- !u!23 &4024623256940367600
+   12438   m_Enabled: 1
+   12480 --- !u!4 &4025164370057797267
+   12495 --- !u!222 &4037950413701763422
+   12503 --- !u!4 &4067320675032727511
+   12527 --- !u!222 &4091429018681584477
+   12535 --- !u!1 &4130892408778290204
+   12547   m_Layer: 0
+   12548   m_Name: ExampleSelectableObject
+   12549   m_TagString: Untagged
+   12554 --- !u!23 &4145815378023660270
+   12561   m_Enabled: 1
+=== line 16705 m_Name: ExampleAlternativeObject
+   16676 --- !u!1 &8170106742459600462
+   16685   m_Layer: 0
+   16686   m_Name: right_b_trigger_front
+   16687   m_TagString: Untagged
+   16692 --- !u!1 &8170355328135947583
+   16704   m_Layer: 0
+   16705   m_Name: ExampleAlternativeObject
+   16706   m_TagString: Untagged
+   16711 --- !u!65 &8171090605920823874
+   16712 BoxCollider:
+   16728   m_Enabled: 1
+   16732 --- !u!23 &8205413956270324538
+   16739   m_Enabled: 1
+=== line 16915 m_Name: PracticeObject1
+   16796 --- !u!1 &8234250676661761882
+   16807   m_Layer: 0
+   16808   m_Name: Bumper
+   16809   m_TagString: Untagged
+   16814 --- !u!1 &8237039416267691856
+   16823   m_Layer: 0
+   16824   m_Name: b_button_y
+   16825   m_TagString: Untagged
+   16830 --- !u!137 &8245191132161567865
+   16837   m_Enabled: 1
+   16897 --- !u!1 &8271813431891606723
+   16914   m_Layer: 0
+   16915   m_Name: PracticeObject1
+   16916   m_TagString: Untagged
+   16921 --- !u!4 &8337946147828740647
+   16936 --- !u!1 &8389911256019619711
+   16946   m_Layer: 0
+   16947   m_Name: oculus_controller_l_MeshX
+   16948   m_TagString: Untagged
+   16953 --- !u!4 &8405681668188028312

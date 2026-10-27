@@ -1,0 +1,9 @@
+11       propertyPath: m_ManipulationInput.m_InputActionReference
+19       propertyPath: m_UIScrollInput.m_InputActionReference
+23       propertyPath: m_SelectInput.m_InputActionReferenceValue
+27       propertyPath: m_UIPressInput.m_InputActionReferenceValue
+31       propertyPath: m_ActivateInput.m_InputActionReferenceValue
+35       propertyPath: m_SelectInput.m_InputActionReferencePerformed
+39       propertyPath: m_UIPressInput.m_InputActionReferencePerformed
+43       propertyPath: m_ActivateInput.m_InputActionReferencePerformed
+48       value: Right_NearFarInteractor

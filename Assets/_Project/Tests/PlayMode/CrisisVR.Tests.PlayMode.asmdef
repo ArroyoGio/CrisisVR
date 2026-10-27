@@ -1,0 +1,19 @@
+{
+  "name": "CrisisVR.Tests.PlayMode",
+  "references": [
+    "UnityEngine.TestRunner",
+    "Unity.XR.Interaction.Toolkit",
+    "Unity.XR.Interaction.Toolkit.Samples.InteractionSimulator",
+    "Unity.XR.Interaction.Toolkit.Samples.StarterAssets",
+    "Unity.XR.CoreUtils"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll"],
+  "autoReferenced": false,
+  "defineConstraints": ["UNITY_INCLUDE_TESTS"],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -1,0 +1,25 @@
+DIAG tipoGrab=True tipoSimple=True tipoManager=True tipoInteractor=True
+DIAG managers en escena = 1
+DIAG grabs=2 simples=2 rigidbodies=2
+DIAG grab 'PracticeObject1' enabled=False activoEnJerarquia=False rb=True kinematic=True collider=True colEnabled=True
+DIAG grab 'PracticeObject2' enabled=False activoEnJerarquia=False rb=True kinematic=True collider=True colEnabled=True
+DIAG simple 'PracticeObject1' enabled=True
+DIAG simple 'PracticeObject2' enabled=True
+DIAG nearfar interactores = 2
+DIAG interactor 'Near-Far Interactor' goActiveSelf=True goActiveInHierarchy=False interactorEnabled=True selectInput=True selEnabled=False selPerformed=False enableNearCasting=True enableFarCasting=True
+DIAG   accion 'Select' enabled=True IsEnabled=
+DIAG interactor 'Near-Far Interactor' goActiveSelf=True goActiveInHierarchy=False interactorEnabled=True selectInput=True selEnabled=False selPerformed=False enableNearCasting=True enableFarCasting=True
+DIAG   accion 'Select' enabled=True IsEnabled=
+DIAG InputActionManager tipo=True enEscena=1
+DIAG InputActionManager 'TutorialPlayer' enabled=True activoEnJerarquia=True
+DIAG   actionAsset=XRI Default Input Actions
+DIAG raiz del rig = 'TutorialPlayer' activo=True
+DIAG INACTIVO: 'TutorialPlayer/Camera Offset/Gaze Interactor'
+DIAG INACTIVO: 'TutorialPlayer/Camera Offset/Gaze Stabilized'
+DIAG INACTIVO: 'TutorialPlayer/Camera Offset/Left Controller'
+DIAG INACTIVO: 'TutorialPlayer/Camera Offset/Left Controller/Teleport Interactor'
+DIAG INACTIVO: 'TutorialPlayer/Camera Offset/Right Controller'
+DIAG INACTIVO: 'TutorialPlayer/Camera Offset/Right Controller/Teleport Interactor'
+DIAG INACTIVO: 'TutorialPlayer/Locomotion/Grab Move'
+DIAG INACTIVO: 'TutorialPlayer/[Right InteractionAttachController] Attach'
+DIAG INACTIVO: 'TutorialPlayer/[Left InteractionAttachController] Attach'
