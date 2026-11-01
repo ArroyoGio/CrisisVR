@@ -110,6 +110,9 @@
   - PlayMode **7/7**: cargas de MainMenu, Act1 y Tutorial; S01 y S02, sesiones completas; S03, pausa que congela la espera y TERMINAR SESIÓN con reporte «Interrumpida»; S04, **24/24 combinaciones**, con reportes coincidentes y un archivo por sesión. Ver `Docs/evidence/S2_tests_playmode.xml` y `Docs/evidence/S2_recorrido_24_combinaciones.txt`.
   - EditMode **52/53**: 0 fallos y 1 omitida (G01, `Explicit`); incluye las 44 pruebas de `CrisisVR.Logic`. Ver `Docs/evidence/S2_tests_editmode.xml`.
   - Capturas de Edit Mode desde la posición del estudiante: `Docs/evidence/S1_act2_*.png`, `S1_act3_*.png` y `S1_cierre_*.png`.
+  - PlayMode S05 y S06 (`Docs/evidence/S2_tests_playmode_S05_S06.xml`, 2/2):
+    - S05: el recordatorio del Acto 3 aparece a los 90 s de juego (tiempo acelerado ×10), queda visible y no registra nada.
+    - S06: pausar a mitad de un diálogo oculta el panel y conserva el nodo; CONTINUAR retoma en el mismo punto.
 - **SIN VERIFICAR:** entrada real con el XR Interaction Simulator o con mandos, el Meta Quest 3 (build e instalación), el rendimiento, el confort y el tiempo real de una sesión con lectura humana.
 - Pendiente (sprint 3, requiere a la tesista con el visor):
   - Build and Run en el Quest 3.

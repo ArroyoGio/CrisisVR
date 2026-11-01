@@ -179,6 +179,91 @@ public class CrisisVRSessionPlayTests
         Assert.AreEqual(0, failures, log.ToString());
     }
 
+    // Avanza hasta que se cumpla la condición, presionando CONTINUAR y resolviendo los actos 1 y 2.
+    IEnumerator AdvanceUntil(Func<bool> done, MonoBehaviour act1, MonoBehaviour act2, MonoBehaviour runner, string what)
+    {
+        var nextLine = runner.GetType().GetMethod("RequestNextLine");
+        float start = Time.realtimeSinceStartup;
+        while (!done())
+        {
+            Assert.Less(Time.realtimeSinceStartup - start, TimeoutSeconds, what);
+            if (Flag(act1, "AwaitingDelivery")) Call(act1, "Deliver");
+            else if (Flag(act1, "AwaitingDecision")) Call(act1, "Correct");
+            else if (Flag(act2, "AwaitingChoice")) Call(act2, "Choose", 1);
+            else nextLine.Invoke(runner, null);
+            yield return new WaitForSecondsRealtime(.25f);
+        }
+    }
+
+    // Prueba 12 de la guía: a los 90 s sin selección en el Acto 3 aparece el recordatorio y no se registra nada.
+    // El tiempo de juego se acelera ×10 para no esperar 90 s reales (la espera usa tiempo escalado).
+    [UnityTest, Timeout(300000)]
+    public IEnumerator S05_RecordatorioActo3_NoRegistra()
+    {
+        SceneManager.LoadScene("Act1");
+        yield return null;
+        yield return null;
+        var act1 = Find("Act1Flow");
+        var act2 = Find("Act2Flow");
+        var act3 = Find("Act3Flow");
+        var runner = Find("DialogueRunner");
+        yield return AdvanceUntil(() => Flag(act3, "AwaitingChoice"), act1, act2, runner, "El Acto 3 no llegó a las opciones.");
+
+        Time.timeScale = 10f;
+        float start = Time.realtimeSinceStartup;
+        while (!Flag(act3, "ReminderShown"))
+        {
+            Assert.Less(Time.realtimeSinceStartup - start, 30f, "No apareció el recordatorio de 90 s.");
+            yield return null;
+        }
+        float scaledSeconds = (Time.realtimeSinceStartup - start) * 10f;
+        Time.timeScale = 1f;
+        Assert.GreaterOrEqual(scaledSeconds, 85f, "El recordatorio apareció antes de los 90 s de juego.");
+        var instruction = UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+            .Where(m => m.GetType().Name == "TextMeshPro" || m.GetType().Name == "TextMeshProUGUI")
+            .FirstOrDefault(t => (string)t.GetType().GetProperty("text").GetValue(t) == "Selecciona una opción para continuar.");
+        Assert.IsNotNull(instruction, "El texto del recordatorio no está visible.");
+        var session = CurrentSession();
+        Assert.AreEqual(0, session.OpcionTrabajoEnEquipo, "El recordatorio no debe registrar una opción.");
+        Assert.IsTrue(Flag(act3, "AwaitingChoice"), "Tras el recordatorio las opciones siguen disponibles.");
+        Assert.IsFalse(session.eventLog.Any(e => e.Contains("RECORDATORIO")), "El recordatorio no se registra en la sesión.");
+    }
+
+    // Prueba 15 de la guía: pausar a mitad de un diálogo lo congela (panel oculto, mismo nodo) y CONTINUAR sigue en el mismo punto.
+    [UnityTest, Timeout(300000)]
+    public IEnumerator S06_PausaMitadDialogo_SigueMismoPunto()
+    {
+        SceneManager.LoadScene("Act1");
+        yield return null;
+        yield return null;
+        var runner = Find("DialogueRunner");
+        var pause = Find("PauseMenu");
+        float start = Time.realtimeSinceStartup;
+        while (!(bool)runner.GetType().GetProperty("IsDialogueRunning").GetValue(runner))
+        {
+            Assert.Less(Time.realtimeSinceStartup - start, 30f, "El diálogo del Acto 1 no empezó.");
+            yield return null;
+        }
+        object dialogue = runner.GetType().GetProperty("Dialogue").GetValue(runner);
+        string NodeName() => (string)dialogue.GetType().GetProperty("CurrentNode").GetValue(dialogue);
+        string before = NodeName();
+        var canvas = runner.GetComponentInChildren<Canvas>(true);
+
+        Call(pause, "Pause");
+        yield return new WaitForSecondsRealtime(3f);
+        var isPaused = RuntimeType("GamePause").GetProperty("IsPaused");
+        Assert.IsTrue((bool)isPaused.GetValue(null), "El juego debe estar en pausa.");
+        Assert.IsFalse(canvas.enabled, "El panel de diálogo (y su CONTINUAR) debe ocultarse en pausa.");
+        Assert.IsTrue((bool)runner.GetType().GetProperty("IsDialogueRunning").GetValue(runner), "El diálogo no debe terminar en pausa.");
+        Assert.AreEqual(before, NodeName(), "El diálogo no debe cambiar de nodo en pausa.");
+
+        Call(pause, "Resume");
+        yield return null;
+        Assert.IsFalse((bool)isPaused.GetValue(null));
+        Assert.IsTrue(canvas.enabled, "CONTINUAR debe volver a mostrarse.");
+        Assert.AreEqual(before, NodeName(), "Tras CONTINUAR sigue en el mismo nodo.");
+    }
+
     // Pausa durante la espera de 45 s del Acto 1: la espera no avanza y la decisión queda pendiente.
     // Luego TERMINAR SESIÓN en el Acto 2 deja un reporte «Interrumpida» con la Situación 3 sin registro.
     // Una sesión completa supera los 180 s que UnityTest permite por defecto.
