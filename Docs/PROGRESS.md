@@ -69,3 +69,27 @@
 - La primera revisión del spam de affordance no alcanzaba ningún receptor: `TutorialWorld` y `TutorialPlayer` son raíces hermanas. Ahora `TutorialInputRouter` busca los receptores bajo `playerOrigin`, que sí contiene los cuatro componentes Poke/NearFar de los dos mandos.
 - Unity recompiló; en Play Mode los cuatro receptores tienen `affordanceTheme` y la consola no reporta errores XRI. Probé Space en la vista Game: está ligado al gatillo simulado, no al movimiento; el Transform de `TutorialPlayer` permaneció en `(70.98415, 0.0593582, -16.5656815)`.
 - Tutorial queda en Play Mode para continuar la revisión. Build y hardware Quest: **SIN VERIFICAR**.
+
+## 2026-10-27 a 2026-10-31 — Sprint 1: Actos 2 y 3, pausa, cierre y reporte completo
+
+- Agentes: Claude (Claude Code) coordinó y escribió la capa Unity; Codex (gpt-6-astra) escribió `CrisisVR.Logic` con sus pruebas y revisó el diff (8 hallazgos, todos corregidos). Decisiones en `Docs/DECISIONES.md` (entrada del 27/10).
+- Hecho:
+  - Actos 2 y 3 en `Act1.unity`, armados con `CrisisVR/Actos 2 y 3/Preparar actos, pausa y cierre` (`ActsSceneSetup`).
+  - Encadenamiento 1 → 2 → 3 → cierre (`ActsDirector`), pausa con TERMINAR SESIÓN (`PauseMenu`), cierre con panel para quien conduce (`ClosingFlow`) y fundido a negro entre escenas (`SceneFader`).
+  - Reporte completo de tres situaciones, código de sesión con el formato de la guía y esperas que se congelan en pausa.
+  - Build: orden MainMenu → Welcome → Tutorial → Act1 y `BasicScene` retirada; paquete Android `com.crisisvr.prototipo`, versión 0.1.0.
+- Corrección importante: en Yarn Spinner 3, `StartDialogue` vuelve al **arrancar** el nodo. El Acto 1 encadenaba nodos sin esperar a que terminaran; ahora todos los actos esperan `DialogueRunner.DialogueTask`.
+- Evidencia:
+  - **COMPILA:** Unity 6000.3.23f1 en batchmode, 0 errores C# (`ActsSceneSetup.PrepareBatch` terminó con código 0 y guardó la escena).
+  - **Lógica PROBADA fuera de Unity:** `dotnet test` del `CrisisVR.Logic` dio 44/44, incluidas las 24 combinaciones del reporte, el reporte interrumpido, el código de sesión y el temporizador con pausa.
+- **SIN VERIFICAR:**
+  - El Test Runner de Unity en batchmode se colgó dos veces en la recarga de dominio previa a la primera prueba, así que no hay XML de EditMode ni PlayMode.
+  - Las pruebas `CrisisVRSessionPlayTests` (S01–S03: sesiones completas, pausa y TERMINAR SESIÓN) existen, pero no se han ejecutado.
+  - No se probó en Play Mode interactivo, en el simulador ni en el Quest.
+  - Las capturas de `EvidenceCapture` no se generaron.
+- Pendiente (sprint 2):
+  - Correr el Test Runner desde el Editor abierto (EditMode, PlayMode y G01, que quedó `Explicit`).
+  - Revisar en Play Mode el encuadre y la legibilidad de los textos de los Actos 2 y 3.
+  - Build and Run en el Quest 3 de la tesista y prueba de confort con una persona.
+  - Cronometrar el tutorial y la sesión completa.
+

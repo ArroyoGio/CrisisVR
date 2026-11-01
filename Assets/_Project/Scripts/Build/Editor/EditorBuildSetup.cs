@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,12 +8,13 @@ namespace CrisisVR
     // Se ejecuta solo al cargar el Editor y tambien desde el menu manual.
     public static class EditorBuildSetup
     {
-        // Orden de arranque: primero el tutorial, despues Act1.
+        // Orden de arranque de la guia: pantalla inicial, bienvenida, tutorial y aula de los tres actos.
         static readonly string[] EscenasPropias =
         {
+            "Assets/Scenes/MainMenu.unity",
+            "Assets/Scenes/Welcome.unity",
             "Assets/Scenes/Tutorial.unity",
             "Assets/Scenes/Act1.unity",
-            "Assets/Scenes/BasicScene.unity",
         };
 
         // Escena de plantilla: no se borra, solo se deshabilita del build.
@@ -68,9 +70,15 @@ namespace CrisisVR
                     }
                     else if (!lista.Contains(escena) && escena.path != EscenaPlantilla)
                     {
-                        lista.Add(escena);
+                        // Se retiran del build las escenas que ya no existen (p. ej. BasicScene).
+                        if (System.IO.File.Exists(escena.path)) lista.Add(escena);
+                        else hayCambio = true;
                     }
                 }
+
+                // El orden importa: la primera escena es la que abre la aplicacion.
+                if (!hayCambio && !lista.Select(s => s.path).SequenceEqual(actuales.Select(s => s.path)))
+                    hayCambio = true;
 
                 if (hayCambio)
                 {

@@ -56,7 +56,7 @@ void Awake()
         public void StartSession()
         {
             if (Application.CanStreamedLevelBeLoaded(nextSceneName))
-                SceneManager.LoadScene(nextSceneName);
+                SceneFader.LoadScene(nextSceneName);
             else
                 Debug.LogError("No se encontró la escena de inicio: " + nextSceneName);
         }
@@ -68,7 +68,8 @@ void Awake()
 
         public static string NewSession()
         {
-            Current = "CVR-" + Guid.NewGuid().ToString("N").Substring(0, 6).ToUpperInvariant();
+            // Formato de la guía v1.0: CVR-AAAAMMDD-HHMMSS-XXXX (seudónimo, sin datos personales).
+            Current = SessionRuntime.NewSessionId();
             SessionRuntime.Begin(Current);
             return Current;
         }

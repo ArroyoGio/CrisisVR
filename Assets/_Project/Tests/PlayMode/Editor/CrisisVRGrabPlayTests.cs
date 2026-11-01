@@ -49,10 +49,14 @@ public class CrisisVRGrabPlayTests
 
     static void Log(string s) { Debug.Log("G01 " + s); }
 
-    [UnityTest]
+    // Explicit: en batchmode (-nographics) EnterPlayMode deja colgado al Test Runner; se ejecuta a mano en el Editor.
+    [UnityTest, Explicit("Ejecutar manualmente desde el Test Runner del Editor (requiere Play Mode con gráficos).")]
     public IEnumerator G01_AgarreConSimulador()
     {
+        // BUG-002: este ensamblado es de Editor, así que el Test Runner lo corre como EditMode.
+        // La prueba entra en Play Mode por su cuenta antes de cargar la escena.
         if (!EnBuildSettings("Tutorial")) { Assert.Ignore("Tutorial no esta en Build Settings."); yield break; }
+        yield return new EnterPlayMode();
         SceneManager.LoadScene("Tutorial");
         yield return null;
         yield return null;
@@ -163,6 +167,7 @@ public class CrisisVRGrabPlayTests
         Vector3 despues = cubo.transform.position;
         Log("mover mando: cubo antes=" + antes + " despues=" + despues + " movido=" + (antes != despues));
 
+        yield return new ExitPlayMode();
         Assert.IsTrue(agarrado, "El cubo NO fue agarrado por el grip.");
     }
 }

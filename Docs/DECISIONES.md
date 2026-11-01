@@ -1,5 +1,25 @@
 # Decisiones del prototipo
 
+## 2026-10-27 — Sprint 1: Actos 2 y 3, pausa, cierre y reporte completo
+
+Respuestas de la tesista (Giovanna Arroyo) a las dudas 1–6 de la guía v1.0; la guía corregida es la v1.1.
+
+- **Locomoción:** se mantiene el desplazamiento con joystick y el giro por pasos (T-23). Los actos no obligan a moverse: todo lo seleccionable está al alcance del rayo desde la posición inicial. `ActsDirector.seated` (falso por defecto) permite desactivarlo si la prueba de confort lo aconseja.
+- **SDK:** se queda XR Interaction Toolkit 3.5.1 con XR Origin y Unity OpenXR Meta; no se migra a Meta XR Core SDK.
+- **Escenas:** se mantienen MainMenu → Welcome → Tutorial → Act1, en ese orden en Build Settings (antes arrancaba en Tutorial y figuraba `BasicScene`, que no existe). Los Actos 2 y 3 se activan por etapas en el aula de `Act1.unity` (GDD G1). Entre escenas hay fundido a negro (`SceneFader`); la sesión vive en `SessionRuntime` (estático) y se conserva.
+- **Nombres:** se conservan los del repositorio; la tabla de la guía es de referencia.
+- **Lógica pura en `CrisisVR.Logic`** (asmdef sin UnityEngine): `SessionData`, `SessionRecorder`, `SessionIdFactory`, `DecisionTimer`, `DecisionCodes`, `ReportBuilder` y `ReportTexts`. Se prueba con NUnit en EditMode y también fuera de Unity con `dotnet test`.
+- **Código de sesión:** `CVR-AAAAMMDD-HHMMSS-XXXX` (XXXX hexadecimal), según la guía.
+- **Esperas:** `DecisionTimer` usa el tiempo de juego y se congela en pausa (45 s en Actos 1 y 2; recordatorio de 90 s sin registro en el Acto 3). Reemplaza el `Time.unscaledTime` anterior, que seguía corriendo en pausa.
+- **Pausa:** botón Menú del control izquierdo (Escape en el Editor). Congela `Time.timeScale`, audio y esperas, oculta el panel de diálogo e ignora selecciones. TERMINAR SESIÓN escribe el reporte «Interrumpida» y vuelve a MainMenu con un código nuevo.
+- **Reporte:** formato completo de la guía (aviso de límites, tres situaciones, calidad del registro y limitaciones). Se reescribe el mismo archivo de la sesión al cerrar cada acto («En curso», como respaldo si la app se cierra a la fuerza), al completar el Acto 3 («Completa») o al terminar la sesión («Interrumpida»). Nunca incluye el eventLog ni tiempos.
+- **Hablantes:** `SpeakerPresenter` (presentador de Yarn sin texto) enciende el borde del recuadro de quien habla en la videollamada y hace cabecear a Miguel y Rodrigo. En el Acto 3 el estudiante habla como «Tú».
+- **Resaltado:** `SelectableHighlight` aplica los colores de la guía (gris inactivo, azul activo, celeste al apuntar) y deshabilita el interactable cuando está inactivo.
+- **Tutorial:** se conservan agarre, movimiento y giro. Su duración se escribe solo en la consola (`TUTORIAL_DURACION`) para cronometrarlo; no se guarda en la sesión.
+- **Pruebas sin visor:** `EditorDebugInput` (F1–F10, solo Editor o build de desarrollo) usa el mismo punto de decisión que el rayo XR.
+- **Recursos de terceros:** el aula usa «School assets» v1.0 (A.R.S|T., Unity Asset Store, 2021), comprado el 20/06/2026.
+- **Uso de IA:** Claude (Claude Code) coordinó, escribió la capa Unity y verificó; Codex (gpt-6-astra) escribió `CrisisVR.Logic` y sus pruebas, y revisó el diff.
+
 ## 2026-10-25 — Presentación Yarn en VR y guiones de los actos
 
 - Se usa un único `CrisisVR.yarnproject` para los nodos de los tres actos y el tutorial ya escrito. El GDD describe las situaciones en la misma aula; Act2 y Act3 no son escenas Unity separadas en el proyecto actual.

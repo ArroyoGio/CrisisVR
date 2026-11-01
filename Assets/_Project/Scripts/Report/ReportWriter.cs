@@ -9,12 +9,13 @@ namespace CrisisVR
     {
         public static string Write(SessionData session)
         {
-            string path = Path.Combine(Application.persistentDataPath, "CrisisVR_" + session.sessionId + ".txt");
+            string path = Path.Combine(Application.persistentDataPath, ReportBuilder.FileName(session.sessionId));
             try
             {
                 Directory.CreateDirectory(Application.persistentDataPath);
+                // UTF-8 sin BOM para que los acentos se lean bien al copiar el archivo desde el visor.
                 File.WriteAllText(path, ReportBuilder.Build(session), new UTF8Encoding(false));
-                Debug.Log("Reporte parcial guardado en: " + path);
+                Debug.Log("Reporte guardado (" + session.endReason + ") en: " + path);
                 return path;
             }
             catch (Exception exception)

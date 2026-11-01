@@ -17,26 +17,32 @@ namespace CrisisVR
         Act1ProfessorMotion professorMotion;
         Act1TransitionCard transitionCard;
 
-        const float DecisionDuration = 45f;
+        public const float DecisionDuration = 45f;
+        // Espera de diseño que se congela en pausa (guía v1.0 §6); no mide tiempos de respuesta.
+        readonly DecisionTimer decisionTimer = new DecisionTimer(DecisionDuration);
         bool waitingForDecision;
         bool decisionMade;
         bool actStarted;
         bool actCompleted;
-        float decisionStarted;
         public bool Reintento { get; private set; }
         public bool DecisionRegistrada { get; private set; }
+        public bool AwaitingDelivery => deliverButton != null && deliverButton.activeInHierarchy;
+        public bool AwaitingDecision => waitingForDecision && !decisionMade;
+        public bool Finished => actCompleted;
         public event Action ActCompleted;
 
         void OnEnable()
         {
             if (deliverInteractable != null) deliverInteractable.selectEntered.AddListener(OnDeliver);
             if (correctInteractable != null) correctInteractable.selectEntered.AddListener(OnCorrect);
+            GamePause.Changed += decisionTimer.SetPaused;
         }
 
         void OnDisable()
         {
             if (deliverInteractable != null) deliverInteractable.selectEntered.RemoveListener(OnDeliver);
             if (correctInteractable != null) correctInteractable.selectEntered.RemoveListener(OnCorrect);
+            GamePause.Changed -= decisionTimer.SetPaused;
         }
 
         void Start()
@@ -56,13 +62,19 @@ namespace CrisisVR
             if (actStarted) return;
             actStarted = true;
             SessionRuntime.LogEvent("ACTO1_INICIO");
-            if (transitionCard != null) transitionCard.ShowEntry(() => _ = RunAct());
+            if (transitionCard != null) transitionCard.ShowEntry(1, () => _ = RunAct());
             else _ = RunAct();
         }
 
         void Update()
         {
-            if (!waitingForDecision || decisionMade || Time.unscaledTime - decisionStarted < DecisionDuration) return;
+            if (!waitingForDecision || decisionMade || !decisionTimer.Tick(Time.deltaTime)) return;
+            ExpireDecision();
+        }
+
+        // Ruta «no actúa»: vence la espera de 45 s sin selección.
+        void ExpireDecision()
+        {
             waitingForDecision = false;
             decisionMade = true;
             if (correctButton != null) correctButton.SetActive(false);
@@ -75,12 +87,15 @@ namespace CrisisVR
         async YarnTask RunAct()
         {
             await PlayNode("Act1_Intro");
+            if (this == null) return;
             if (deliverButton != null) deliverButton.SetActive(true);
         }
 
-        async void OnDeliver(SelectEnterEventArgs _)
+        void OnDeliver(SelectEnterEventArgs _) => Deliver();
+
+        public async void Deliver()
         {
-            if (deliverButton == null || !deliverButton.activeInHierarchy) return;
+            if (GamePause.IsPaused || deliverButton == null || !deliverButton.activeInHierarchy) return;
             deliverButton.SetActive(false);
             SessionRuntime.LogEvent("ACTO1_ENTREGA_ENVIADA");
             await DeliverAndPresentFeedback();
@@ -89,15 +104,26 @@ namespace CrisisVR
         async YarnTask DeliverAndPresentFeedback()
         {
             await PlayNode("Act1_Retro");
+            if (this == null) return;
             if (gradeCard != null) gradeCard.SetActive(true);
             if (correctButton != null) correctButton.SetActive(true);
             waitingForDecision = true;
-            decisionStarted = Time.unscaledTime;
+            decisionTimer.Start();
+            decisionTimer.SetPaused(GamePause.IsPaused);
         }
 
-        async void OnCorrect(SelectEnterEventArgs _)
+        void OnCorrect(SelectEnterEventArgs _) => Correct();
+
+        // Solo para pruebas sin visor: vence la espera de inmediato.
+        public void DebugExpire()
         {
-            if (!waitingForDecision || decisionMade) return;
+            if (!GamePause.IsPaused && AwaitingDecision) ExpireDecision();
+        }
+
+        public async void Correct()
+        {
+            if (GamePause.IsPaused || !waitingForDecision || decisionMade) return;
+            decisionTimer.Stop();
             waitingForDecision = false;
             decisionMade = true;
             Reintento = true;
@@ -111,10 +137,11 @@ namespace CrisisVR
         {
             if (!retry) Debug.Log("ACT1_DECISION: Reintento=false");
             await PlayNode(reactionNode);
+            if (this == null) return;
             if (gradeCard != null) gradeCard.SetActive(false);
             if (actCompleted) return;
             waitingForDecision = false;
-            if (transitionCard != null) transitionCard.ShowExit(FinishAct);
+            if (transitionCard != null) transitionCard.ShowExit(1, FinishAct);
             else FinishAct();
         }
 
@@ -134,8 +161,10 @@ namespace CrisisVR
                 return;
             }
             if (professorMotion != null) professorMotion.SetSpeaking(true);
+            // En Yarn Spinner 3, StartDialogue vuelve al arrancar; DialogueTask termina al acabar el nodo.
             await dialogueRunner.StartDialogue(title);
-            if (professorMotion != null) professorMotion.SetSpeaking(false);
+            await dialogueRunner.DialogueTask;
+            if (this != null && professorMotion != null) professorMotion.SetSpeaking(false);
         }
     }
 }
