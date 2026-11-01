@@ -1,38 +1,38 @@
 CrisisVR — 24 combinaciones en Play Mode (Editor, sin visor)
-Fecha: 2026-10-31 20:53 · Unity 6000.3.23f1
+Fecha: 2026-10-31 21:53 · Unity 6000.3.23f1
 Decisiones por el mismo punto que el rayo XR; CONTINUAR simulado con RequestNextLine; esperas vencidas con DebugExpire.
 
-[OK]    01. Acto1=corregir · Acto2=1 · Acto3=A — CrisisVR_CVR-20261031-205302-7B37.txt (17 s)
-[OK]    02. Acto1=corregir · Acto2=1 · Acto3=B — CrisisVR_CVR-20261031-205320-7446.txt (17 s)
-[OK]    03. Acto1=corregir · Acto2=1 · Acto3=C — CrisisVR_CVR-20261031-205337-AAE9.txt (17 s)
-[OK]    04. Acto1=corregir · Acto2=1 · Acto3=D — CrisisVR_CVR-20261031-205354-0EC5.txt (17 s)
-[OK]    05. Acto1=corregir · Acto2=2 · Acto3=A — CrisisVR_CVR-20261031-205411-DDF9.txt (17 s)
-[OK]    06. Acto1=corregir · Acto2=2 · Acto3=B — CrisisVR_CVR-20261031-205428-6647.txt (17 s)
-[OK]    07. Acto1=corregir · Acto2=2 · Acto3=C — CrisisVR_CVR-20261031-205445-0D93.txt (17 s)
-[OK]    08. Acto1=corregir · Acto2=2 · Acto3=D — CrisisVR_CVR-20261031-205502-046B.txt (17 s)
-[OK]    09. Acto1=corregir · Acto2=3 · Acto3=A — CrisisVR_CVR-20261031-205519-16F9.txt (17 s)
-[OK]    10. Acto1=corregir · Acto2=3 · Acto3=B — CrisisVR_CVR-20261031-205536-9768.txt (17 s)
-[OK]    11. Acto1=corregir · Acto2=3 · Acto3=C — CrisisVR_CVR-20261031-205553-C04A.txt (17 s)
-[OK]    12. Acto1=corregir · Acto2=3 · Acto3=D — CrisisVR_CVR-20261031-205609-3879.txt (17 s)
-[OK]    13. Acto1=no actúa · Acto2=1 · Acto3=A — CrisisVR_CVR-20261031-205626-15C3.txt (17 s)
-[OK]    14. Acto1=no actúa · Acto2=1 · Acto3=B — CrisisVR_CVR-20261031-205643-9F1F.txt (17 s)
-[OK]    15. Acto1=no actúa · Acto2=1 · Acto3=C — CrisisVR_CVR-20261031-205700-96C8.txt (17 s)
-[OK]    16. Acto1=no actúa · Acto2=1 · Acto3=D — CrisisVR_CVR-20261031-205716-9C4C.txt (17 s)
-[OK]    17. Acto1=no actúa · Acto2=2 · Acto3=A — CrisisVR_CVR-20261031-205733-28F8.txt (17 s)
-[OK]    18. Acto1=no actúa · Acto2=2 · Acto3=B — CrisisVR_CVR-20261031-205750-9E3F.txt (17 s)
-[OK]    19. Acto1=no actúa · Acto2=2 · Acto3=C — CrisisVR_CVR-20261031-205807-EB4D.txt (17 s)
-[OK]    20. Acto1=no actúa · Acto2=2 · Acto3=D — CrisisVR_CVR-20261031-205823-6991.txt (17 s)
-[OK]    21. Acto1=no actúa · Acto2=3 · Acto3=A — CrisisVR_CVR-20261031-205840-F7D0.txt (17 s)
-[OK]    22. Acto1=no actúa · Acto2=3 · Acto3=B — CrisisVR_CVR-20261031-205857-D2DD.txt (17 s)
-[OK]    23. Acto1=no actúa · Acto2=3 · Acto3=C — CrisisVR_CVR-20261031-205914-F436.txt (17 s)
-[OK]    24. Acto1=no actúa · Acto2=3 · Acto3=D — CrisisVR_CVR-20261031-205930-8A94.txt (17 s)
+[OK]    01. Acto1=corregir · Acto2=1 · Acto3=A — CrisisVR_CVR-20261031-215331-B27B.txt (19 s)
+[OK]    02. Acto1=corregir · Acto2=1 · Acto3=B — CrisisVR_CVR-20261031-215353-BEDF.txt (18 s)
+[OK]    03. Acto1=corregir · Acto2=1 · Acto3=C — CrisisVR_CVR-20261031-215411-627D.txt (18 s)
+[OK]    04. Acto1=corregir · Acto2=1 · Acto3=D — CrisisVR_CVR-20261031-215429-C3DE.txt (18 s)
+[OK]    05. Acto1=corregir · Acto2=2 · Acto3=A — CrisisVR_CVR-20261031-215448-3020.txt (19 s)
+[OK]    06. Acto1=corregir · Acto2=2 · Acto3=B — CrisisVR_CVR-20261031-215506-E83E.txt (19 s)
+[OK]    07. Acto1=corregir · Acto2=2 · Acto3=C — CrisisVR_CVR-20261031-215525-25C9.txt (18 s)
+[OK]    08. Acto1=corregir · Acto2=2 · Acto3=D — CrisisVR_CVR-20261031-215542-CBD3.txt (17 s)
+[OK]    09. Acto1=corregir · Acto2=3 · Acto3=A — CrisisVR_CVR-20261031-215600-70A5.txt (18 s)
+[OK]    10. Acto1=corregir · Acto2=3 · Acto3=B — CrisisVR_CVR-20261031-215618-5DF1.txt (18 s)
+[OK]    11. Acto1=corregir · Acto2=3 · Acto3=C — CrisisVR_CVR-20261031-215637-088A.txt (19 s)
+[OK]    12. Acto1=corregir · Acto2=3 · Acto3=D — CrisisVR_CVR-20261031-215655-5CA4.txt (18 s)
+[OK]    13. Acto1=no actúa · Acto2=1 · Acto3=A — CrisisVR_CVR-20261031-215713-A92A.txt (17 s)
+[OK]    14. Acto1=no actúa · Acto2=1 · Acto3=B — CrisisVR_CVR-20261031-215730-AED8.txt (17 s)
+[OK]    15. Acto1=no actúa · Acto2=1 · Acto3=C — CrisisVR_CVR-20261031-215747-F133.txt (17 s)
+[OK]    16. Acto1=no actúa · Acto2=1 · Acto3=D — CrisisVR_CVR-20261031-215804-93D0.txt (17 s)
+[OK]    17. Acto1=no actúa · Acto2=2 · Acto3=A — CrisisVR_CVR-20261031-215821-3A36.txt (17 s)
+[OK]    18. Acto1=no actúa · Acto2=2 · Acto3=B — CrisisVR_CVR-20261031-215838-57CD.txt (18 s)
+[OK]    19. Acto1=no actúa · Acto2=2 · Acto3=C — CrisisVR_CVR-20261031-215856-A8B3.txt (17 s)
+[OK]    20. Acto1=no actúa · Acto2=2 · Acto3=D — CrisisVR_CVR-20261031-215913-9A48.txt (18 s)
+[OK]    21. Acto1=no actúa · Acto2=3 · Acto3=A — CrisisVR_CVR-20261031-215930-95AC.txt (17 s)
+[OK]    22. Acto1=no actúa · Acto2=3 · Acto3=B — CrisisVR_CVR-20261031-215947-D847.txt (17 s)
+[OK]    23. Acto1=no actúa · Acto2=3 · Acto3=C — CrisisVR_CVR-20261031-220004-0498.txt (17 s)
+[OK]    24. Acto1=no actúa · Acto2=3 · Acto3=D — CrisisVR_CVR-20261031-220021-1F82.txt (17 s)
 
 Resultado: 24/24 combinaciones correctas.
 
 Último reporte generado:
 CRISIS VR — REPORTE DESCRIPTIVO DE SESIÓN
-Código de sesión: CVR-20261031-205930-8A94
-Fecha y hora de inicio: 2026-10-31 20:59
+Código de sesión: CVR-20261031-220021-1F82
+Fecha y hora de inicio: 2026-10-31 22:00
 Versión de la aplicación: 0.1.0
 Estado de la sesión: Completa
 

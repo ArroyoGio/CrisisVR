@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 
@@ -27,6 +28,15 @@ namespace CrisisVR
             if (closing == null) closing = FindAnyObjectByType<ClosingFlow>();
             if (pauseMenu == null) pauseMenu = FindAnyObjectByType<PauseMenu>();
             if (seated) DisableLocomotion();
+            UseTriggerToSelect();
+        }
+
+        // Guía §6: el gatillo selecciona. En el rig de XRI la acción «Select» es el grip y el gatillo es «UI Press»,
+        // así que los botones 3D de los actos no respondían al gatillo (BUG-011). Igual que en MainMenuController.
+        static void UseTriggerToSelect()
+        {
+            foreach (var interactor in FindObjectsByType<NearFarInteractor>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                if (interactor.uiPressInput != null) interactor.selectInput = interactor.uiPressInput;
         }
 
         void OnEnable()

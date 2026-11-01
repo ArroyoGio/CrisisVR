@@ -37,11 +37,10 @@ namespace CrisisVR.Editor
             var scene = SceneManager.GetActiveScene();
             if (scene.path != ScenePath) throw new InvalidOperationException("Abre Assets/Scenes/Act1.unity antes de preparar los actos.");
 
-            foreach (var name in new[] { Act2RootName, Act3RootName, SessionUiName, DirectorName })
-            {
-                var old = GameObject.Find(name);
-                if (old != null) UnityEngine.Object.DestroyImmediate(old);
-            }
+            // GameObject.Find no ve objetos inactivos (los Actos 2 y 3 se guardan inactivos): se recorren las raíces.
+            var ownRoots = new[] { Act2RootName, Act3RootName, SessionUiName, DirectorName };
+            foreach (var old in scene.GetRootGameObjects().Where(go => ownRoots.Contains(go.name)).ToArray())
+                UnityEngine.Object.DestroyImmediate(old);
 
             var act1 = UnityEngine.Object.FindAnyObjectByType<Act1Flow>();
             if (act1 == null) throw new InvalidOperationException("Falta Act1Flow: ejecuta antes CrisisVR/Act 1/Preparar aula.");

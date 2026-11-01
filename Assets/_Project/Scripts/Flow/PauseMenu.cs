@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 namespace CrisisVR
 {
@@ -78,6 +79,9 @@ namespace CrisisVR
             if (endSessionButton != null) endSessionButton.interactable = false;
             SessionRuntime.LogEvent("TERMINAR_SESION");
             SessionRuntime.Interrupt();
+            // Se detiene el diálogo antes de salir: si no, el fundido interno de Yarn sigue sobre objetos ya destruidos.
+            var runner = FindAnyObjectByType<DialogueRunner>();
+            if (runner != null && runner.IsDialogueRunning) _ = runner.Stop();
             // El juego sigue en pausa durante el fundido: ningún acto avanza ni registra nada.
             // SceneFader quita la pausa al cargar MainMenu, que crea la sesión nueva con código nuevo.
             GamePause.SetPaused(true);

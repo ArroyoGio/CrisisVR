@@ -86,3 +86,22 @@ Formato y severidades en `QA_PROTOCOL.md` §4 y §5. Un bug se cierra solo con r
 - Evidencia: `Docs/evidence/S1_act2_*.png` y `S1_act3_*.png` regeneradas.
 - Estado: CORREGIDO en Editor; pendiente de revisar dentro del visor.
 
+### BUG-011 — El gatillo no seleccionaba los objetos 3D de los actos
+- Severidad: Alta (en el Quest, el estudiante apretaría el gatillo y no pasaría nada; la guía dice que el gatillo selecciona).
+- Origen: en `XRI Default Input Actions`, «Select» = `{GripButton}` y «UI Press» = `{TriggerButton}`. `MainMenuController` ya reasignaba el gatillo; los actos no.
+- Corrección: `ActsDirector.UseTriggerToSelect()` asigna `selectInput = uiPressInput` en todos los NearFarInteractor, incluidos los inactivos.
+- Prueba de regresión: S07 comprueba que la acción de selección está ligada a `{TriggerButton}` y recorre apuntar, resaltar y seleccionar.
+- Estado: CORREGIDO y VERIFICADO en Editor; pendiente con mandos reales.
+
+### BUG-012 — Copias duplicadas de los Actos 2 y 3 en Act1.unity
+- Severidad: Media (objetos invisibles duplicados; una prueba tomaba la copia equivocada).
+- Origen: `ActsSceneSetup` buscaba las raíces con `GameObject.Find`, que ignora objetos inactivos.
+- Corrección: recorrer `scene.GetRootGameObjects()`. La escena regenerada tiene una copia de cada raíz.
+- Estado: CORREGIDO.
+
+### BUG-013 — Excepción de Yarn al salir a mitad de un diálogo
+- Severidad: Baja (excepción en consola; sin efecto en el registro).
+- Origen: `LinePresenter` sigue su fundido asíncrono sobre un `CanvasGroup` ya destruido al cambiar de escena.
+- Corrección: `PauseMenu.EndSession` llama a `DialogueRunner.Stop()` antes de salir; S07 detiene su diálogo al terminar.
+- Estado: CORREGIDO y VERIFICADO (suite PlayMode completa sin excepciones).
+

@@ -121,3 +121,17 @@
   - Cronometrar el tutorial y la sesión.
   - Medir los cuadros por segundo.
 
+## 2026-10-31 — Sprint 3: gatillo en los actos, prueba del rayo XR y limpieza de la escena
+
+- **BUG-011 (alto para el Quest):** en el rig de XRI la acción «Select» es el **grip** y el gatillo es «UI Press». En los actos, ENTREGAR, CORREGIR, la tablet, la carpeta y A–D solo respondían al grip, aunque la guía dice «el gatillo selecciona». `ActsDirector` asigna `selectInput = uiPressInput` en todos los NearFarInteractor, como ya hacía `MainMenuController`.
+- **BUG-012:** `ActsSceneSetup` no borraba las raíces inactivas (`GameObject.Find` no las ve) y la escena acumulaba copias de `Act2Prototype` y `Act3Prototype`. Ahora recorre `scene.GetRootGameObjects()`; la escena regenerada tiene una sola copia de cada uno.
+- **BUG-013:** al salir de la escena a mitad de un diálogo (TERMINAR SESIÓN), el fundido interno de Yarn seguía sobre un `CanvasGroup` destruido. `PauseMenu.EndSession` detiene el diálogo antes de salir.
+- **S07 (pruebas 1 y 2 de la guía, por la vía real de XRI):**
+  - El rayo del mando derecho apunta a la tablet.
+  - Inactiva se ve gris, y el «gatillo» no la selecciona ni registra nada.
+  - Activa se ve celeste al apuntar, y el «gatillo» la selecciona y registra `OpcionAdaptabilidad = 1`.
+  - La selección está ligada a `{TriggerButton}`.
+  - El botón se simula con un lector falso (bypass de XRI); no reemplaza los mandos reales.
+- **Evidencia:** PlayMode **10/10** (`Docs/evidence/S3_tests_playmode.xml`), EditMode 52/53 (`Docs/evidence/S3_tests_editmode.xml`) y capturas regeneradas.
+- **Bloqueo:** en esta PC no hay módulo de Android en ninguna versión de Unity ni `adb`, así que no se pudo compilar el APK ni instalarlo. Hay que hacerlo en la máquina de la tesista (T-01 del tablero), con el Quest 3 conectado.
+
