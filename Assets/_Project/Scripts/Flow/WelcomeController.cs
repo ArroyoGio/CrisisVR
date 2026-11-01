@@ -29,7 +29,7 @@ namespace CrisisVR
         public void Continue()
         {
             if (Application.CanStreamedLevelBeLoaded(nextSceneName))
-                SceneManager.LoadScene(nextSceneName);
+                SceneFader.LoadScene(nextSceneName);
             else
                 Debug.LogError("No se encontró la escena siguiente: " + nextSceneName);
         }

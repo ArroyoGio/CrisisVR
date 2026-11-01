@@ -19,16 +19,16 @@ public class CrisisVRPlayModeTests
         return false;
     }
 
-    // Cargar SampleScene y verificar que no lanza excepciones.
+    // Cargar la pantalla inicial (antes SampleScene, que ya no existe en el proyecto).
     [UnityTest]
-    public IEnumerator E01_CargaSampleScene_SinExcepciones()
+    public IEnumerator E01_CargaMainMenu_SinExcepciones()
     {
-        if (!EnBuildSettings("SampleScene"))
+        if (!EnBuildSettings("MainMenu"))
         {
-            Assert.Ignore("SampleScene no esta en Build Settings; test omitido.");
+            Assert.Ignore("MainMenu no esta en Build Settings; test omitido.");
             yield break;
         }
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("MainMenu");
         yield return null;
         Assert.IsNotNull(SceneManager.GetActiveScene());
         yield break;

@@ -1,0 +1,68 @@
+CrisisVR — 24 combinaciones en Play Mode (Editor, sin visor)
+Fecha: 2026-10-31 21:53 · Unity 6000.3.23f1
+Decisiones por el mismo punto que el rayo XR; CONTINUAR simulado con RequestNextLine; esperas vencidas con DebugExpire.
+
+[OK]    01. Acto1=corregir · Acto2=1 · Acto3=A — CrisisVR_CVR-20261031-215331-B27B.txt (19 s)
+[OK]    02. Acto1=corregir · Acto2=1 · Acto3=B — CrisisVR_CVR-20261031-215353-BEDF.txt (18 s)
+[OK]    03. Acto1=corregir · Acto2=1 · Acto3=C — CrisisVR_CVR-20261031-215411-627D.txt (18 s)
+[OK]    04. Acto1=corregir · Acto2=1 · Acto3=D — CrisisVR_CVR-20261031-215429-C3DE.txt (18 s)
+[OK]    05. Acto1=corregir · Acto2=2 · Acto3=A — CrisisVR_CVR-20261031-215448-3020.txt (19 s)
+[OK]    06. Acto1=corregir · Acto2=2 · Acto3=B — CrisisVR_CVR-20261031-215506-E83E.txt (19 s)
+[OK]    07. Acto1=corregir · Acto2=2 · Acto3=C — CrisisVR_CVR-20261031-215525-25C9.txt (18 s)
+[OK]    08. Acto1=corregir · Acto2=2 · Acto3=D — CrisisVR_CVR-20261031-215542-CBD3.txt (17 s)
+[OK]    09. Acto1=corregir · Acto2=3 · Acto3=A — CrisisVR_CVR-20261031-215600-70A5.txt (18 s)
+[OK]    10. Acto1=corregir · Acto2=3 · Acto3=B — CrisisVR_CVR-20261031-215618-5DF1.txt (18 s)
+[OK]    11. Acto1=corregir · Acto2=3 · Acto3=C — CrisisVR_CVR-20261031-215637-088A.txt (19 s)
+[OK]    12. Acto1=corregir · Acto2=3 · Acto3=D — CrisisVR_CVR-20261031-215655-5CA4.txt (18 s)
+[OK]    13. Acto1=no actúa · Acto2=1 · Acto3=A — CrisisVR_CVR-20261031-215713-A92A.txt (17 s)
+[OK]    14. Acto1=no actúa · Acto2=1 · Acto3=B — CrisisVR_CVR-20261031-215730-AED8.txt (17 s)
+[OK]    15. Acto1=no actúa · Acto2=1 · Acto3=C — CrisisVR_CVR-20261031-215747-F133.txt (17 s)
+[OK]    16. Acto1=no actúa · Acto2=1 · Acto3=D — CrisisVR_CVR-20261031-215804-93D0.txt (17 s)
+[OK]    17. Acto1=no actúa · Acto2=2 · Acto3=A — CrisisVR_CVR-20261031-215821-3A36.txt (17 s)
+[OK]    18. Acto1=no actúa · Acto2=2 · Acto3=B — CrisisVR_CVR-20261031-215838-57CD.txt (18 s)
+[OK]    19. Acto1=no actúa · Acto2=2 · Acto3=C — CrisisVR_CVR-20261031-215856-A8B3.txt (17 s)
+[OK]    20. Acto1=no actúa · Acto2=2 · Acto3=D — CrisisVR_CVR-20261031-215913-9A48.txt (18 s)
+[OK]    21. Acto1=no actúa · Acto2=3 · Acto3=A — CrisisVR_CVR-20261031-215930-95AC.txt (17 s)
+[OK]    22. Acto1=no actúa · Acto2=3 · Acto3=B — CrisisVR_CVR-20261031-215947-D847.txt (17 s)
+[OK]    23. Acto1=no actúa · Acto2=3 · Acto3=C — CrisisVR_CVR-20261031-220004-0498.txt (17 s)
+[OK]    24. Acto1=no actúa · Acto2=3 · Acto3=D — CrisisVR_CVR-20261031-220021-1F82.txt (17 s)
+
+Resultado: 24/24 combinaciones correctas.
+
+Último reporte generado:
+CRISIS VR — REPORTE DESCRIPTIVO DE SESIÓN
+Código de sesión: CVR-20261031-220021-1F82
+Fecha y hora de inicio: 2026-10-31 22:00
+Versión de la aplicación: 0.1.0
+Estado de la sesión: Completa
+
+AVISO DE LÍMITES
+Este reporte describe decisiones y acciones del estudiante en una simulación breve. No constituye un diagnóstico ni una evaluación clínica, no asigna niveles ni puntajes y no reemplaza el criterio del profesional de Psicopedagogía.
+
+SITUACIÓN 1 — Retroalimentación negativa del docente
+Situación diseñada en relación con: autorregulación emocional (marco del proyecto; no se mide).
+Lo que ocurrió: el estudiante entregó su proyecto y el docente le comunicó una calificación de 08 sobre 20 y la retroalimentación correspondiente.
+Decisión registrada: tras recibir la retroalimentación, el estudiante no seleccionó ninguna acción durante el tiempo disponible, y la sesión continuó.
+Pregunta orientadora: ¿Qué pensabas mientras escuchabas la retroalimentación del profesor?
+
+SITUACIÓN 2 — Aviso de cambio de modalidad y de grupo
+Situación diseñada en relación con: adaptabilidad (marco del proyecto; no se mide).
+Lo que ocurrió: llegó un aviso de cambio de la práctica a modalidad virtual y de reorganización de los grupos; apareció un compañero nuevo.
+Decisión registrada: ante el aviso, el estudiante no seleccionó ninguna opción durante el tiempo disponible, y la sesión continuó.
+Pregunta orientadora: ¿Qué te llevó a elegir esa opción (o a no elegir)?
+
+SITUACIÓN 3 — Reunión de equipo
+Situación diseñada en relación con: trabajo en equipo (marco del proyecto; no se mide).
+Lo que ocurrió: en una videollamada, dos compañeros discreparon sobre el reparto de tareas y un integrante informó que no tenía lista su parte.
+Decisión registrada: ante el conflicto en el equipo, el estudiante eligió la opción: «Prefiero esperar a ver qué deciden ustedes.»
+Pregunta orientadora: ¿Qué pensaste mientras tus compañeros discutían?
+
+CALIDAD DEL REGISTRO
+Situación 1 completada: sí
+Situación 2 completada: sí
+Situación 3 completada: sí
+En las situaciones 1 y 2, la ausencia de selección se determina porque vence un tiempo de espera definido en el diseño; no se mide el tiempo de respuesta del estudiante.
+
+LIMITACIONES DE INTERPRETACIÓN
+Este reporte refleja una decisión por situación en una simulación acotada. Una decisión puede obedecer a razones muy distintas. Solo cobra sentido dentro de la conversación del profesional con el estudiante y junto con otras fuentes de información.
+

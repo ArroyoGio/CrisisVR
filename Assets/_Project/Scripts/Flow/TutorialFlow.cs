@@ -28,7 +28,10 @@ namespace CrisisVR
         public string approachFeedback = "Acércate al panel para ver mejor las indicaciones. Puedes moverte libremente.";
         public string facingFeedback = "Gira hacia el panel del tutorial para ver las indicaciones. Puedes reorientarte libremente.";
 
-        void Start() { index = 0; Show(); }
+        float startedAt;
+        public float LastDurationSeconds { get; private set; }
+
+        void Start() { index = 0; startedAt = Time.realtimeSinceStartup; Show(); }
         void Update()
                 {
                     if (IsPaused) return;
@@ -104,9 +107,13 @@ void SetStepFeedback(string message)
             if (CurrentStep == TutorialStep.Finished && !notified)
             {
                 notified = true;
+                // Cronometraje pedido por la tesista: solo se escribe en la consola como evidencia de prueba;
+                // no se guarda en la sesión ni en el reporte (no es un dato del estudiante).
+                LastDurationSeconds = Time.realtimeSinceStartup - startedAt;
+                Debug.Log($"TUTORIAL_DURACION: {LastDurationSeconds:0.0} s");
                 onFinished.Invoke();
                 if (Application.CanStreamedLevelBeLoaded(nextSceneName))
-                    SceneManager.LoadScene(nextSceneName);
+                    SceneFader.LoadScene(nextSceneName);
                 else
                     Debug.LogError("No se encontró la escena siguiente al tutorial: " + nextSceneName);
             }

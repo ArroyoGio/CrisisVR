@@ -69,3 +69,70 @@
 - La primera revisión del spam de affordance no alcanzaba ningún receptor: `TutorialWorld` y `TutorialPlayer` son raíces hermanas. Ahora `TutorialInputRouter` busca los receptores bajo `playerOrigin`, que sí contiene los cuatro componentes Poke/NearFar de los dos mandos.
 - Unity recompiló; en Play Mode los cuatro receptores tienen `affordanceTheme` y la consola no reporta errores XRI. Probé Space en la vista Game: está ligado al gatillo simulado, no al movimiento; el Transform de `TutorialPlayer` permaneció en `(70.98415, 0.0593582, -16.5656815)`.
 - Tutorial queda en Play Mode para continuar la revisión. Build y hardware Quest: **SIN VERIFICAR**.
+
+## 2026-10-27 a 2026-10-31 — Sprint 1: Actos 2 y 3, pausa, cierre y reporte completo
+
+- Agentes: Claude (Claude Code) coordinó y escribió la capa Unity; Codex (gpt-6-astra) escribió `CrisisVR.Logic` con sus pruebas y revisó el diff (8 hallazgos, todos corregidos). Decisiones en `Docs/DECISIONES.md` (entrada del 27/10).
+- Hecho:
+  - Actos 2 y 3 en `Act1.unity`, armados con `CrisisVR/Actos 2 y 3/Preparar actos, pausa y cierre` (`ActsSceneSetup`).
+  - Encadenamiento 1 → 2 → 3 → cierre (`ActsDirector`), pausa con TERMINAR SESIÓN (`PauseMenu`), cierre con panel para quien conduce (`ClosingFlow`) y fundido a negro entre escenas (`SceneFader`).
+  - Reporte completo de tres situaciones, código de sesión con el formato de la guía y esperas que se congelan en pausa.
+  - Build: orden MainMenu → Welcome → Tutorial → Act1 y `BasicScene` retirada; paquete Android `com.crisisvr.prototipo`, versión 0.1.0.
+- Corrección importante: en Yarn Spinner 3, `StartDialogue` vuelve al **arrancar** el nodo. El Acto 1 encadenaba nodos sin esperar a que terminaran; ahora todos los actos esperan `DialogueRunner.DialogueTask`.
+- Evidencia:
+  - **COMPILA:** Unity 6000.3.23f1 en batchmode, 0 errores C# (`ActsSceneSetup.PrepareBatch` terminó con código 0 y guardó la escena).
+  - **Lógica PROBADA fuera de Unity:** `dotnet test` del `CrisisVR.Logic` dio 44/44, incluidas las 24 combinaciones del reporte, el reporte interrumpido, el código de sesión y el temporizador con pausa.
+- **SIN VERIFICAR:**
+  - El Test Runner de Unity en batchmode se colgó dos veces en la recarga de dominio previa a la primera prueba, así que no hay XML de EditMode ni PlayMode.
+  - Las pruebas `CrisisVRSessionPlayTests` (S01–S03: sesiones completas, pausa y TERMINAR SESIÓN) existen, pero no se han ejecutado.
+  - No se probó en Play Mode interactivo, en el simulador ni en el Quest.
+  - Las capturas de `EvidenceCapture` no se generaron.
+- Pendiente (sprint 2):
+  - Correr el Test Runner desde el Editor abierto (EditMode, PlayMode y G01, que quedó `Explicit`).
+  - Revisar en Play Mode el encuadre y la legibilidad de los textos de los Actos 2 y 3.
+  - Build and Run en el Quest 3 de la tesista y prueba de confort con una persona.
+  - Cronometrar el tutorial y la sesión completa.
+
+## 2026-10-31 — Sprint 2: verificación en Unity y correcciones
+
+- Agentes: Claude (Claude Code) ejecutó y diagnosticó en Unity; Codex (gpt-6-astra) revisó el diff del sprint 2 y encontró que S04 no comprobaba las decisiones en el texto del reporte. Se corrigió.
+- **BUG-009 (alto), encontrado al ejecutar:**
+  - Síntoma: la sesión se trababa en el Acto 2 después del aviso.
+  - Causa: la continuación de `await DialogueTask` corre dentro de `OnDialogueCompleteAsync` del diálogo anterior, y el Acto 2 iniciaba el siguiente nodo ahí mismo.
+  - Corrección: antes de cada `StartDialogue` se espera a que el runner quede libre y se cede un frame. El Acto 1 no lo sufría porque nunca encadena dos nodos seguidos.
+- **Presentación corregida tras revisar las capturas:**
+  - Las opciones del Acto 3 salían en orden D–A, porque el estudiante mira hacia −Z.
+  - Las opciones tapaban la videollamada.
+  - Los rótulos de la carpeta y la tablet no se leían; ahora tienen carteles verticales.
+  - Rodrigo estaba demasiado cerca de la cámara.
+- **BUG-008:** su causa principal fue la recarga de dominio que provocaba `EditorBuildSetup`, porque el orden de escenas nunca quedó guardado, y también editar scripts mientras Unity corría. Persiste un cuelgue intermitente de la recarga del Test Runner en EditMode: se reintenta con tope de tiempo.
+- **Evidencia (Unity 6000.3.23f1, Editor, sin visor):**
+  - PlayMode **7/7**: cargas de MainMenu, Act1 y Tutorial; S01 y S02, sesiones completas; S03, pausa que congela la espera y TERMINAR SESIÓN con reporte «Interrumpida»; S04, **24/24 combinaciones**, con reportes coincidentes y un archivo por sesión. Ver `Docs/evidence/S2_tests_playmode.xml` y `Docs/evidence/S2_recorrido_24_combinaciones.txt`.
+  - EditMode **52/53**: 0 fallos y 1 omitida (G01, `Explicit`); incluye las 44 pruebas de `CrisisVR.Logic`. Ver `Docs/evidence/S2_tests_editmode.xml`.
+  - Capturas de Edit Mode desde la posición del estudiante: `Docs/evidence/S1_act2_*.png`, `S1_act3_*.png` y `S1_cierre_*.png`.
+  - PlayMode S05 y S06 (`Docs/evidence/S2_tests_playmode_S05_S06.xml`, 2/2):
+    - S05: el recordatorio del Acto 3 aparece a los 90 s de juego (tiempo acelerado ×10), queda visible y no registra nada.
+    - S06: pausar a mitad de un diálogo oculta el panel y conserva el nodo; CONTINUAR retoma en el mismo punto.
+- **SIN VERIFICAR:** entrada real con el XR Interaction Simulator o con mandos, el Meta Quest 3 (build e instalación), el rendimiento, el confort y el tiempo real de una sesión con lectura humana.
+- Pendiente (sprint 3, requiere a la tesista con el visor):
+  - Build and Run en el Quest 3.
+  - Copiar un reporte por USB.
+  - Prueba de confort con consentimiento.
+  - Cronometrar el tutorial y la sesión.
+  - Medir los cuadros por segundo.
+
+## 2026-10-31 — Sprint 3: gatillo en los actos, prueba del rayo XR y limpieza de la escena
+
+- **BUG-011 (alto para el Quest):** en el rig de XRI la acción «Select» es el **grip** y el gatillo es «UI Press». En los actos, ENTREGAR, CORREGIR, la tablet, la carpeta y A–D solo respondían al grip, aunque la guía dice «el gatillo selecciona». `ActsDirector` asigna `selectInput = uiPressInput` en todos los NearFarInteractor, como ya hacía `MainMenuController`.
+- **BUG-012:** `ActsSceneSetup` no borraba las raíces inactivas (`GameObject.Find` no las ve) y la escena acumulaba copias de `Act2Prototype` y `Act3Prototype`. Ahora recorre `scene.GetRootGameObjects()`; la escena regenerada tiene una sola copia de cada uno.
+- **BUG-013:** al salir de la escena a mitad de un diálogo (TERMINAR SESIÓN), el fundido interno de Yarn seguía sobre un `CanvasGroup` destruido. `PauseMenu.EndSession` detiene el diálogo antes de salir.
+- **S07 (pruebas 1 y 2 de la guía, por la vía real de XRI):**
+  - El rayo del mando derecho apunta a la tablet.
+  - Inactiva se ve gris, y el «gatillo» no la selecciona ni registra nada.
+  - Activa se ve celeste al apuntar, y el «gatillo» la selecciona y registra `OpcionAdaptabilidad = 1`.
+  - La selección está ligada a `{TriggerButton}`.
+  - El botón se simula con un lector falso (bypass de XRI); no reemplaza los mandos reales.
+- **Evidencia:** PlayMode **10/10** (`Docs/evidence/S3_tests_playmode.xml`), EditMode 52/53 (`Docs/evidence/S3_tests_editmode.xml`) y capturas regeneradas.
+- **Bloqueo:** en esta PC no hay módulo de Android en ninguna versión de Unity ni `adb`, así que no se pudo compilar el APK ni instalarlo. Hay que hacerlo en la máquina de la tesista (T-01 del tablero), con el Quest 3 conectado.
+- **Verificación de player (Windows):** `BuildWindowsCheck` compiló un player de Windows 64 con Mono, con las cuatro escenas del build, y terminó en `Succeeded`. Confirma que el código de tiempo de ejecución compila fuera del Editor (sin dependencias de `UnityEditor`). No reemplaza el build de Android/IL2CPP para el Quest, que sigue pendiente del módulo de Android.
+

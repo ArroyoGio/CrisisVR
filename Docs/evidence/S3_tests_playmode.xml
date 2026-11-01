@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="10" result="Passed" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-01 02:52:16Z" end-time="2026-11-01 03:01:07Z" duration="530.9622594">
+  <test-suite type="TestSuite" id="1018" name="CrisisVR" fullname="CrisisVR" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-01 02:52:16Z" end-time="2026-11-01 03:01:07Z" duration="530.962259" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1014" name="CrisisVR.Tests.PlayMode.dll" fullname="C:/Users/Alumno/Desktop/Tesis Tecsup 2026/2026-arroyo-crisisvr/03-datos/CrisisVR/Library/ScriptAssemblies/CrisisVR.Tests.PlayMode.dll" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-11-01 02:52:16Z" end-time="2026-11-01 03:01:07Z" duration="530.930353" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="46936" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="CrisisVRPlayModeTests" fullname="CrisisVRPlayModeTests" classname="CrisisVRPlayModeTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-01 02:52:16Z" end-time="2026-11-01 02:52:27Z" duration="11.063921" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1002" name="E01_CargaMainMenu_SinExcepciones" fullname="CrisisVRPlayModeTests.E01_CargaMainMenu_SinExcepciones" methodname="E01_CargaMainMenu_SinExcepciones" classname="CrisisVRPlayModeTests" runstate="Runnable" seed="1604766314" result="Passed" start-time="2026-11-01 02:52:16Z" end-time="2026-11-01 02:52:18Z" duration="2.003218" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1003" name="E02_CargaAct1_SinExcepciones" fullname="CrisisVRPlayModeTests.E02_CargaAct1_SinExcepciones" methodname="E02_CargaAct1_SinExcepciones" classname="CrisisVRPlayModeTests" runstate="Runnable" seed="1323286479" result="Passed" start-time="2026-11-01 02:52:18Z" end-time="2026-11-01 02:52:23Z" duration="5.182200" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 01 ACTO1_INICIO
+]]></output>
+        </test-case>
+        <test-case id="1004" name="E03_CargaTutorial_SinExcepciones" fullname="CrisisVRPlayModeTests.E03_CargaTutorial_SinExcepciones" methodname="E03_CargaTutorial_SinExcepciones" classname="CrisisVRPlayModeTests" runstate="Runnable" seed="871593834" result="Passed" start-time="2026-11-01 02:52:23Z" end-time="2026-11-01 02:52:27Z" duration="3.852010" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+User not signed in. Please sign in if you want your tutorials progress to be tracked
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1005" name="CrisisVRRayPlayTests" fullname="CrisisVRRayPlayTests" classname="CrisisVRRayPlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-01 02:52:27Z" end-time="2026-11-01 02:52:39Z" duration="12.326135" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <output><![CDATA[To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+]]></output>
+        <test-case id="1006" name="S07_RayoYGatillo_BotonActivoEInactivo" fullname="CrisisVRRayPlayTests.S07_RayoYGatillo_BotonActivoEInactivo" methodname="S07_RayoYGatillo_BotonActivoEInactivo" classname="CrisisVRRayPlayTests" runstate="Runnable" seed="1389223355" result="Passed" start-time="2026-11-01 02:52:27Z" end-time="2026-11-01 02:52:39Z" duration="12.017513" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="Timeout" value="300000" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[SESSION_EVENT: 02 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 03 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215217-208F.txt
+SESSION_EVENT: 06 ACTO2_INICIO
+SESSION_EVENT: 07 ACTO2_AVISO
+Failed to get haptic capabilities of XRSimulatedController:/XRSimulatedController1, error code -1. Continuing assuming a single haptic channel.
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1007" name="CrisisVRSessionPlayTests" fullname="CrisisVRSessionPlayTests" classname="CrisisVRSessionPlayTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-11-01 02:52:39Z" end-time="2026-11-01 03:01:07Z" duration="507.525110" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1008" name="S01_SesionCompleta_Corregir_PlanNuevo_A" fullname="CrisisVRSessionPlayTests.S01_SesionCompleta_Corregir_PlanNuevo_A" methodname="S01_SesionCompleta_Corregir_PlanNuevo_A" classname="CrisisVRSessionPlayTests" runstate="Runnable" seed="1429794874" result="Passed" start-time="2026-11-01 02:52:39Z" end-time="2026-11-01 02:52:58Z" duration="19.102567" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="Timeout" value="300000" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[SESSION_EVENT: 09 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 10 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215217-208F.txt
+SESSION_EVENT: 11 ACTO2_INICIO
+SESSION_EVENT: 12 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215217-208F.txt
+SESSION_EVENT: 14 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215217-208F.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+S01 reporte: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215217-208F.txt
+]]></output>
+        </test-case>
+        <test-case id="1009" name="S02_SesionCompleta_NoActua_SinAccion_D" fullname="CrisisVRSessionPlayTests.S02_SesionCompleta_NoActua_SinAccion_D" methodname="S02_SesionCompleta_NoActua_SinAccion_D" classname="CrisisVRSessionPlayTests" runstate="Runnable" seed="699580987" result="Passed" start-time="2026-11-01 02:52:58Z" end-time="2026-11-01 02:53:17Z" duration="18.577509" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="Timeout" value="300000" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215300-883C.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215300-883C.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215300-883C.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+S02 reporte: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215300-883C.txt
+]]></output>
+        </test-case>
+        <test-case id="1013" name="S03_PausaCongelaEspera_Y_TerminarSesionEnActo2" fullname="CrisisVRSessionPlayTests.S03_PausaCongelaEspera_Y_TerminarSesionEnActo2" methodname="S03_PausaCongelaEspera_Y_TerminarSesionEnActo2" classname="CrisisVRSessionPlayTests" runstate="Runnable" seed="698171821" result="Passed" start-time="2026-11-01 02:53:17Z" end-time="2026-11-01 02:53:32Z" duration="15.044285" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="Timeout" value="300000" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+SESSION_EVENT: 03 PAUSA
+SESSION_EVENT: 04 REANUDACION
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215318-F31B.txt
+SESSION_EVENT: 07 ACTO2_INICIO
+SESSION_EVENT: 08 ACTO2_AVISO
+SESSION_EVENT: 09 PAUSA
+SESSION_EVENT: 10 TERMINAR_SESION
+Reporte guardado (Interrumpida) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215318-F31B.txt
+]]></output>
+        </test-case>
+        <test-case id="1010" name="S04_VeinticuatroCombinaciones_ReporteCoincide" fullname="CrisisVRSessionPlayTests.S04_VeinticuatroCombinaciones_ReporteCoincide" methodname="S04_VeinticuatroCombinaciones_ReporteCoincide" classname="CrisisVRSessionPlayTests" runstate="Runnable" seed="1857972021" result="Passed" start-time="2026-11-01 02:53:32Z" end-time="2026-11-01 03:00:37Z" duration="425.471554" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="Timeout" value="1800000" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215331-B27B.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215331-B27B.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215331-B27B.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215353-BEDF.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215353-BEDF.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215353-BEDF.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215411-627D.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215411-627D.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215411-627D.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215429-C3DE.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215429-C3DE.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215429-C3DE.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215448-3020.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215448-3020.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215448-3020.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215506-E83E.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215506-E83E.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215506-E83E.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215525-25C9.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215525-25C9.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215525-25C9.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215542-CBD3.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215542-CBD3.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215542-CBD3.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215600-70A5.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215600-70A5.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215600-70A5.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215618-5DF1.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215618-5DF1.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215618-5DF1.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215637-088A.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215637-088A.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215637-088A.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215655-5CA4.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215655-5CA4.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215655-5CA4.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215713-A92A.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215713-A92A.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215713-A92A.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215730-AED8.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215730-AED8.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215730-AED8.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215747-F133.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215747-F133.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215747-F133.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215804-93D0.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215804-93D0.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215804-93D0.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215821-3A36.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215821-3A36.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215821-3A36.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215838-57CD.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215838-57CD.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215838-57CD.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215856-A8B3.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215856-A8B3.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215856-A8B3.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215913-9A48.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215913-9A48.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215913-9A48.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215930-95AC.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215930-95AC.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215930-95AC.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215947-D847.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215947-D847.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-215947-D847.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-220004-0498.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-220004-0498.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-220004-0498.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+ACT1_DECISION: Reintento=false
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-220021-1F82.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-220021-1F82.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+Reporte guardado (Completa) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-220021-1F82.txt
+SESSION_EVENT (sesión cerrada, no se registra): CIERRE
+]]></output>
+        </test-case>
+        <test-case id="1011" name="S05_RecordatorioActo3_NoRegistra" fullname="CrisisVRSessionPlayTests.S05_RecordatorioActo3_NoRegistra" methodname="S05_RecordatorioActo3_NoRegistra" classname="CrisisVRSessionPlayTests" runstate="Runnable" seed="509463918" result="Passed" start-time="2026-11-01 03:00:37Z" end-time="2026-11-01 03:01:02Z" duration="24.494049" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="Timeout" value="300000" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[SESSION_EVENT: 01 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 02 ACTO1_ENTREGA_ENVIADA
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-220038-2837.txt
+SESSION_EVENT: 05 ACTO2_INICIO
+SESSION_EVENT: 06 ACTO2_AVISO
+Reporte guardado (En curso) en: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\CrisisVR_CVR-20261031-220038-2837.txt
+SESSION_EVENT: 09 ACTO3_INICIO
+]]></output>
+        </test-case>
+        <test-case id="1012" name="S06_PausaMitadDialogo_SigueMismoPunto" fullname="CrisisVRSessionPlayTests.S06_PausaMitadDialogo_SigueMismoPunto" methodname="S06_PausaMitadDialogo_SigueMismoPunto" classname="CrisisVRSessionPlayTests" runstate="Runnable" seed="1139786577" result="Passed" start-time="2026-11-01 03:01:02Z" end-time="2026-11-01 03:01:07Z" duration="4.799752" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="Timeout" value="300000" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[SESSION_EVENT: 10 ACTO1_INICIO
+To avoid interfering with point and click interactions, XRUIInputModule mouse and touch input will be disabled while the simulated devices are active.
+SESSION_EVENT: 11 PAUSA
+SESSION_EVENT: 12 REANUDACION
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:/Users/Alumno/AppData/LocalLow/DefaultCompany/CrisisVR\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
