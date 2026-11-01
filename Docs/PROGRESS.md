@@ -134,4 +134,5 @@
   - El botón se simula con un lector falso (bypass de XRI); no reemplaza los mandos reales.
 - **Evidencia:** PlayMode **10/10** (`Docs/evidence/S3_tests_playmode.xml`), EditMode 52/53 (`Docs/evidence/S3_tests_editmode.xml`) y capturas regeneradas.
 - **Bloqueo:** en esta PC no hay módulo de Android en ninguna versión de Unity ni `adb`, así que no se pudo compilar el APK ni instalarlo. Hay que hacerlo en la máquina de la tesista (T-01 del tablero), con el Quest 3 conectado.
+- **Verificación de player (Windows):** `BuildWindowsCheck` compiló un player de Windows 64 con Mono, con las cuatro escenas del build, y terminó en `Succeeded`. Confirma que el código de tiempo de ejecución compila fuera del Editor (sin dependencias de `UnityEditor`). No reemplaza el build de Android/IL2CPP para el Quest, que sigue pendiente del módulo de Android.
 
