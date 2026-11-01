@@ -93,3 +93,28 @@
   - Build and Run en el Quest 3 de la tesista y prueba de confort con una persona.
   - Cronometrar el tutorial y la sesión completa.
 
+## 2026-10-31 — Sprint 2: verificación en Unity y correcciones
+
+- Agentes: Claude (Claude Code) ejecutó y diagnosticó en Unity; Codex (gpt-6-astra) revisó el diff del sprint 2 y encontró que S04 no comprobaba las decisiones en el texto del reporte. Se corrigió.
+- **BUG-009 (alto), encontrado al ejecutar:**
+  - Síntoma: la sesión se trababa en el Acto 2 después del aviso.
+  - Causa: la continuación de `await DialogueTask` corre dentro de `OnDialogueCompleteAsync` del diálogo anterior, y el Acto 2 iniciaba el siguiente nodo ahí mismo.
+  - Corrección: antes de cada `StartDialogue` se espera a que el runner quede libre y se cede un frame. El Acto 1 no lo sufría porque nunca encadena dos nodos seguidos.
+- **Presentación corregida tras revisar las capturas:**
+  - Las opciones del Acto 3 salían en orden D–A, porque el estudiante mira hacia −Z.
+  - Las opciones tapaban la videollamada.
+  - Los rótulos de la carpeta y la tablet no se leían; ahora tienen carteles verticales.
+  - Rodrigo estaba demasiado cerca de la cámara.
+- **BUG-008:** su causa principal fue la recarga de dominio que provocaba `EditorBuildSetup`, porque el orden de escenas nunca quedó guardado, y también editar scripts mientras Unity corría. Persiste un cuelgue intermitente de la recarga del Test Runner en EditMode: se reintenta con tope de tiempo.
+- **Evidencia (Unity 6000.3.23f1, Editor, sin visor):**
+  - PlayMode **7/7**: cargas de MainMenu, Act1 y Tutorial; S01 y S02, sesiones completas; S03, pausa que congela la espera y TERMINAR SESIÓN con reporte «Interrumpida»; S04, **24/24 combinaciones**, con reportes coincidentes y un archivo por sesión. Ver `Docs/evidence/S2_tests_playmode.xml` y `Docs/evidence/S2_recorrido_24_combinaciones.txt`.
+  - EditMode **52/53**: 0 fallos y 1 omitida (G01, `Explicit`); incluye las 44 pruebas de `CrisisVR.Logic`. Ver `Docs/evidence/S2_tests_editmode.xml`.
+  - Capturas de Edit Mode desde la posición del estudiante: `Docs/evidence/S1_act2_*.png`, `S1_act3_*.png` y `S1_cierre_*.png`.
+- **SIN VERIFICAR:** entrada real con el XR Interaction Simulator o con mandos, el Meta Quest 3 (build e instalación), el rendimiento, el confort y el tiempo real de una sesión con lectura humana.
+- Pendiente (sprint 3, requiere a la tesista con el visor):
+  - Build and Run en el Quest 3.
+  - Copiar un reporte por USB.
+  - Prueba de confort con consentimiento.
+  - Cronometrar el tutorial y la sesión.
+  - Medir los cuadros por segundo.
+

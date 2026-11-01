@@ -118,6 +118,7 @@ namespace CrisisVR.Editor
             var folder = Selectable(root, "carpeta_plan_original", "carpeta", new Vector3(desk.x - .34f, deskTop, desk.z + .02f),
                 new Vector3(.24f, .03f, .32f), Mat("Acts23 carpeta", new Color(.55f, .42f, .22f)));
             FlatLabel(folder.transform, "PLAN ORIGINAL\npráctica presencial", .032f, new Vector3(0, .032f, 0), Color.white);
+            StandingSign(folder.transform, "PLAN ORIGINAL\npráctica presencial", new Color(.55f, .42f, .22f));
 
             var tablet = Selectable(root, "tablet_plan_nuevo", "tablet_plan", new Vector3(desk.x + .34f, deskTop, desk.z + .02f),
                 new Vector3(.26f, .018f, .18f), Mat("Acts23 tablet", new Color(.1f, .1f, .12f)));
@@ -127,13 +128,15 @@ namespace CrisisVR.Editor
             var glass = Box(screen.transform, "Vidrio", new Vector3(0, .0195f, 0), new Vector3(.23f, .002f, .15f), Mat("Acts23 pantalla tablet", new Color(.2f, .55f, .75f)));
             UnityEngine.Object.DestroyImmediate(glass.GetComponent<Collider>());
             FlatLabel(screen.transform, "PLAN NUEVO\npráctica virtual", .028f, new Vector3(0, .022f, 0), Color.white);
+            StandingSign(screen.transform, "PLAN NUEVO\npráctica virtual", new Color(.2f, .55f, .75f));
             screen.SetActive(false);
 
             var notice = Panel(root, "aviso_panel", new Vector3(15.5f, 1.62f, -69.4f), new Vector2(1.5f, .42f), Mat("Acts23 aviso", new Color(.09f, .2f, .36f)));
             PanelLabel(notice.transform, "AVISO DEL CAMPUS\nLa práctica de hoy pasa a modalidad virtual.\nLos grupos se han reorganizado.", .055f, new Vector2(1.4f, .36f));
             notice.SetActive(false);
 
-            var rodrigo = Npc(root, "Rodrigo (placeholder visual)", new Vector3(14.55f, 0f, -67.45f), new Color(.2f, .45f, .3f));
+            // A un costado del escritorio, a ~2,6 m del estudiante, para no tapar la vista.
+            var rodrigo = Npc(root, "Rodrigo (placeholder visual)", new Vector3(14.45f, 0f, -68.55f), new Color(.2f, .45f, .3f));
             rodrigo.SetActive(false);
             return (folder.GetComponent<XRSimpleInteractable>(), tablet.GetComponent<XRSimpleInteractable>(), screen, notice, rodrigo);
         }
@@ -167,17 +170,19 @@ namespace CrisisVR.Editor
             for (int code = DecisionCodes.Team_A; code <= DecisionCodes.Team_D; code++)
             {
                 string letter = DecisionCodes.TeamLetter(code);
-                float x = 15.5f + (-.69f + .46f * (code - 1));
+                // El estudiante mira hacia −Z, así que su izquierda es +X: A queda en el X mayor.
+                float x = 15.5f + (.63f - .42f * (code - 1));
                 var button = new GameObject("opcion_" + letter);
                 button.transform.SetParent(optionsRoot.transform, false);
-                button.transform.position = new Vector3(x, 1.08f, -67.25f);
+                // Más bajos y cerca, para no tapar la videollamada.
+                button.transform.position = new Vector3(x, .9f, -67.05f);
                 button.transform.rotation = FacingPlayer;
-                var visual = Box(button.transform, "Fondo", Vector3.zero, new Vector3(.43f, .27f, .025f), Mat("Acts23 opción", new Color(.13f, .38f, .78f)));
+                var visual = Box(button.transform, "Fondo", Vector3.zero, new Vector3(.40f, .24f, .025f), Mat("Acts23 opción", new Color(.13f, .38f, .78f)));
                 var interactable = button.AddComponent<XRSimpleInteractable>();
                 var highlight = button.AddComponent<SelectableHighlight>();
                 Assign(highlight, ("target", visual.GetComponent<Renderer>()));
                 highlight.id = letter;
-                PanelLabel(button.transform, letter + "\n" + ReportTexts.Act3OptionText(code), .022f, new Vector2(.4f, .25f), new Vector3(0, 0, -.016f));
+                PanelLabel(button.transform, letter + "\n" + ReportTexts.Act3OptionText(code), .021f, new Vector2(.37f, .22f), new Vector3(0, 0, -.016f));
                 options[code - 1] = interactable;
             }
             optionsRoot.SetActive(false);
@@ -363,6 +368,17 @@ namespace CrisisVR.Editor
             text.enableWordWrapping = true;
             text.rectTransform.sizeDelta = area;
             return text;
+        }
+
+        // Cartel vertical sobre un objeto del escritorio: el rótulo tendido no se lee desde la silla.
+        static void StandingSign(Transform parent, string value, Color color)
+        {
+            var sign = new GameObject("Cartel");
+            sign.transform.SetParent(parent, false);
+            sign.transform.localPosition = new Vector3(0, .17f, .06f);
+            sign.transform.localRotation = Quaternion.identity;
+            Box(sign.transform, "Fondo", Vector3.zero, new Vector3(.26f, .1f, .006f), Mat("Acts23 cartel " + ColorUtility.ToHtmlStringRGB(color), color));
+            PanelLabel(sign.transform, value, .028f, new Vector2(.25f, .09f), new Vector3(0, 0, -.005f));
         }
 
         // Texto 3D tendido sobre el escritorio, legible desde la silla del estudiante.

@@ -50,13 +50,13 @@ Formato y severidades en `QA_PROTOCOL.md` §4 y §5. Un bug se cierra solo con r
 - Severidad: Alta (el flujo podía mostrar ENTREGAR o las opciones antes de terminar el diálogo y reemplazar nodos activos).
 - Origen: en Yarn Spinner 3.2.8, `DialogueRunner.StartDialogue` termina al arrancar el nodo, no al acabarlo (`Runtime/DialogueRunner/DialogueRunner.cs`). Lo detectó la revisión de Codex del sprint 1.
 - Corrección: `PlayNode` de los tres actos espera además `DialogueRunner.DialogueTask`.
-- Estado: CORREGIDO, SIN VERIFICAR en Play Mode.
+- Estado: CORREGIDO y VERIFICADO en Play Mode (S01–S04, sprint 2).
 
 ### BUG-006 — La espera de 45 s del Acto 1 seguía corriendo en pausa
 - Severidad: Media (la guía exige que el reloj se detenga en la pausa).
 - Origen: `Act1Flow` comparaba contra `Time.unscaledTime`.
-- Corrección: `DecisionTimer` (CrisisVR.Logic) con tiempo de juego y pausa explícita; cubierto por pruebas unitarias (dotnet 44/44) y por S03 (pendiente de ejecutar).
-- Estado: CORREGIDO; lógica verificada, Play Mode sin verificar.
+- Corrección: `DecisionTimer` (CrisisVR.Logic) con tiempo de juego y pausa explícita; cubierto por pruebas unitarias y por S03.
+- Estado: CORREGIDO y VERIFICADO en Play Mode (S03: 3 s en pausa sin que avance la espera; la selección en pausa se ignora).
 
 ### BUG-007 — El build arrancaba en Tutorial e incluía una escena inexistente
 - Severidad: Media (se saltaba la pantalla inicial y la bienvenida; `BasicScene.unity` no existe).
@@ -67,5 +67,22 @@ Formato y severidades en `QA_PROTOCOL.md` §4 y §5. Un bug se cierra solo con r
 - Severidad: Media (impide generar XML de evidencia desde la línea de comandos).
 - Pasos: `Unity -batchmode -nographics -runTests -testPlatform EditMode` con Unity 6000.3.23f1.
 - Obtenido: tras «Running tests for ExecutionSettings», Unity recarga los ensamblados y no avanza (log detenido durante días).
-- Estado: ABIERTO. Probar desde el Editor abierto o con 6000.3.9f1 y revisar los `[InitializeOnLoad]` que tocan la configuración (p. ej. `EditorBuildSetup`).
+- Causa principal (sprint 2): `EditorBuildSetup` reescribía en cada carga el orden de escenas, que nunca quedó guardado, y además se editaban scripts durante la corrida. Corregido el orden en `EditorBuildSettings.asset`, PlayMode corrió completo (7/7).
+- Persiste: la recarga de dominio con que el Test Runner inicia EditMode se cuelga de forma intermitente (1 de 3 corridas). Mitigación: reintentar con tope de tiempo.
+- Estado: MITIGADO.
+
+### BUG-009 — La sesión se trababa en el Acto 2 después del aviso
+- Severidad: Alta (la sesión no llegaba a la decisión del Acto 2 ni al reporte final).
+- Pasos: recorrer Acto 1 → Acto 2 en Play Mode (prueba S01 del sprint 1).
+- Obtenido: tras `ACTO2_AVISO` no avanzaba. La continuación de `await DialogueTask` se ejecuta dentro de `DialogueRunner.OnDialogueCompleteAsync`, y llamar ahí a `StartDialogue` deja el diálogo nuevo en un estado inconsistente.
+- Corrección: antes de cada `StartDialogue`, esperar `!IsDialogueRunning` y `YarnTask.Yield()` (Act1Flow, Act2Flow y Act3Flow).
+- Prueba de regresión: S01–S04 (PlayMode), 7/7 aprobadas.
+- Estado: CORREGIDO y VERIFICADO en Play Mode.
+
+### BUG-010 — Presentación de los Actos 2 y 3
+- Severidad: Media (afecta la validez del orden fijo A–D y la legibilidad).
+- Obtenido en las capturas del sprint 1: opciones en orden D–A, botones que tapaban la videollamada, rótulos ilegibles en la carpeta y la tablet, y Rodrigo demasiado cerca de la cámara.
+- Corrección: `ActsSceneSetup` (orden según la izquierda del estudiante, botones más bajos, carteles verticales, Rodrigo a ~2,6 m).
+- Evidencia: `Docs/evidence/S1_act2_*.png` y `S1_act3_*.png` regeneradas.
+- Estado: CORREGIDO en Editor; pendiente de revisar dentro del visor.
 

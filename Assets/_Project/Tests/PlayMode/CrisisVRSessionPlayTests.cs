@@ -87,7 +87,8 @@ public class CrisisVRSessionPlayTests
         }
     }
 
-    [UnityTest]
+    // Una sesión completa supera los 180 s que UnityTest permite por defecto.
+    [UnityTest, Timeout(300000)]
     public IEnumerator S01_SesionCompleta_Corregir_PlanNuevo_A()
     {
         yield return RunSession(true, 1, 1);
@@ -110,7 +111,8 @@ public class CrisisVRSessionPlayTests
         Debug.Log("S01 reporte: " + path);
     }
 
-    [UnityTest]
+    // Una sesión completa supera los 180 s que UnityTest permite por defecto.
+    [UnityTest, Timeout(300000)]
     public IEnumerator S02_SesionCompleta_NoActua_SinAccion_D()
     {
         yield return RunSession(false, 3, 4);
@@ -126,9 +128,61 @@ public class CrisisVRSessionPlayTests
         Debug.Log("S02 reporte: " + LastReportPath());
     }
 
+    // Prueba 13 de la guía: las 24 combinaciones (2 × 3 × 4) llegan al cierre con un reporte que coincide
+    // con lo elegido. Deja el detalle en Docs/evidence/S2_recorrido_24_combinaciones.txt.
+    [UnityTest, Timeout(1800000)]
+    public IEnumerator S04_VeinticuatroCombinaciones_ReporteCoincide()
+    {
+        var log = new StringBuilder();
+        log.AppendLine("CrisisVR — 24 combinaciones en Play Mode (Editor, sin visor)");
+        log.AppendLine("Fecha: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " · Unity " + Application.unityVersion);
+        log.AppendLine("Decisiones por el mismo punto que el rayo XR; CONTINUAR simulado con RequestNextLine; esperas vencidas con DebugExpire.");
+        log.AppendLine();
+        int failures = 0, n = 0;
+        string lastReport = null;
+        foreach (bool correct in new[] { true, false })
+        for (int adapt = 1; adapt <= 3; adapt++)
+        for (int team = 1; team <= 4; team++)
+        {
+            n++;
+            float start = Time.realtimeSinceStartup;
+            yield return RunSession(correct, adapt, team);
+            var s = CurrentSession();
+            string path = LastReportPath();
+            string report = File.Exists(path) ? File.ReadAllText(path, new UTF8Encoding(false)) : string.Empty;
+            var problems = new System.Collections.Generic.List<string>();
+            if (s.endReason != "Completa") problems.Add("estado " + s.endReason);
+            if (s.Reintento != correct) problems.Add("Reintento");
+            if (s.OpcionAdaptabilidad != adapt) problems.Add("OpcionAdaptabilidad=" + s.OpcionAdaptabilidad);
+            if (s.OpcionTrabajoEnEquipo != team) problems.Add("OpcionTrabajoEnEquipo=" + s.OpcionTrabajoEnEquipo);
+            // El archivo debe reflejar cada decisión (revisión de Codex: no basta con SessionData).
+            if (!report.Contains("Estado de la sesión: Completa")) problems.Add("estado en el reporte");
+            if (!report.Contains("Código de sesión: " + s.sessionId)) problems.Add("código de sesión en el reporte");
+            if (!report.Contains(correct ? ReportTexts.RetryDecision : ReportTexts.NoActionDecision)) problems.Add("decisión del Acto 1 en el reporte");
+            if (!report.Contains(ReportTexts.Act2Decision(adapt))) problems.Add("decisión del Acto 2 en el reporte");
+            if (!report.Contains("«" + ReportTexts.Act3OptionText(team) + "»")) problems.Add("texto literal del Acto 3");
+            if (report.Contains("Sin registro")) problems.Add("situación sin registro");
+            if (s.eventLog.Any(e => report.Contains(e))) problems.Add("el reporte incluye el eventLog");
+            string label = $"Acto1={(correct ? "corregir" : "no actúa")} · Acto2={adapt} · Acto3={DecisionCodes.TeamLetter(team)}";
+            if (problems.Count == 0) log.AppendLine($"[OK]    {n:00}. {label} — {Path.GetFileName(path)} ({Time.realtimeSinceStartup - start:0} s)");
+            else { failures++; log.AppendLine($"[FALLA] {n:00}. {label} — {string.Join(", ", problems)}"); }
+            lastReport = report;
+        }
+        log.AppendLine();
+        log.AppendLine($"Resultado: {24 - failures}/24 combinaciones correctas.");
+        log.AppendLine();
+        log.AppendLine("Último reporte generado:");
+        log.AppendLine(lastReport);
+        string folder = Path.Combine(Path.GetDirectoryName(Application.dataPath), "Docs", "evidence");
+        Directory.CreateDirectory(folder);
+        File.WriteAllText(Path.Combine(folder, "S2_recorrido_24_combinaciones.txt"), log.ToString(), new UTF8Encoding(false));
+        Assert.AreEqual(0, failures, log.ToString());
+    }
+
     // Pausa durante la espera de 45 s del Acto 1: la espera no avanza y la decisión queda pendiente.
     // Luego TERMINAR SESIÓN en el Acto 2 deja un reporte «Interrumpida» con la Situación 3 sin registro.
-    [UnityTest]
+    // Una sesión completa supera los 180 s que UnityTest permite por defecto.
+    [UnityTest, Timeout(300000)]
     public IEnumerator S03_PausaCongelaEspera_Y_TerminarSesionEnActo2()
     {
         SceneManager.LoadScene("Act1");

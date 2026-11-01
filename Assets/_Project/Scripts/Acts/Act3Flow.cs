@@ -179,6 +179,11 @@ namespace CrisisVR
                 Debug.LogError($"No se puede iniciar el nodo {title}: falta DialogueRunner.", this);
                 return;
             }
+            // La continuación de DialogueTask corre dentro del cierre del diálogo anterior: antes de iniciar
+            // otro nodo se espera a que el runner quede libre y se cede un frame (BUG-009).
+            while (this != null && dialogueRunner.IsDialogueRunning) await YarnTask.Yield();
+            await YarnTask.Yield();
+            if (this == null) return;
             // En Yarn Spinner 3, StartDialogue vuelve al arrancar; DialogueTask termina al acabar el nodo.
             await dialogueRunner.StartDialogue(title);
             await dialogueRunner.DialogueTask;
