@@ -1,5 +1,13 @@
 # Decisiones del prototipo
 
+## 2026-11-03 — Bisagra física de la laptop de Acto 1
+
+- El estado serializado de inicio queda cerrado a 0°. El prefab fuente solo aporta la malla; la instancia de escena se desempaca. No hay componentes Animator/Animation en la jerarquía de la tapa, y el transformador cambia el ángulo únicamente mientras el interactable está seleccionado.
+- Se separa la malla única de la laptop del participante en dos meshes de escena y se deja el cuerpo fijo. La tapa conserva un pivote hijo en el borde de la bisagra.
+- Para mantener compatibilidad con `XRGrabInteractable` y el `NearFarInteractor` existente, un `XRBaseGrabTransformer` interpreta la pose del attach del mando como giro en el eje X local, fija la posición del pivote y limita el rango a 0°–125°. El Rigidbody cinemático y `unparentTransformOnGrab=false` conservan la jerarquía durante el agarre.
+- Motivo: el mesh original tiene la tapa y el cuerpo unidos y no incluye articulación ni físicas. El transformador permite agarrar y mover la tapa sin añadir un mecanismo de teclado/touchpad ni cambiar el flujo narrativo.
+- Verificación: en Play Mode se comprobó `SelectEnter/SelectExit` con el `NearFarInteractor` derecho y poses de attach controladas; entrada física manual y Quest siguen pendientes. Ver `Docs/PROGRESS.md` (2026-11-03).
+
 ## 2026-10-27 — Sprint 1: Actos 2 y 3, pausa, cierre y reporte completo
 
 Respuestas de la tesista (Giovanna Arroyo) a las dudas 1–6 de la guía v1.0; la guía corregida es la v1.1.

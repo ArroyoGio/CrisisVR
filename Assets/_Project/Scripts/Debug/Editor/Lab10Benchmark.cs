@@ -1,0 +1,328 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using Unity.Profiling;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Profiling;
+
+namespace CrisisVR.Editor
+{
+    // Laboratorio 10 (Testing): prueba reproducible de 60 s sobre Act1 en Play Mode.
+    // Secuencia fija: abrir Act1 -> Play -> 5 s de calentamiento -> 60 s de captura -> salir de Play.
+    // Sin ninguna entrada del usuario. Escribe CSV por fotograma + .raw del Profiler en Docs/evidence/Lab10.
+    // Uso: menú CrisisVR/Lab10 o CrisisVR.Editor.Lab10Benchmark.Run("etiqueta", calidadAndroid)
+    // calidad = -1 conserva el nivel de calidad activo del Editor; >=0 lo fuerza durante la prueba y se restaura al salir.
+    [InitializeOnLoad]
+    public static class Lab10Benchmark
+    {
+        const string ScenePath = "Assets/Scenes/Act1.unity";
+        const string OutDir = "Docs/evidence/Lab10";
+        const double WarmupSeconds = 5.0;
+        const double CaptureSeconds = 60.0;
+        const double ProfilerWindowSeconds = 4.0;   // ventana de Profiler (en memoria) tras los 60 s limpios
+
+        const string KPhase = "Lab10.Phase";      // 0 reposo, 1 entrando a Play, 2 calentamiento, 3 captura, 9 saliendo
+        const string KLabel = "Lab10.Label";
+        const string KQuality = "Lab10.Quality";
+        const string KOrigQuality = "Lab10.OrigQuality";
+        const string KOrigVSync = "Lab10.OrigVSync";
+
+        sealed class Rec { public string Name; public ProfilerRecorder R; public List<double> V = new List<double>(4096); }
+
+        static double phaseStart, captureStart;
+        static int lastFrame;
+        static List<Rec> recs;
+        static List<double> tFrame, tCpuTotal, tCpuMain, tCpuRender, tGpu, tDelta;
+        static int gc0, gc1, gc2;
+        static string rawPath;
+        static bool gcDone;
+        static double profStart;
+
+        static Lab10Benchmark()
+        {
+            EditorApplication.playModeStateChanged += OnPlayMode;
+            EditorApplication.update += Tick;
+        }
+
+        [MenuItem("CrisisVR/Lab10/Prueba 60 s (calidad activa)")]
+        static void MenuActive() => Run("manual_calidad_activa", -1);
+
+        [MenuItem("CrisisVR/Lab10/Prueba 60 s (calidad Quest = Low)")]
+        static void MenuQuest() => Run("manual_calidad_quest", 1);
+
+        public static void Run(string label, int quality)
+        {
+            if (EditorApplication.isPlaying) { Debug.LogError("Lab10: detén Play Mode antes de iniciar."); return; }
+            SessionState.SetString(KLabel, label);
+            SessionState.SetInt(KQuality, quality);
+            SessionState.SetInt(KOrigQuality, QualitySettings.GetQualityLevel());
+            SessionState.SetInt(KOrigVSync, QualitySettings.vSyncCount);
+            SessionState.SetInt(KPhase, 1);
+            UnityEditor.SceneManagement.EditorSceneManager.OpenScene(ScenePath, UnityEditor.SceneManagement.OpenSceneMode.Single);
+            EditorApplication.ExecuteMenuItem("Window/General/Game");
+            EditorApplication.isPlaying = true;
+        }
+
+        public static string Status() => "phase=" + SessionState.GetInt(KPhase, 0) + " label=" + SessionState.GetString(KLabel, "") + " samples=" + (tFrame != null ? tFrame.Count : 0);
+
+        static void OnPlayMode(PlayModeStateChange change)
+        {
+            int phase = SessionState.GetInt(KPhase, 0);
+            if (change == PlayModeStateChange.EnteredPlayMode && phase == 1)
+            {
+                int q = SessionState.GetInt(KQuality, -1);
+                if (q >= 0) QualitySettings.SetQualityLevel(q, true);
+                QualitySettings.vSyncCount = 0;   // sin vsync para no enmascarar el coste real por el tope del monitor
+                Application.targetFrameRate = -1;
+                phaseStart = EditorApplication.timeSinceStartup;
+                SessionState.SetInt(KPhase, 2);
+            }
+            else if (change == PlayModeStateChange.ExitingPlayMode && phase == 4)
+            {
+                Debug.Log("Lab10: Play se cierra durante la ventana de Profiler; se guardan los artefactos ahora.");
+                SaveArtifacts();
+            }
+            else if (change == PlayModeStateChange.EnteredEditMode && phase != 0)
+            {
+                // Se restaura siempre el estado de calidad original del proyecto.
+                QualitySettings.SetQualityLevel(SessionState.GetInt(KOrigQuality, QualitySettings.GetQualityLevel()), true);
+                QualitySettings.vSyncCount = SessionState.GetInt(KOrigVSync, QualitySettings.vSyncCount);
+                SessionState.SetInt(KPhase, 0);
+                Debug.Log("Lab10: finalizado y estado de calidad restaurado (nivel " + QualitySettings.GetQualityLevel() + ").");
+            }
+        }
+
+        static void Tick()
+        {
+            int phase = SessionState.GetInt(KPhase, 0);
+            if (!EditorApplication.isPlaying || phase < 2 || phase > 4) return;
+            double now = EditorApplication.timeSinceStartup;
+
+            if (phase == 2)
+            {
+                if (!gcDone && now - phaseStart >= WarmupSeconds - 1.5) { gcDone = true; GC.Collect(); }
+                if (now - phaseStart < WarmupSeconds) return;
+                Begin(now);
+                return;
+            }
+
+            if (phase == 4)
+            {
+                if (now - profStart >= ProfilerWindowSeconds) EndProfilerWindow();
+                return;
+            }
+
+            if (Time.frameCount == lastFrame) return;   // una muestra por fotograma de juego
+            lastFrame = Time.frameCount;
+            Sample(now);
+            if (now - captureStart >= CaptureSeconds) Finish();
+        }
+
+        static ProfilerRecorder Start(ProfilerCategory cat, string name) => ProfilerRecorder.StartNew(cat, name, 1);
+
+        static void Begin(double now)
+        {
+            Directory.CreateDirectory(OutDir);
+            recs = new List<Rec>
+            {
+                new Rec { Name = "main_thread_ms", R = Start(ProfilerCategory.Internal, "Main Thread") },
+                new Rec { Name = "gc_alloc_bytes", R = Start(ProfilerCategory.Memory, "GC Allocated In Frame") },
+                new Rec { Name = "gc_alloc_count", R = Start(ProfilerCategory.Memory, "GC Allocation In Frame Count") },
+                new Rec { Name = "setpass_calls", R = Start(ProfilerCategory.Render, "SetPass Calls Count") },
+                new Rec { Name = "draw_calls", R = Start(ProfilerCategory.Render, "Draw Calls Count") },
+                new Rec { Name = "batches", R = Start(ProfilerCategory.Render, "Batches Count") },
+                new Rec { Name = "triangles", R = Start(ProfilerCategory.Render, "Triangles Count") },
+                new Rec { Name = "vertices", R = Start(ProfilerCategory.Render, "Vertices Count") },
+                new Rec { Name = "shadow_casters", R = Start(ProfilerCategory.Render, "Shadow Casters Count") },
+            };
+            tFrame = new List<double>(8192); tDelta = new List<double>(8192);
+            tCpuTotal = new List<double>(8192); tCpuMain = new List<double>(8192);
+            tCpuRender = new List<double>(8192); tGpu = new List<double>(8192);
+            gc0 = GC.CollectionCount(0); gc1 = GC.CollectionCount(1); gc2 = GC.CollectionCount(2);
+
+            string label = UniqueLabel(SessionState.GetString(KLabel, "run"));
+            SessionState.SetString(KLabel, label);
+            rawPath = Path.GetFullPath(Path.Combine(OutDir, label + ".data"));
+            gcDone = false;
+            captureStart = now;
+            lastFrame = Time.frameCount;
+            SessionState.SetInt(KPhase, 3);
+            SessionState.SetBool("Lab10.ProfSaved", false);
+            Debug.Log("Lab10: captura iniciada (" + label + ")");
+        }
+
+        static readonly FrameTiming[] ft = new FrameTiming[1];
+
+        static void Sample(double now)
+        {
+            tDelta.Add(Time.unscaledDeltaTime * 1000.0);
+            tFrame.Add(now - captureStart);
+            FrameTimingManager.CaptureFrameTimings();
+            if (FrameTimingManager.GetLatestTimings(1, ft) > 0)
+            {
+                tCpuTotal.Add(ft[0].cpuFrameTime); tCpuMain.Add(ft[0].cpuMainThreadFrameTime);
+                tCpuRender.Add(ft[0].cpuRenderThreadFrameTime); tGpu.Add(ft[0].gpuFrameTime);
+            }
+            else { tCpuTotal.Add(0); tCpuMain.Add(0); tCpuRender.Add(0); tGpu.Add(0); }
+            foreach (var r in recs)
+            {
+                double v = r.R.Valid ? r.R.LastValue : 0;
+                if (r.Name == "main_thread_ms") v /= 1e6;
+                r.V.Add(v);
+            }
+        }
+
+        static double Pct(List<double> src, double p)
+        {
+            if (src.Count == 0) return 0;
+            var a = src.ToArray(); Array.Sort(a);
+            double idx = p * (a.Length - 1); int lo = (int)Math.Floor(idx), hi = (int)Math.Ceiling(idx);
+            return a[lo] + (a[hi] - a[lo]) * (idx - lo);
+        }
+        static double Mean(List<double> s) { if (s.Count == 0) return 0; double t = 0; foreach (var x in s) t += x; return t / s.Count; }
+        static double Max(List<double> s) { double m = 0; foreach (var x in s) if (x > m) m = x; return m; }
+        static double Sum(List<double> s) { double t = 0; foreach (var x in s) t += x; return t; }
+        static string F(double v) => v.ToString("0.###", CultureInfo.InvariantCulture);
+
+        static void Finish()
+        {
+            string label = SessionState.GetString(KLabel, "run");
+            var sb = new StringBuilder();
+            int n = tFrame.Count;
+            double dur = n > 0 ? tFrame[n - 1] : 0;
+            sb.AppendLine("# Lab10 | etiqueta=" + label + " | Unity " + Application.unityVersion + " | " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            sb.AppendLine("# Plataforma=EDITOR PC (no es Quest 3) | CPU=" + SystemInfo.processorType + " | GPU=" + SystemInfo.graphicsDeviceName + " (" + SystemInfo.graphicsDeviceType + ") | RAM=" + SystemInfo.systemMemorySize + " MB");
+            var rp = QualitySettings.renderPipeline;
+            sb.AppendLine("# CalidadActiva=" + QualitySettings.names[QualitySettings.GetQualityLevel()] + " | RP=" + (rp != null ? rp.name : "builtin") + " | vSync=" + QualitySettings.vSyncCount + " | GameView=" + Handles.GetMainGameViewSize() + " | ProfilerActivo=si");
+            sb.AppendLine("# Escena=" + ScenePath + " | calentamiento=" + WarmupSeconds + "s | captura=" + CaptureSeconds + "s | fotogramas=" + n + " | duracionReal=" + F(dur) + "s");
+            sb.AppendLine("# GC.Collect(gen0/1/2) durante la captura=" + (GC.CollectionCount(0) - gc0) + "/" + (GC.CollectionCount(1) - gc1) + "/" + (GC.CollectionCount(2) - gc2));
+            double meanMs = Mean(tDelta);
+            sb.AppendLine("# RESUMEN frame_ms(delta): media=" + F(meanMs) + " p50=" + F(Pct(tDelta, .5)) + " p95=" + F(Pct(tDelta, .95)) + " p99=" + F(Pct(tDelta, .99)) + " max=" + F(Max(tDelta)) + " | FPS medio=" + F(n / Math.Max(dur, 1e-6)) + " | FPS 1% low=" + F(1000.0 / Math.Max(Pct(tDelta, .99), 1e-6)));
+            sb.AppendLine("# RESUMEN cpu_total_ms(FrameTiming): media=" + F(Mean(tCpuTotal)) + " p95=" + F(Pct(tCpuTotal, .95)) + " | cpu_main_ms: media=" + F(Mean(tCpuMain)) + " p95=" + F(Pct(tCpuMain, .95)) + " | cpu_render_ms: media=" + F(Mean(tCpuRender)) + " | gpu_ms: media=" + F(Mean(tGpu)) + " p95=" + F(Pct(tGpu, .95)));
+            foreach (var r in recs)
+                sb.AppendLine("# RESUMEN " + r.Name + ": validoRecorder=" + r.R.Valid + " media=" + F(Mean(r.V)) + " p95=" + F(Pct(r.V, .95)) + " max=" + F(Max(r.V)) + (r.Name == "gc_alloc_bytes" ? " TOTAL_bytes=" + F(Sum(r.V)) : ""));
+            sb.Append("t_s,delta_ms,cpu_total_ms,cpu_main_ms,cpu_render_ms,gpu_ms");
+            foreach (var r in recs) sb.Append(',').Append(r.Name);
+            sb.AppendLine();
+            for (int i = 0; i < n; i++)
+            {
+                sb.Append(F(tFrame[i])).Append(',').Append(F(tDelta[i])).Append(',').Append(F(tCpuTotal[i])).Append(',').Append(F(tCpuMain[i])).Append(',').Append(F(tCpuRender[i])).Append(',').Append(F(tGpu[i]));
+                foreach (var r in recs) sb.Append(',').Append(F(r.V[i]));
+                sb.AppendLine();
+            }
+            File.WriteAllText(Path.Combine(OutDir, label + ".csv"), sb.ToString());
+            foreach (var r in recs) r.R.Dispose();
+            Debug.Log("Lab10: captura terminada -> " + Path.Combine(OutDir, label + ".csv") + " (" + n + " fotogramas)");
+            Debug.Log("Lab10: ventana de Profiler de " + ProfilerWindowSeconds + " s iniciada");
+            UnityEditorInternal.ProfilerDriver.ClearAllFrames();
+            UnityEditorInternal.ProfilerDriver.profileEditor = false;
+            UnityEditorInternal.ProfilerDriver.enabled = true;
+            profStart = EditorApplication.timeSinceStartup;
+            SessionState.SetInt(KPhase, 4);
+        }
+
+        static void EndProfilerWindow()
+        {
+            Debug.Log("Lab10: fin de ventana de Profiler; guardando artefactos.");
+            SaveArtifacts();
+            SessionState.SetInt(KPhase, 9);
+            EditorApplication.isPlaying = false;
+        }
+
+        // Guarda PNG, Self ms y el perfil .data; cada paso es independiente y deja traza en consola. Solo corre una vez por corrida.
+        static void SaveArtifacts()
+        {
+            if (SessionState.GetBool("Lab10.ProfSaved", false)) return;
+            SessionState.SetBool("Lab10.ProfSaved", true);
+            string label = SessionState.GetString(KLabel, "run");
+            string dataPath = Path.GetFullPath(Path.Combine(OutDir, label + ".data"));
+            try { SaveCameraPng(Path.Combine(OutDir, label + ".png")); Debug.Log("Lab10: PNG guardado"); } catch (Exception e) { Debug.LogError("Lab10: fallo PNG: " + e); }
+            try { SaveSelfTimes(Path.Combine(OutDir, label + "_self_ms.csv")); } catch (Exception e) { Debug.LogError("Lab10: fallo Self ms: " + e); }
+            try
+            {
+                UnityEditorInternal.ProfilerDriver.enabled = false;
+                UnityEditorInternal.ProfilerDriver.SaveProfile(dataPath);
+                Debug.Log("Lab10: Profiler guardado -> " + dataPath + " (frames " + UnityEditorInternal.ProfilerDriver.firstFrameIndex + "-" + UnityEditorInternal.ProfilerDriver.lastFrameIndex + ")");
+            }
+            catch (Exception e) { Debug.LogError("Lab10: fallo SaveProfile: " + e); }
+        }
+
+        // Nunca se sobrescribe evidencia: si ya existe una corrida con esa etiqueta se agrega un sufijo _2, _3...
+        static string UniqueLabel(string baseLabel)
+        {
+            string label = baseLabel; int n = 2;
+            while (File.Exists(Path.Combine(OutDir, label + ".csv")) || File.Exists(Path.Combine(OutDir, label + ".raw")) || File.Exists(Path.Combine(OutDir, label + ".data")) || File.Exists(Path.Combine(OutDir, label + ".png")) || File.Exists(Path.Combine(OutDir, label + "_self_ms.csv")))
+                label = baseLabel + "_" + n++;
+            return label;
+        }
+
+        // Self ms por marcador (hilo principal) sobre la ventana de Profiler capturada tras los 60 s.
+        static void SaveSelfTimes(string file)
+        {
+            int first = UnityEditorInternal.ProfilerDriver.firstFrameIndex, last = UnityEditorInternal.ProfilerDriver.lastFrameIndex;
+            var sum = new Dictionary<string, double>(); var max = new Dictionary<string, double>(); var seen = new Dictionary<string, int>();
+            int frames = 0; double frameMsSum = 0, frameMsMax = 0;
+            var kids = new List<int>(); var stack = new Stack<int>(); var perFrame = new Dictionary<string, double>();
+            for (int f = first; f <= last; f++)
+            {
+                using (var v = UnityEditorInternal.ProfilerDriver.GetHierarchyFrameDataView(f, 0, UnityEditor.Profiling.HierarchyFrameDataView.ViewModes.MergeSamplesWithTheSameName, UnityEditor.Profiling.HierarchyFrameDataView.columnSelfTime, false))
+                {
+                    if (v == null || !v.valid) continue;
+                    frames++; frameMsSum += v.frameTimeMs; if (v.frameTimeMs > frameMsMax) frameMsMax = v.frameTimeMs;
+                    perFrame.Clear(); stack.Clear(); int rootId = v.GetRootItemID(); stack.Push(rootId);
+                    while (stack.Count > 0)
+                    {
+                        int id = stack.Pop();
+                        double self = v.GetItemColumnDataAsSingle(id, UnityEditor.Profiling.HierarchyFrameDataView.columnSelfTime);
+                        if (id != rootId) { string name = v.GetItemName(id); perFrame.TryGetValue(name, out var cur); perFrame[name] = cur + self; }
+                        kids.Clear(); v.GetItemChildren(id, kids);
+                        foreach (var k in kids) stack.Push(k);
+                    }
+                    foreach (var kv in perFrame)
+                    {
+                        sum.TryGetValue(kv.Key, out var s); sum[kv.Key] = s + kv.Value;
+                        max.TryGetValue(kv.Key, out var m); if (kv.Value > m) max[kv.Key] = kv.Value;
+                        seen.TryGetValue(kv.Key, out var c); seen[kv.Key] = c + 1;
+                    }
+                }
+            }
+            var rows = new List<KeyValuePair<string, double>>(sum);
+            rows.Sort((a, b) => b.Value.CompareTo(a.Value));
+            var sb = new StringBuilder();
+            sb.AppendLine("# Self ms por marcador, hilo principal, ventana de Profiler posterior a la captura | frames=" + frames + " (" + first + "-" + last + ") | frame_ms(Profiler) media=" + F(frames > 0 ? frameMsSum / frames : 0) + " max=" + F(frameMsMax));
+            sb.AppendLine("marker,self_ms_media_por_frame,self_ms_max_en_un_frame,frames_con_marcador");
+            foreach (var r in rows) sb.AppendLine("\"" + r.Key.Replace("\"", "'") + "\"," + F(frames > 0 ? r.Value / frames : 0) + "," + F(max.TryGetValue(r.Key, out var mxv) ? mxv : 0) + "," + seen[r.Key]);   // fix: marcadores con self=0 no tienen entrada en max
+            File.WriteAllText(file, sb.ToString());
+            Debug.Log("Lab10: Self ms guardado -> " + file + " (frames " + frames + ")");
+        }
+
+        // Imagen fija de la cámara del jugador (mismo encuadre antes/después) para comprobar que no cambia lo que se ve.
+        static void SaveCameraPng(string file)
+        {
+            var origin = UnityEngine.Object.FindAnyObjectByType<Unity.XR.CoreUtils.XROrigin>();
+            var cam = origin != null ? origin.Camera : Camera.main;
+            if (cam == null) { Debug.LogWarning("Lab10: sin cámara para captura PNG"); return; }
+            const int w = 1280, h = 720;
+            var rt = new RenderTexture(w, h, 24);
+            var prev = cam.targetTexture;
+            var prevEye = cam.stereoTargetEye;
+            cam.stereoTargetEye = StereoTargetEyeMask.None;
+            cam.targetTexture = rt;
+            cam.Render();
+            var old = RenderTexture.active;
+            RenderTexture.active = rt;
+            var tex = new Texture2D(w, h, TextureFormat.RGB24, false);
+            tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
+            tex.Apply();
+            File.WriteAllBytes(file, tex.EncodeToPNG());
+            cam.targetTexture = prev;
+            cam.stereoTargetEye = prevEye;
+            RenderTexture.active = old;
+            UnityEngine.Object.DestroyImmediate(tex);
+            rt.Release();
+        }
+    }
+}

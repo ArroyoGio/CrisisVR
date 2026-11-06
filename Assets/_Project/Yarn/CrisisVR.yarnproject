@@ -2,7 +2,7 @@
   "projectFileVersion": 3,
   "sourceFiles": [
     "**/*.yarn",
-    "../Scripts/Acts/*.yarn"
+    "../Scripts/Build/Acts/*.yarn"
   ],
   "baseLanguage": "es"
 }

@@ -4,7 +4,7 @@ title: Tutorial_Orientation
 ---
 Conoce el espacio
 Mueve el joystick del mando con el que prefieras desplazarte.
-El mando de movimiento se elige aquí. Si necesitas ayuda, puedes continuar acompañado. No necesitas caminar físicamente.
+El mando de movimiento se elige aquí. Si no ocurre nada, avisa a quien te acompaña. No necesitas caminar físicamente.
 ===
 title: Tutorial_Movement
 ---
@@ -26,15 +26,15 @@ El borde cambia al apuntar. Para activar el botón necesitas presionar el gatill
 ===
 title: Tutorial_Object
 ---
-Selecciona un objeto
-Apunta al objeto y presiona el gatillo.
-Usa el mismo rayo y gatillo del ejercicio anterior. Puedes repetir o continuar con ayuda.
+Selecciona y levanta un objeto
+Apunta al cubo y mantén presionado el gatillo para agarrarlo y levantarlo. Suelta el gatillo para soltarlo.
+El gatillo agarra el cubo mientras lo mantienes presionado. Al soltarlo, vuelve a la mesa.
 ===
 title: Tutorial_Options
 ---
-Elige una alternativa
-Elige cualquiera de los dos objetos con el gatillo.
-Ambos objetos se seleccionan de la misma manera. El cambio visual confirma tu selección, sin valorar tu elección.
+Elige y levanta un cubo
+Elige cualquiera de los dos cubos. Mantén el gatillo para levantarlo y suéltalo para dejarlo en la mesa.
+Puedes elegir cualquiera. Mantén presionado el gatillo para agarrar y levantar; al soltarlo, el cubo vuelve a la mesa.
 ===
 title: Tutorial_Grab
 ---
@@ -51,8 +51,8 @@ Esta espera es parte del diseño de la práctica. No se registra cuánto tardas 
 title: Tutorial_PauseInfo
 ---
 Pausa y acompañamiento
-Si necesitas una pausa, avisa a quien te acompaña.
-No tienes que terminar la práctica si sientes incomodidad. Avisa a quien te acompaña.
+Presiona el botón Menú del mando izquierdo para abrir la pausa. Luego elige CONTINUAR para volver.
+La pausa detiene todo. Úsala cuando necesites descansar y avisa a quien te acompaña. Desde ese menú también puedes terminar la sesión.
 ===
 title: Tutorial_Integration
 ---
@@ -63,8 +63,8 @@ Las acciones son las mismas que acabas de practicar. Nada de esta práctica se g
 title: Tutorial_Finished
 ---
 Fin de la práctica
-Consulta con quien te acompaña antes de continuar.
-Puedes pedir acompañamiento antes de iniciar las situaciones.
+Puedes repetir el tutorial o continuar al Acto 1.
+Consulta con quien te acompaña antes de continuar. Puedes repetir el tutorial las veces que quieras.
 ===
 title: Tutorial_Labels
 ---

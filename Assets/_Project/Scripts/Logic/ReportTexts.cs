@@ -14,6 +14,23 @@ namespace CrisisVR
         public const string RetryDecision = "Decisión registrada: tras recibir la retroalimentación, el estudiante seleccionó la opción de corregir el proyecto.";
         public const string NoActionDecision = "Decisión registrada: tras recibir la retroalimentación, el estudiante no seleccionó ninguna acción durante el tiempo disponible, y la sesión continuó.";
         public const string Act1Question = "Pregunta orientadora: ¿Qué pensabas mientras escuchabas la retroalimentación del profesor?";
+        // PROPUESTA – VALIDAR CON CLIENTA
+        public const string Act1GuidedKeyboardPrompt = "Miguel observó que faltan pruebas y explicaciones de las decisiones. ¿Qué responderías?";
+        // PROPUESTA – VALIDAR CON CLIENTA
+        public const string Act1GuidedKeyboardInstruction = "Escribe una respuesta y pulsa ENTER.";
+        // PROPUESTA – VALIDAR CON CLIENTA
+        public static readonly string[] Act1GuidedKeyboardResponses =
+        {
+            "Agregar pruebas al proyecto",
+            "Explicar las decisiones tomadas",
+            "Pedir ayuda para corregir",
+        };
+        // PROPUESTA – VALIDAR CON CLIENTA
+        public const string Act1GuidedKeyboardConfirmed = "Respuesta confirmada.";
+        // PROPUESTA – VALIDAR CON CLIENTA
+        public const string Act1GuidedKeyboardIncomplete = "Completa una respuesta predeterminada antes de ENTER.";
+        // PROPUESTA – VALIDAR CON CLIENTA
+        public const string Act1GuidedKeyboardInvalidKey = "Esa tecla no coincide con las respuestas disponibles.";
         public const string Act2Event = "Lo que ocurrió: llegó un aviso de cambio de la práctica a modalidad virtual y de reorganización de los grupos; apareció un compañero nuevo.";
         public const string Act2Question = "Pregunta orientadora: ¿Qué te llevó a elegir esa opción (o a no elegir)?";
         public const string Act3Event = "Lo que ocurrió: en una videollamada, dos compañeros discreparon sobre el reparto de tareas y un integrante informó que no tenía lista su parte.";

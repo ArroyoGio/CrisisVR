@@ -12,7 +12,7 @@ public class CrisisVREditModeTests
     public void E01_EscenasExistenEnProyecto()
     {
         // Escenas del recorrido de la guía (BUG-001: antes exigía SampleScene y BasicScene, que no existen).
-        string[] expected = { "MainMenu", "Welcome", "Tutorial", "Act1" };
+        string[] expected = { "MainMenu", "Tutorial", "Act1" };
         foreach (var nombre in expected)
         {
             string path = Path.Combine(root, "Assets", "Scenes", nombre + ".unity");

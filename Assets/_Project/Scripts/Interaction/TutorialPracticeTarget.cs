@@ -63,10 +63,18 @@ namespace CrisisVR
                 grab.hoverExited.RemoveListener(HoverExit);
             }
         }
-        void Select(SelectEnterEventArgs args) { if (flow.SelectObject()) cue.Activate(); }
+        void Select(SelectEnterEventArgs args)
+        {
+            if (flow.SelectObject()) cue.Activate();
+        }
         void HoverEnter(HoverEnterEventArgs args) => cue.Hover(true);
         void HoverExit(HoverExitEventArgs args) => cue.Hover(false);
-        void Release(SelectExitEventArgs args) => ResetPosition();
+        void Release(SelectExitEventArgs args)
+        {
+            ResetPosition();
+            // Agarrar y soltar completa el paso (no se evalúa la calidad del movimiento).
+            if (flow != null) flow.ReleaseObject();
+        }
         void ResetPosition()
         {
             transform.localPosition = initialPosition; transform.localRotation = initialRotation;

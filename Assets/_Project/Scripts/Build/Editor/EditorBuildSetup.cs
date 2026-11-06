@@ -8,11 +8,10 @@ namespace CrisisVR
     // Se ejecuta solo al cargar el Editor y tambien desde el menu manual.
     public static class EditorBuildSetup
     {
-        // Orden de arranque de la guia: pantalla inicial, bienvenida, tutorial y aula de los tres actos.
+        // Orden de arranque de la guia: menu (portada + bienvenida, en una sola escena), tutorial y aula de los tres actos.
         static readonly string[] EscenasPropias =
         {
             "Assets/Scenes/MainMenu.unity",
-            "Assets/Scenes/Welcome.unity",
             "Assets/Scenes/Tutorial.unity",
             "Assets/Scenes/Act1.unity",
         };

@@ -117,6 +117,7 @@ namespace CrisisVR
             neutral = false;
             moved = false;
             flow.RefreshHand();
+            flow.NotifyOrientation(); // Elegir el mando de desplazamiento completa «Orientación».
         }
         public void SetLocomotion(bool value)
                 {

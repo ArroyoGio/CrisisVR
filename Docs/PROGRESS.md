@@ -136,3 +136,13 @@
 - **Bloqueo:** en esta PC no hay módulo de Android en ninguna versión de Unity ni `adb`, así que no se pudo compilar el APK ni instalarlo. Hay que hacerlo en la máquina de la tesista (T-01 del tablero), con el Quest 3 conectado.
 - **Verificación de player (Windows):** `BuildWindowsCheck` compiló un player de Windows 64 con Mono, con las cuatro escenas del build, y terminó en `Succeeded`. Confirma que el código de tiempo de ejecución compila fuera del Editor (sin dependencias de `UnityEditor`). No reemplaza el build de Android/IL2CPP para el Quest, que sigue pendiente del módulo de Android.
 
+## 2026-11-03 — Incremento físico de laptop en Acto 1 (T-05)
+
+- Agente: Codex (GPT-6 Luna), continuando la escena Acto 1 existente. Se conservó el contenido narrativo y las demás escenas.
+- La malla original de la laptop se separó en `Laptop_Cuerpo` y `Tapa_Interactiva`, con un pivote `Bisagra_Laptop`. La tapa usa `XRGrabInteractable`, Rigidbody cinemático y un `XRBaseGrabTransformer` XRI que fija el pivote y limita el giro entre 0° y 125°. No se añadieron interacciones al teclado ni al touchpad.
+- **Comprobación manual en Play Mode (Editor):** el Play Mode avanzó; una selección `SelectEnter/SelectExit` con el `NearFarInteractor` derecho, moviendo la pose de su attach para simular la mano, produjo un giro de 60° con 0 m de desplazamiento del pivote y conservó el ángulo al soltar. Los topes de 0° y 125° dieron error angular 0° y conservaron el pivote. Con `unparentTransformOnGrab=false`, también se conservó la jerarquía y la escala local (1,1,1).
+- Esta comprobación controlada no verifica el acercamiento, el botón de agarre ni el gesto desde una entrada real del simulador o un mando. No se ejecutó el Test Runner de Unity; por la tabla de evidencia, el estado queda **SIN VERIFICAR**. Registro: `Docs/evidence/Act1_laptop_bisagra_playmode.txt`.
+- Pendiente: interacción manual completa con el XR Interaction Simulator y con los mandos del Meta Quest 3 (build e instalación Android también pendientes según T-01/T-02). La guía `Docs/QA/QA_PROTOCOL.md` no existe en esta copia.
+- Uso de IA: se continuó el trabajo previo de Claude; Codex implementó la separación de malla, el transformador XRI y la configuración de la escena.
+- Corrección posterior: la escena y el preparador ahora guardan la tapa a rotación local identidad (0°). En el arranque de Play Mode, `XRGrabInteractable.isSelected` fue falso, el ángulo contra la pose cerrada fue 0°, el padre siguió siendo `Bisagra_Laptop` y no había Animator ni Animation en la jerarquía de la tapa. Ver `Docs/evidence/Act1_laptop_estado_inicial_playmode.txt`.
+

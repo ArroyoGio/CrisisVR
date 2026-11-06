@@ -1,0 +1,18 @@
+Acto 1 — estado inicial cerrado de la laptop
+Fecha: 2026-11-03
+Editor: Unity 6000.3.9f1, Windows Editor, Play Mode
+Escena: Assets/Scenes/Acto1.unity
+
+Resultado capturado al iniciar Play Mode, antes de seleccionar la tapa:
+
+- XRGrabInteractable.isSelected: false.
+- Rotación local de Tapa_Interactiva: (0, 0, 0) grados.
+- Diferencia angular respecto a la pose cerrada: 0.000°.
+- Padre de la tapa: Bisagra_Laptop.
+- Animator en la jerarquía de la tapa: 0.
+- Animation en la jerarquía de la tapa: 0.
+- La instancia fue desempacada; el prefab fuente no aporta una rotación de apertura.
+- La validación de Acto1.unity no informó problemas.
+
+La captura confirmó que la tapa permanece cerrada al inicio de Play Mode. La comprobación
+fue en el Editor; no representa una prueba con entrada de mando real ni en Quest 3.

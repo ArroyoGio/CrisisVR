@@ -1,0 +1,19 @@
+Acto 1 — interacción de bisagra de laptop
+Fecha: 2026-11-03
+Editor: Unity 6000.3.9f1, Windows Editor, Play Mode
+Escena: Assets/Scenes/Acto1.unity
+
+Comprobaciones ejecutadas en Play Mode usando el NearFarInteractor derecho existente y
+poses controladas del attach del interactor (no entrada de botón manual):
+
+- SelectEnter / movimiento simulado / SelectExit: selección liberada correctamente.
+- Apertura intermedia: 60°; error respecto al ángulo esperado: 0.00°.
+- Desplazamiento del pivote durante el giro: 0.0000 m.
+- Ángulo conservado al liberar: error 0.00°.
+- Topes: 0° y 125°; error angular en cada tope: 0.00°.
+- Jerarquía conservada durante el agarre: sí (`unparentTransformOnGrab=false`).
+- Escala local de la tapa: (1,1,1).
+
+Límites de la evidencia: no se verificó la detección manual de proximidad/agarre del XR
+Interaction Simulator ni la entrada real de mandos en Meta Quest 3. El proyecto queda
+SIN VERIFICAR según Docs/AGENTS.md: no se ejecutó el Test Runner de Unity para esta tarea.

@@ -28,11 +28,40 @@ namespace CrisisVR
             if (hint != null) hint.text = string.Empty;
             if (hand != null) hand.text = right ? rightHandLabel : leftHandLabel;
             if (practice != null) practice.gameObject.SetActive(showPractice);
-            if (continueButton != null) continueButton.interactable = exercise.step != TutorialStep.Finished;
-            if (repeatButton != null) repeatButton.interactable = exercise.step != TutorialStep.Finished;
+            // Continuar queda bloqueado hasta completar la acción (TutorialFlow lo desbloquea).
+            // En el cierre los dos botones pasan a «Continuar al Acto 1» y «Repetir tutorial».
+            if (continueButton != null) continueButton.interactable = exercise.step == TutorialStep.Finished;
+            if (repeatButton != null) repeatButton.interactable = true;
+            SetFinishedMode(exercise.step == TutorialStep.Finished);
 
             FitInstruction();
             SetProgress(index, total);
+        }
+
+        public string finalContinueLabel = "Continuar al Acto 1";
+        public string finalRepeatLabel = "Repetir tutorial";
+        TMP_Text continueText, repeatText;
+        string defaultContinueLabel, defaultRepeatLabel;
+        bool labelsCached;
+
+        public void SetContinueEnabled(bool enabled)
+        {
+            if (continueButton != null) continueButton.interactable = enabled;
+        }
+
+        // Cambia las etiquetas de los botones en el cierre y las restituye al repetir el tutorial.
+        public void SetFinishedMode(bool finished)
+        {
+            if (!labelsCached)
+            {
+                labelsCached = true;
+                continueText = continueButton != null ? continueButton.GetComponentInChildren<TMP_Text>(true) : null;
+                repeatText = repeatButton != null ? repeatButton.GetComponentInChildren<TMP_Text>(true) : null;
+                defaultContinueLabel = continueText != null ? continueText.text : null;
+                defaultRepeatLabel = repeatText != null ? repeatText.text : null;
+            }
+            if (continueText != null) continueText.text = finished ? finalContinueLabel : defaultContinueLabel;
+            if (repeatText != null) repeatText.text = finished ? finalRepeatLabel : defaultRepeatLabel;
         }
 
         public void ShowHelp(string content)

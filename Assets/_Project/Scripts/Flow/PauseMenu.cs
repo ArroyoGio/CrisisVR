@@ -16,6 +16,8 @@ namespace CrisisVR
         [SerializeField] Button endSessionButton;
         [SerializeField] Canvas[] hideWhilePaused;
         [SerializeField] string firstSceneName = "MainMenu";
+        // En el tutorial la pausa es práctica: no escribe PAUSA/REANUDACION en la sesión (nada se guarda).
+        [SerializeField] bool logPauseToSession = true;
 
         InputAction menuAction;
         bool ending;
@@ -59,7 +61,7 @@ namespace CrisisVR
             GamePause.SetPaused(true);
             SetHiddenCanvases(false);
             if (panel != null) panel.SetActive(true);
-            SessionRuntime.LogEvent("PAUSA");
+            if (logPauseToSession) SessionRuntime.LogEvent("PAUSA");
         }
 
         public void Resume()
@@ -68,7 +70,7 @@ namespace CrisisVR
             if (panel != null) panel.SetActive(false);
             SetHiddenCanvases(true);
             GamePause.SetPaused(false);
-            SessionRuntime.LogEvent("REANUDACION");
+            if (logPauseToSession) SessionRuntime.LogEvent("REANUDACION");
         }
 
         public void EndSession()
