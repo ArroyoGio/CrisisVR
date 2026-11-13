@@ -1,0 +1,27 @@
+LAB12 sonda de interacción - config A (base: Occlusion OFF, DynBatching OFF)
+Fecha: 2026-11-09 19:15:07 | Unity 6000.3.9f1 | Editor/PC, XR Interaction Simulator presente, SIN visor ni mandos reales
+useOcclusionCulling=False dynBatching(asset Performance URP Config)=False quality=Low umbraDataSize=40960
+Pose participante: origin=(0.00, 0.00, -0.20) yaw=0 camara=(0.00, 1.36, -0.20)
+NearFarInteractors activos: Near-Far Interactor@Acto1 XR Origin/Camera Offset/Right Controller/Near-Far Interactor, Near-Far Interactor@Acto1 XR Origin/Camera Offset/Left Controller/Near-Far Interactor
+Interactor usado: Acto1 XR Origin/Camera Offset/Right Controller/Near-Far Interactor
+  pose-driver desactivado temporalmente: TrackedPoseDriver en Right Controller
+T1 tapa: grab.enabled=True activa=True colliders=1 renderer.enabled=True
+T1 hover tras acercar: hovered=1 eslaTapa=True
+T1 SelectEnter: grab.isSelected=True
+T1 giro objetivo 60 grados -> medido 60.00 grados (error 0.00), variacion de radio al pivote 0.00000 m
+T1 giro objetivo 125 grados -> medido 125.00 grados (error 0.00), variacion de radio al pivote 0.00000 m
+T1 giro objetivo 0 grados -> medido 0.00 grados (error 0.00), variacion de radio al pivote 0.00000 m
+T1 SelectExit: isSelected=False angulo conservado=60.00 grados (esperado ~60)
+T1 tapa devuelta: angulo final=0.00
+T2 Tecla_020: hover=True selectEventos=1 seleccionada=True profundidad=1.20 mm (max 1.20 mm)
+T2 Tecla_020 tras soltar: IsPressed=False profundidad=0.00 mm
+T2 Tecla_049: hover=True selectEventos=1 seleccionada=True profundidad=1.20 mm (max 1.20 mm)
+T2 Tecla_049 tras soltar: IsPressed=False profundidad=0.00 mm
+T2 Tecla_080: hover=True selectEventos=1 seleccionada=True profundidad=1.20 mm (max 1.20 mm)
+T2 Tecla_080 tras soltar: IsPressed=False profundidad=0.00 mm
+T3 ENTREGAR: no existe.
+T3 CORREGIR PROYECTO: no existe.
+I2_laptop vista: batches=194 drawCalls=201 setPass=23 tris=22429 dynBatchedDraws=2
+I2_teclado vista: batches=194 drawCalls=201 setPass=23 tris=22429 dynBatchedDraws=2
+FIN de pruebas de la sonda A
+FIN: OK

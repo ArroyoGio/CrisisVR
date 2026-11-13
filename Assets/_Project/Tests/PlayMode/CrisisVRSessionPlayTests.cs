@@ -47,8 +47,38 @@ public class CrisisVRSessionPlayTests
         (string)RuntimeType("SessionRuntime").GetProperty("LastReportPath").GetValue(null);
 
     // act1Choice: true = CORREGIR, false = dejar vencer la espera. act2Choice: 1, 2 o 3 (3 = vencer espera). act3Choice: 1..4.
+    // LAB 12: aislamiento entre pruebas. Si la prueba anterior dejó la escena Act1 con un diálogo en curso (p. ej. S07,
+    // cuyo Stop() puede llegar antes de que arranque el nodo de reacción), al descargar la escena DialogueRunner.OnDestroy
+    // cancela el diálogo y el flujo seguía hacia ShowExit sobre una tarjeta ya desactivada (error no esperado).
+    // Los flujos ya comprueban `this == null` tras cada await, así que se destruyen antes de cambiar de escena.
+    // No cambia código de runtime: solo evita depender de la temporización de la prueba anterior.
+    static IEnumerator AislarEscenaCargada()
+    {
+        foreach (var flowName in new[] { "Act1Flow", "Act2Flow", "Act3Flow", "ClosingFlow" })
+        {
+            var flow = Find(flowName);
+            if (flow != null) UnityEngine.Object.Destroy(flow);
+        }
+        // LAB 12 (S01): la prueba anterior (S07) termina con Stop() y la escena viva; Yarn seguía animando el fundido de
+        // un CanvasGroup que LoadScene destruía después (MissingReferenceException en Yarn.Effects.FadeAlphaAsync).
+        // Se detiene el diálogo y se espera a que Yarn cancele su fundido ANTES de descargar la escena.
+        var prevRunner = Find("DialogueRunner");
+        if (prevRunner != null)
+        {
+            var runnerType = prevRunner.GetType();
+            var runningProp = runnerType.GetProperty("IsDialogueRunning");
+            if (runningProp != null && (bool)runningProp.GetValue(prevRunner))
+                runnerType.GetMethod("Stop")?.Invoke(prevRunner, null);
+            for (int i = 0; i < 120 && runningProp != null && (bool)runningProp.GetValue(prevRunner); i++) yield return null;
+            yield return new WaitForSecondsRealtime(.6f);
+        }
+        yield return null;
+        yield return null;
+    }
+
     IEnumerator RunSession(bool act1Correct, int act2Choice, int act3Choice)
     {
+        yield return AislarEscenaCargada();
         SceneManager.LoadScene("Act1");
         yield return null;
         yield return null;

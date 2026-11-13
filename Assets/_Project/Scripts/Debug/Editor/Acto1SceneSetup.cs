@@ -285,6 +285,8 @@ namespace CrisisVR.Editor
 
             var rig = (GameObject)PrefabUtility.InstantiatePrefab(rigPrefab, scene);
             rig.name = "Acto1 XR Origin";
+            var moveProvider = rig.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement.ContinuousMoveProvider>(true);
+            if (moveProvider != null) moveProvider.moveSpeed = 4f;
             rig.transform.SetPositionAndRotation(new Vector3(0, .02f, ChairCenter.z - .1f), Quaternion.identity);
             PrefabUtility.InstantiatePrefab(simulatorPrefab, scene);
             return rig;

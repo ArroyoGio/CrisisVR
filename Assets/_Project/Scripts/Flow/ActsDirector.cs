@@ -9,6 +9,7 @@ namespace CrisisVR
     // siempre en ese orden y sin que ninguna decisión bloquee el avance.
     public sealed class ActsDirector : MonoBehaviour
     {
+        const float WalkSpeed = 4f;
         [SerializeField] Act1Flow act1;
         [SerializeField] Act2Flow act2;
         [SerializeField] Act3Flow act3;
@@ -22,6 +23,8 @@ namespace CrisisVR
         void Awake()
         {
             GamePause.Reset();
+            foreach (var provider in FindObjectsByType<ContinuousMoveProvider>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                provider.moveSpeed = WalkSpeed;
             if (act1 == null) act1 = FindAnyObjectByType<Act1Flow>();
             if (act2 == null) act2 = FindAnyObjectByType<Act2Flow>();
             if (act3 == null) act3 = FindAnyObjectByType<Act3Flow>();

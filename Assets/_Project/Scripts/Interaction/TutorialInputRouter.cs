@@ -14,6 +14,7 @@ namespace CrisisVR
 {
     public class TutorialInputRouter : MonoBehaviour
     {
+        const float WalkSpeed = 4f;
         public TutorialFlow flow;
         public XROrigin playerOrigin;
         public ControllerInputActionManager leftManager, rightManager;
@@ -65,6 +66,7 @@ namespace CrisisVR
         void OnEnable() { leftStick.Enable(); rightStick.Enable(); }
         void Start()
         {
+            if (movement != null) movement.moveSpeed = WalkSpeed;
             ApplyScheme();
             InitializeControllerAffordances();
         }

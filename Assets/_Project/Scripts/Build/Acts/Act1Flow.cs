@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
 using Yarn.Unity;
 
 namespace CrisisVR
@@ -14,6 +15,8 @@ namespace CrisisVR
         [SerializeField] GameObject correctButton;
         [SerializeField] XRSimpleInteractable deliverInteractable;
         [SerializeField] XRSimpleInteractable correctInteractable;
+        // Nodo de Yarn de la retroalimentación. Por defecto el de Act1.unity; Acto1.unity usa uno propio que no sugiere corregir.
+        [SerializeField] string retroNode = "Act1_Retro";
         Act1ProfessorMotion professorMotion;
         Act1TransitionCard transitionCard;
 
@@ -49,6 +52,8 @@ namespace CrisisVR
 
         void Start()
         {
+            foreach (var provider in FindObjectsByType<ContinuousMoveProvider>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+                provider.moveSpeed = 4f;
             if (dialogueRunner == null) dialogueRunner = FindAnyObjectByType<DialogueRunner>();
             if (gradeCard != null) gradeCard.SetActive(false);
             if (correctButton != null) correctButton.SetActive(false);
@@ -106,7 +111,7 @@ namespace CrisisVR
 
         async YarnTask DeliverAndPresentFeedback()
         {
-            await PlayNode("Act1_Retro");
+            await PlayNode(string.IsNullOrEmpty(retroNode) ? "Act1_Retro" : retroNode);
             if (this == null) return;
             if (gradeCard != null) gradeCard.SetActive(true);
             if (correctButton != null) correctButton.SetActive(true);

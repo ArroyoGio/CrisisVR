@@ -1,0 +1,18 @@
+LAB12 benchmark - entorno
+Fecha: 2026-11-09 18:37:23
+Resultado: ok=True OK
+Unity: 6000.3.9f1 | Target activo: Android (medido en Editor/PC, NO en Quest)
+Escena: Assets/Scenes/Acto1.unity
+Quality medido: Low | Quality original restaurado: Ultra
+URP asset medido: Performance URP Config | DynamicBatching original=True | useOcclusionCulling original=True
+umbraDataSize: 40960 B
+GPU: AMD Radeon(TM) Graphics | API: Direct3D11 | CPU: AMD Ryzen 7 5700G with Radeon Graphics 
+Game view / screen: 910x505 | vSync=1 | targetFrameRate=-1
+Warmup=20 cuadros, muestras=60 cuadros por celda, repeticiones=2 (la 2a repetición invierte el orden de configs)
+Poses:
+  P1 Exterior: spawn mirando a la fachada pos=(39.50, 0.02, -7.00) yaw=270
+  P2 Vestíbulo mirando al pasillo pos=(21.00, 0.02, -7.00) yaw=270
+  P3 Pasillo medio pos=(8.00, 0.02, -7.00) yaw=270
+  P4 Aula: participante (asiento) pos=(0.00, 0.00, -0.20) yaw=0
+  P5 Aula: participante mirando atrás pos=(0.00, 0.00, -0.20) yaw=180
+  P6 Exterior: spawn mirando hacia afuera (control) pos=(39.50, 0.02, -7.00) yaw=90

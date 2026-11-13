@@ -1,0 +1,3 @@
+LISTO
+D1_FrameDebugger.png 1500x820 coloresDistintos(muestra)=94 brilloMedio=119
+D1_RenderGraphViewer.png 1500x820 coloresDistintos(muestra)=113 brilloMedio=112

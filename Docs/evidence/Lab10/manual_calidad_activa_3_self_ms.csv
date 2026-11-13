@@ -1,0 +1,678 @@
+# Self ms por marcador, hilo principal, ventana de Profiler posterior a la captura | frames=430 (0-429) | frame_ms(Profiler) media=9.77 max=207.646
+marker,self_ms_media_por_frame,self_ms_max_en_un_frame,frames_con_marcador
+"EditorLoop",5.442,203.919,430
+"Profiler.FlushMemoryCounters",0.679,1.375,430
+"Inl_On Record Render Graph",0.251,0.61,430
+"XRI.PreprocessInteractors",0.16,0.452,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation::XRInteractionSimulator.Update() [Invoke]",0.156,0.482,430
+"Inl_UniversalRenderPipeline.RenderSingleCameraInternal: Main Camera",0.116,0.279,430
+"WaitForJobGroupID",0.093,0.218,430
+"UpdateScene",0.077,0.275,430
+"UnityEngine.CoreModule.dll!UnityEngine::Application.InvokeOnBeforeRender() [Invoke]",0.068,0.261,430
+"Inl_RenderCameraStack",0.064,0.287,430
+"BehaviourUpdate",0.061,0.359,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.UI::UIInputModule.Update() [Invoke]",0.059,0.277,430
+"Profiler.CollectUIStats",0.052,0.807,430
+"Inl_UniversalRenderPipeline.ComputeShadowCasterCullingInfos",0.05,0.318,430
+"Inl_Setup Light Constants",0.048,0.378,430
+"Inl_NRPRGComp_ExecuteBeginRenderpassCommand",0.048,0.126,430
+"PxScene.simulate",0.046,0.863,194
+"UnityEngine.CoreModule.dll!UnityEngine.Rendering::RenderPipelineManager.DoRenderLoop_Internal() [Invoke]",0.042,0.173,430
+"ExecuteRenderQueueJob",0.039,0.124,421
+"Inl_ExecuteRenderGraph",0.037,0.134,430
+"UpdateScreenManagerAndInput",0.036,0.386,430
+"Inl_ScriptableRenderContext.Submit",0.034,0.094,430
+"TransformChangeSystem",0.034,0.177,430
+"XRI.ProcessInteractors",0.032,0.152,430
+"Inl_BlitFinalToBackBuffer",0.032,0.18,430
+"SRPBatcher.Flush",0.029,0.148,430
+"Inl_NRPRGComp_ExecuteDestroyResources",0.028,0.154,430
+"RenderPlayModeViewCameras",0.027,0.079,430
+"Inl_MainLightShadow",0.026,0.154,430
+"SRPBShadow.ApplyShader",0.025,0.175,430
+"Inl_NRPRGComp_ExecuteInitializeResources",0.025,0.152,430
+"Inl_UniversalRenderTotal",0.025,0.181,430
+"SRPBRender.ApplyShader",0.025,0.063,430
+"Inl_ComputeHashRenderGraph",0.024,0.069,430
+"Inl_ScriptableRenderer.SetPerCameraShaderVariables",0.024,0.075,430
+"UnityEngine.IMGUIModule.dll!UnityEngine::GUIUtility.SetSkin() [Invoke]",0.023,0.205,430
+"InputSystem.onAfterUpdate",0.023,0.128,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Inputs::XRTransformStabilizer.Update() [Invoke]",0.022,0.207,430
+"StdRender.ApplyShader",0.022,0.105,430
+"ExecuteRenderGraph",0.022,0.059,430
+"UnityEngine.CoreModule.dll!UnityEngine::Awaitable.OnUpdate() [Invoke]",0.022,0.196,430
+"UnityEngine.InputModule.dll!UnityEngineInternal.Input::NativeInputSystem.NotifyBeforeUpdate() [Invoke]",0.022,0.369,430
+"EditorConnection.CheckForIncomingConnections",0.022,0.194,430
+"UnityEngine.UIModule.dll!UnityEngine::Canvas.SendWillRenderCanvases() [Invoke]",0.021,0.236,430
+"Physics.SyncTransforms",0.02,0.127,430
+"EditorConnection.PollAllCustomMessages",0.02,0.167,430
+"AssetDatabase.GetGUIDFromAssetPathV2",0.019,0.243,430
+"Inl_CompileRenderGraph",0.018,0.227,430
+"Physics.RaycastNonAlloc",0.018,0.16,430
+"Inl_UniversalRenderPipeline.CreateCameraData",0.018,0.123,430
+"UnityEngine.InputLegacyModule.dll!UnityEngine::SendMouseEvents.DoSendMouseEvents() [Invoke]",0.017,0.147,430
+"Inl_UniversalRenderPipeline.InitializeAdditionalCameraData",0.016,0.077,430
+"XRHandSubsystem.RetrieveCommonPoseData",0.016,0.213,430
+"XRHandSubsystem.TryUpdateHands",0.016,0.248,430
+"RenderLoop.Draw",0.016,0.04,430
+"Setup Camera Properties",0.016,0.104,430
+"CoroutinesDelayedCalls",0.016,0.187,430
+"Unity.XR.Interaction.Toolkit.Samples.StarterAssets.dll!UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets::ControllerAnimator.Update() [Invoke]",0.015,0.132,430
+"Unity.RenderPipelines.Core.Runtime.dll!UnityEngine.Rendering::DebugUpdater.Update() [Invoke]",0.015,0.129,430
+"UnityEngine.CoreModule.dll!::UpdateFunction.Invoke() [Invoke]",0.015,0.076,430
+"afterCullingOutputReady.Invoke",0.015,0.048,430
+"QueuePrepareIntegrateMainThreadObjects",0.015,0.096,430
+"UGUI.Rendering.EmitWorldScreenspaceCameraGeometry",0.015,0.443,430
+"Profiler.FlushCountersWithFlushOnEndOfFrame",0.014,0.055,430
+"DrawScreenSpaceUI",0.014,0.128,430
+"Inl_RenderPipeline.EndCameraRendering",0.013,0.135,430
+"Shadows.ExecuteDrawShadows",0.013,0.113,430
+"Inl_UniversalRenderPipeline.CreateShadowData",0.013,0.046,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement::ContinuousMoveProvider.Update() [Invoke]",0.013,0.264,430
+"UniversalRenderPipeline.RenderSingleCameraInternal: Main Camera",0.013,0.05,430
+"UnityEngine.CoreModule.dll!UnityEngine::UnitySynchronizationContext.ExecuteTasks() [Invoke]",0.012,2.077,430
+"EditorResources.Load",0.012,1.015,430
+"Unity.XR.Interaction.Toolkit.Samples.InteractionSimulator.dll!UnityEngine.XR.Interaction.Toolkit.Samples.InteractionSimulator::XRInteractionSimulatorPlayModeMenu.Update() [Invoke]",0.012,0.151,430
+"CullScriptable",0.012,0.163,430
+"Inl_RecordRenderGraph",0.012,0.059,430
+"Physics.SphereCastNonAlloc",0.012,0.036,430
+"Inl_Setup Camera Properties",0.012,0.271,430
+"InputUpdate",0.012,0.041,430
+"EarlyUpdate.UpdateCanvasRectTransform",0.012,0.044,430
+"UnityEngine.UI.dll!UnityEngine.EventSystems::EventSystem.Update() [Invoke]",0.011,0.131,430
+"Inl_UniversalRenderPipeline.SetupPerCameraShaderConstants",0.011,0.119,430
+"VolumeManager.Update",0.011,0.049,430
+"BeginRenderQueueExtraction",0.011,0.141,430
+"BlitFinalToBackBuffer",0.011,0.156,430
+"SceneCulling",0.01,0.047,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit::XRInteractionManager.Update() [Invoke]",0.01,0.128,430
+"EndRenderQueueExtraction",0.01,0.146,430
+"Shadows.CullDirectionalShadowCasters",0.01,0.047,430
+"Inl_UniversalRenderPipeline.CreateRenderingData",0.01,0.043,430
+"Camera.RenderSkybox",0.009,0.032,430
+"Inl_UniversalRenderPipeline.InitializeStackedCameraData",0.009,0.07,430
+"EarlyUpdate.InsightsUpdate",0.009,0.392,430
+"MeshSkinning.Update",0.009,0.049,430
+"LateBehaviourUpdate",0.009,0.083,430
+"WaitForRenderJobs",0.009,0.034,430
+"Inl_Setup Main Shadowmap",0.009,0.06,430
+"CullAllVisibleLights",0.009,0.065,430
+"EarlyUpdate.UpdateInputManager",0.009,0.027,430
+"Material.SetPassFast",0.009,0.091,430
+"Inl_DrawOpaqueObjects",0.009,0.147,430
+"AudioManager.Update",0.009,0.138,430
+"CustomRenderTextures.Update",0.008,0.178,430
+"Physics.OverlapSphereNonAlloc",0.008,0.143,430
+"LineRenderer.ScheduleGeometryJobs",0.008,0.028,430
+"GarbageCollector.CollectIncremental",0.008,3.016,430
+"RenderLoop.ScheduleDraw",0.008,0.036,430
+"UnityEngine.InputModule.dll!UnityEngineInternal.Input::NativeInputSystem.ShouldRunUpdate() [Invoke]",0.008,0.126,430
+"XRI.UpdateGroupMemberInteractions",0.008,0.027,430
+"UpdateRendererBoundingVolumes",0.008,0.101,430
+"CullResults.CreateSharedRendererScene",0.008,0.066,430
+"GC.Collect",0.008,3.307,1
+"Assembly-CSharp.dll!CrisisVR::PlayerAvatarFollowHead.LateUpdate() [Invoke]",0.007,0.025,430
+"SkinnedMeshOncePerFrameUpdate",0.007,0.022,430
+"Inl_LightCookies",0.007,0.054,430
+"UIEvents.UpdateCanvasRectTransform",0.007,0.038,430
+"UnityEngine.UIElementsModule.dll!UnityEngine.UIElements::UIElementsRuntimeUtilityNative.UpdatePanels() [Invoke]",0.007,0.113,430
+"UnityEngine.UIModule.dll!UnityEngine::Canvas.SendPreWillRenderCanvases() [Invoke]",0.007,0.019,430
+"Profiler.ScreenshotUpdate",0.007,0.027,430
+"Shadows.PrepareDrawShadows",0.007,0.021,430
+"UGUI.Rendering.UpdateBatches",0.007,0.06,430
+"CullObjectsWithoutUmbra",0.007,0.062,357
+"Idle",0.007,0.138,203
+"Inl_Initialize Frame",0.006,0.032,430
+"ProcessRemoteInput",0.006,0.057,430
+"EarlyUpdate.RendererNotifyInvisible",0.006,0.115,430
+"RenderLoop.CleanupNodeQueue",0.006,0.024,430
+"ReflectionProbes.Update",0.006,0.104,430
+"Layout",0.006,0.213,430
+"Inl_UniversalRenderPipeline.SetupPerFrameShaderConstants",0.006,0.022,430
+"RenderLoop.DrawSRPBatcher",0.006,0.095,430
+"Inl_UpdateVolumeFramework",0.006,0.025,430
+"Assembly-CSharp.dll!CrisisVR::EditorDebugInput.Update() [Invoke]",0.006,0.03,430
+"ScheduleShadowSplitMasksComputation",0.006,0.148,430
+"Audio.FMODSystemUpdate",0.005,0.082,430
+"Profiler.CollectAudioStats",0.005,0.015,430
+"UnityEngine.InputModule.dll!UnityEngineInternal.Input::NativeInputSystem.NotifyUpdate() [Invoke]",0.005,0.162,430
+"CollectGPUSamples",0.005,0.161,430
+"PrepareUpdateRendererBoundingVolumes",0.005,0.138,430
+"Shadows.DrawSRPBatcher",0.005,0.036,430
+"Inl_UniversalRenderPipeline.GetMainLightIndex",0.005,0.013,430
+"Profiler.CollectPhysicsStats",0.005,0.042,194
+"InputSystem.onBeforeUpdate",0.005,0.024,430
+"Camera.Render",0.005,0.027,430
+"GUI.Repaint",0.005,0.026,430
+"Initialization.AsyncUploadTimeSlicedUpdate",0.005,0.087,430
+"EarlyUpdate.AnalyticsCoreStatsUpdate",0.005,0.029,430
+"PhysX.ScScene.postBroadPhase2",0.005,0.096,194
+"TimeUpdate.WaitForLastPresentationAndUpdateTime",0.005,0.017,430
+"Shadows.ScheduleRenderJobs",0.005,0.13,430
+"Inl_Draw Main Light Shadowmap",0.005,0.027,430
+"ParticleSystem.Update",0.005,0.017,430
+"Canvas.RenderOverlays",0.005,0.015,430
+"Inl_ScriptableRenderer.SetupCullingParameters",0.005,0.018,430
+"Physics.SwapPhysXBuffersJob",0.005,0.219,194
+"PostUpdateScreenManagerAndInput",0.005,0.04,430
+"XRHandSubsystem.PostUpdate",0.005,0.156,430
+"Profiler.CollectLegacyStats",0.005,0.107,430
+"Unity.XR.Interaction.Toolkit.Samples.InteractionSimulator.dll!UnityEngine.XR.Interaction.Toolkit.Samples.InteractionSimulator::XRInteractionSimulatorCursor.Update() [Invoke]",0.005,0.109,430
+"ApplyPass.PrepareKeywords",0.005,0.026,430
+"PrepareSceneNodes",0.005,0.013,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.State::XRInteractorAffordanceStateProvider.UIUpdateCheckCoroutine() [Coroutine: MoveNext] [Invoke]",0.005,0.019,430
+"UnityEngine.IMGUIModule.dll!UnityEngine::Event.Internal_MakeMasterEventCurrent() [Invoke]",0.004,0.116,430
+"DestroyCullResults",0.004,0.04,430
+"Inl_DrawScreenSpaceUI",0.004,0.017,430
+"CullSceneDynamicObjects",0.004,0.032,357
+"PrepareSceneCullingParameters",0.004,0.045,430
+"PlayerEndOfFrame",0.004,0.023,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning::SnapTurnProvider.Update() [Invoke]",0.004,0.026,430
+"Shadows.ExtractShaderPassContext",0.004,0.009,430
+"Director.SampleTime",0.004,0.022,430
+"PostLateUpdate.MemoryFrameMaintenance",0.004,0.013,430
+"PostLateUpdate.UpdateAllRenderers",0.004,0.015,430
+"MainLightShadow",0.004,0.026,430
+"Profiler.CollectEditorStats",0.004,0.26,430
+"CompileRenderGraph",0.004,0.054,430
+"XRHandSubsystem.Provider.TryUpdateHands",0.004,0.008,430
+"GameObject.Deactivate",0.004,0.027,430
+"Audibility computation",0.004,0.021,430
+"Preload Single Step",0.004,0.054,430
+"EarlyUpdate.Physics2DEarlyUpdate",0.004,0.118,430
+"Inl_ScriptableRenderer.ClearRenderingState",0.003,0.013,430
+"CullPerObjectLights",0.003,0.01,430
+"GameObject.ActivateAwakeRecursively",0.003,0.019,430
+"FrameEvents.NewInputBeforeRenderUpdate",0.003,0.013,430
+"XRI.ProcessInteractionStrength",0.003,0.135,430
+"Physics.CalculateChangedColliderTransforms",0.003,0.008,430
+"PlaybackGestureHandler.TryGetCommonGestureStates",0.003,0.167,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.State::BaseAffordanceStateProvider.Update() [Invoke]",0.003,0.011,430
+"PhysX.FinalizeUpdateTask",0.003,0.041,194
+"FixedBehaviourUpdate",0.003,0.042,194
+"Inl_DrawTransparentObjects",0.003,0.01,430
+"Shadows.SplitAndSortCasters",0.003,0.008,429
+"XRI.GetValidTargets",0.003,0.014,430
+"RenderTexture.GarbageCollectTemporary",0.003,0.022,430
+"Inl_Set Motion Vector Global Matrices",0.003,0.047,430
+"UnityEngine.CoreModule.dll!UnityEngine.Rendering::RenderPipelineManager.HandleRenderPipelineChange() [Invoke]",0.003,0.008,430
+"Find dependency chain",0.003,0.029,430
+"XRI.ProcessInteractables",0.003,0.05,430
+"PhysX.ScScene.updateDynamics",0.003,0.109,194
+"XRHandPlayback.TryUpdateHandImpl",0.003,0.023,430
+"UnityEngine.CoreModule.dll!UnityEngine.Rendering::SupportedRenderingFeatures.IsLightmapBakeTypeSupportedByRef() [Invoke]",0.003,0.068,430
+"TimeManager.Update",0.003,0.02,430
+"UnityEngine.CoreModule.dll!UnityEngine.Experimental.Rendering::ScriptableRuntimeReflectionSystemWrapper.Internal_ScriptableRuntimeReflectionSystemWrapper_TickRealtimeProbes() [Invoke]",0.003,0.11,430
+"Canvas.RenderSubBatch",0.003,0.018,430
+"FindActiveLights",0.003,0.014,430
+"PreUpdate.NewInputUpdate",0.003,0.01,430
+"Profiler.CollectVideoStats",0.003,0.181,430
+"Inl_UniversalRenderPipeline.CreateLightData",0.003,0.006,430
+"InputSystemPlayerLoopRunnerInitializationSystem",0.002,0.031,430
+"PreUpdate.PhysicsUpdate",0.002,0.017,430
+"PostLateUpdate.RenderAs2DUpdate",0.002,0.045,430
+"PlaybackGestureHandler.TryGetAimPose",0.002,0.007,430
+"PlayerConnection.Poll",0.002,0.209,430
+"Profiler.SerializeStats",0.002,0.007,430
+"PreUpdate.Physics2DUpdate",0.002,0.02,430
+"UnityEngine.UI.dll!UnityEngine.UI::HorizontalOrVerticalLayoutGroup.Update() [Invoke]",0.002,0.096,430
+"PhysX.ScScene.islandGen",0.002,0.236,194
+"UnityEngine.CoreModule.dll!UnityEngine.Rendering::OnDemandRendering.GetRenderFrameInterval() [Invoke]",0.002,0.095,430
+"Shadows.CullingCallbacks",0.002,0.028,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit::XRInteractionManager.FixedUpdate() [Invoke]",0.002,0.021,194
+"JobDebuggerFrameMaintenance",0.002,0.028,430
+"AudioProfiler.CaptureFrame",0.002,0.008,430
+"UnityEngine.CoreModule.dll!UnityEngine::Awaitable.OnEndOfFrame() [Invoke]",0.002,0.006,430
+"UnityEngine.AccessibilityModule.dll!UnityEngine.Accessibility::AccessibilityManager.Internal_Update() [Invoke]",0.002,0.009,430
+"UnityEngine.InputForUIModule.dll!UnityEngine.InputForUI::EventProvider.NotifyUpdate() [Invoke]",0.002,0.007,430
+"PhysX.NpScene.execution",0.002,0.016,194
+"Setup Forward Lights",0.002,0.007,430
+"SortingGroupManager.Update",0.002,0.013,430
+"DrawSkybox",0.002,0.014,430
+"Initialization.XREarlyUpdate",0.002,0.113,430
+"PreUpdate.AIUpdate",0.002,0.01,430
+"LowLevelPhysics2D.DrawWorld.CompileDrawResults",0.002,0.025,430
+"Inl_Setup Additional Shadows",0.002,0.021,430
+"FrameEvents.XRBeginFrame",0.002,0.007,430
+"CullSendEvents",0.002,0.014,430
+"XRHandSubsystem.TrackingEvents",0.002,0.017,430
+"Physics.FetchPhysXResults",0.002,0.018,194
+"Draw Main Light Shadowmap",0.002,0.044,430
+"PreLateUpdate.Physics2DLateUpdate",0.002,0.01,430
+"LowLevelPhysics2D.DrawWorld.UpdateLifetimes",0.002,0.054,430
+"FindBrightestDirectionalLight",0.002,0.004,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit::XRInteractionManager.LateUpdate() [Invoke]",0.002,0.007,430
+"PhysX.ScScene.destroyManagers",0.002,0.028,194
+"EarlyUpdate.ClearLines",0.002,0.005,430
+"FixedUpdate.Physics2DFixedUpdate",0.002,0.016,194
+"PhysX.ScScene.islandInsertion",0.002,0.016,194
+"XRHandPlayback.TryUpdateHand",0.002,0.024,430
+"XRI.EvaluateInvalidSelections",0.002,0.145,430
+"PreUpdate.UpdateVideo",0.002,0.014,430
+"UnityEngine.CoreModule.dll!UnityEngine.Rendering::SupportedRenderingFeatures.IsUIOverlayRenderedBySRP() [Invoke]",0.002,0.006,430
+"Physics2D.CollectProfileInfo",0.002,0.056,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Locomotion::LocomotionMediator.Update() [Invoke]",0.002,0.008,430
+"FindMainCamera",0.002,0.005,430
+"YarnSpinner.Unity.dll!Yarn.Unity.LineAdvancerInput::KeyCodes.Update() [Invoke]",0.002,0.008,430
+"Inl_Setup Forward Lights",0.002,0.004,430
+"AddDirectionalLights",0.002,0.022,430
+"UIElements.CollectLayoutNodes",0.002,0.043,430
+"EngineJob",0.002,0.003,430
+"Profiler.FrameMetadata",0.002,0.056,430
+"PhysX.ScScene.rigidBodyNarrowPhase",0.002,0.031,194
+"PreLateUpdate.UIElementsUpdatePanels",0.001,0.045,430
+"SpeedTreeWindManager.UpdateGlobalAndLocalWinds",0.001,0.004,430
+"PlayerCleanupCachedData",0.001,0.008,430
+"PhysX.ScScene.processLostContact",0.001,0.037,194
+"PhysX.ScScene.broadPhase",0.001,0.102,194
+"Unity.XR.Interaction.Toolkit.Samples.StarterAssets.dll!UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets::ControllerInputActionManager.Update() [Invoke]",0.001,0.013,430
+"PhysX.PostBroadPhaseStage2Task",0.001,0.142,190
+"EarlyUpdate.UpdateContentLoading",0.001,0.012,430
+"Inl_DrawSkybox",0.001,0.026,430
+"LowLevelPhysics2D.PhysicsWorld.RenderWorlds",0.001,0.022,430
+"EarlyUpdate.ExecuteMainThreadJobs",0.001,0.015,430
+"UnityEngine.PhysicsModule.dll!UnityEngine::Physics.OnSceneContact() [Invoke]",0.001,0.106,194
+"PostLateUpdate.UpdateAudio",0.001,0.005,430
+"FixedUpdate.PhysicsFixedUpdate",0.001,0.074,194
+"Physics.Interpolation",0.001,0.096,430
+"Physics.CalculateChangedBodyTransforms",0.001,0.003,430
+"LowLevelPhysics2D.PhysicsWorld.Simulate",0.001,0.021,194
+"SpeedTreeWindManager.Update",0.001,0.011,430
+"XRHandSubsystemPlayerLoopRunnerUpdateSystem",0.001,0.006,430
+"UI.RenderOverlays",0.001,0.006,430
+"UnityEngine.AIModule.dll!UnityEngine.AI::NavMesh.Internal_CallOnNavMeshPreUpdate() [Invoke]",0.001,0.006,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.Rendering::MaterialPropertyBlockHelper.LateUpdate() [Invoke]",0.001,0.026,430
+"Render.LineOrTrail",0.001,0.057,430
+"Inl_Setup Debug Properties",0.001,0.005,430
+"ReflectionProbeAnchorManagerUpdate",0.001,0.04,430
+"LOD.ComputeLOD",0.001,0.124,430
+"XRI.EvaluateInvalidFocus",0.001,0.016,430
+"PhysX.ScScene.processLostContact2",0.001,0.014,194
+"PhysX.NpScene.completion",0.001,0.165,194
+"FinalizeUpdateRendererBoundingVolumes",0.001,0.009,430
+"YarnSpinner.Unity.dll!Yarn.Unity::InMemoryVariableStorage.Update() [Invoke]",0.001,0.115,430
+"PostLateUpdate.PlayerUpdateCanvases",0.001,0.052,430
+"Profiler.FlushCounters",0.001,0.003,430
+"PostLateUpdate.UpdateAllSkinnedMeshes",0.001,0.074,430
+"Initialization.SynchronizeInputs",0.001,0.055,430
+"PostLateUpdate.ProfilerEndFrame",0.001,0.006,430
+"FrameEvents.OnBeforeRenderCallback",0.001,0.006,430
+"CullShadowCastersScriptable",0.001,0.013,430
+"GC.Alloc",0.001,0.027,430
+"Unity.AppUI.dll!Unity.AppUI.Core::AppUIManagerBehaviour.Update() [Invoke]",0.001,0.003,430
+"Render",0.001,0.003,430
+"PhysX.ScScene.collideStep",0.001,0.008,194
+"PreLateUpdate.AccessibilityUpdate",0.001,0.027,430
+"Physics.SendContactEvents",0.001,0.012,194
+"AudioManager.FixedUpdate",0.001,0.009,194
+"updateScene.Invoke",0.001,0.069,430
+"EarlyUpdate.UnityWebRequestUpdate",0.001,0.004,430
+"Monobehaviour.OnMouse_",0.001,0.003,430
+"Assembly-CSharp.dll!CrisisVR::Act1ProfessorMotion.Update() [Invoke]",0.001,0.003,430
+"Graphics.Blit",0.001,0.021,29
+"PostLateUpdate.UpdateVideo",0.001,0.01,430
+"Shadows.Sort",0.001,0.002,429
+"EarlyUpdate.XRUpdate",0.001,0.003,430
+"PreUpdate.IMGUISendQueuedEvents",0.001,0.03,430
+"PhysX.AABBManager::postBroadPhaseStage3",0.001,0.008,194
+"PhysX.ScScene.advanceStep",0.001,0.008,194
+"XRI.EvaluateValidHovers",0.001,0.117,430
+"PhysX.ScScene.preRigidBodyNarrowPhase",0.001,0.01,194
+"PreUpdate.InputForUIUpdate",0.001,0.003,430
+"UnityEngine.AccessibilityModule.dll!UnityEngine.Accessibility::AccessibilityManager.Internal_LateUpdate() [Invoke]",0.001,0.004,430
+"Update.ScriptRunBehaviourUpdate",0.001,0.003,430
+"Update.DirectorUpdate",0.001,0.004,430
+"CanvasUpdate.Prelayout",0.001,0.009,430
+"CullResultsToNativeArrays",0.001,0.003,430
+"EarlyUpdate.ScriptRunDelayedStartupFrame",0.001,0.021,430
+"Application.Integrate Assets in Background",0.001,0.003,430
+"XRI.EvaluateInvalidHovers",0.001,0.003,430
+"EarlyUpdate.UpdateStreamingManager",0.001,0.016,430
+"UIR.Free",0.001,0.002,430
+"PreLateUpdate.ConstraintManagerUpdate",0.001,0.003,430
+"DrawOpaqueObjects",0.001,0.003,430
+"AddCustomActiveLocalLights",0.001,0.006,430
+"EarlyUpdate.ClearIntermediateRenderers",0.001,0.004,430
+"Renderers.OncePerFrameUpdate",0.001,0.003,430
+"LowLevelPhysics2D.PhysicsWorld.PreSimulate",0.001,0.005,194
+"Director.PrepareFrame",0.001,0.004,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.AffordanceSystem.State::XRInteractorAffordanceStateProvider.UIUpdateCheckCoroutine() [Coroutine: System.Collections.IEnumerator.get_Current] [Invoke]",0.001,0.008,430
+"ContentLoadFrontend.IntegrateUpdate",0.001,0.002,430
+"PostLateUpdate.VFXUpdate",0.001,0.004,430
+"ClipperRegistry.Cull",0.001,0.003,430
+"EarlyUpdate.GpuTimestamp",0.001,0.027,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Inputs::XRInputModalityManager.Update() [Invoke]",0.001,0.003,430
+"PostLateUpdate.ShaderHandleErrors",0.001,0.002,430
+"Inl_ScriptableRenderer.AddRenderPasses",0.001,0.002,430
+"ReflectionProbeAnchorPositionUpdate",0.001,0.002,430
+"addCustomLights.Invoke",0.001,0.008,430
+"CleanUp.TextRenderingGarbageCollect",0.001,0.002,430
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation::SimulatedDeviceLifecycleManager.Update() [Invoke]",0.001,0.003,430
+"TerrainManager.CullAllTerrains",0.001,0.002,430
+"XRI.EvaluateValidSelections",0.001,0.003,430
+"Loading.UpdatePreloading",0.001,0.006,430
+"PhysX.ScScene.afterIntegration",0.001,0.005,194
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Locomotion::XRBodyTransformer.Update() [Invoke]",0.001,0.024,430
+"ClothManager.LateUpdate",0.001,0.003,430
+"Physics.WriteRigidbodyPoses",0.001,0.031,430
+"FixedUpdate.NewInputFixedUpdate",0.001,0.006,194
+"GeneralConnection.Poll",0.001,0.003,430
+"Assembly-CSharp.dll!CrisisVR::Act1Flow.Update() [Invoke]",0.001,0.003,430
+"PostLateUpdate.UpdateResolution",0.001,0.002,430
+"EarlyUpdate.UpdateAsyncInstantiate",0.001,0.002,430
+"Assembly-CSharp.dll!CrisisVR::Act3Flow.Update() [Invoke]",0.001,0.002,430
+"XRI.FilterRegisteredValidTargets",0.001,0.002,430
+"Initialize Frame",0.001,0.003,430
+"EndGraphicsJobs",0.001,0.004,430
+"PrepareSceneNodesSetUp",0.001,0.024,102
+"PostLateUpdate.UpdateVideoTextures",0.001,0.002,430
+"UpdatePreloading",0.001,0.003,430
+"suspendPointHook.Invoke",0.001,0.002,430
+"ScheduleUpdateRendererBoundingVolumes",0.001,0.002,430
+"Profiler.CollectGIStats",0.001,0.004,430
+"PhysX.ScScene.postSolver",0.001,0.005,194
+"Gfx.EndAsyncJobFrame",0.001,0.003,430
+"MeshRendererFinalizeUpdate",0.001,0.002,430
+"XRI.ProcessInteractionStrength.Interactors",0.001,0.002,430
+"LightCookies",0.001,0.004,430
+"PostLateUpdate.UpdateCustomRenderTextures",0.001,0.004,430
+"Physics.WriteColliderPoses",0.001,0.002,430
+"PostLateUpdate.AccessibilityLateUpdate",0.001,0.002,430
+"Update.ScriptRunDelayedTasks",0.001,0.002,430
+"Profiler.FlushFileIOCounters",0.001,0.002,430
+"Profiler.RequestScreenshot",0.001,0.013,29
+"LowLevelPhysics2D.PhysicsWorld.SimulateBatch",0.001,0.004,430
+"GlobalEventQueue",0.001,0.003,430
+"Graphics.DrawProcedural",0.001,0.002,430
+"FixedUpdate.DirectorFixedUpdate",0.001,0.007,194
+"Initialization.UpdateCameraMotionVectors",0.001,0.002,430
+"PhysX.ScScene.rigidBodySolver",0.001,0.006,194
+"EarlyUpdate.UpdateTextureStreamingManager",0.001,0.003,430
+"SkinnedMeshFinalizeUpdate",0.001,0.008,430
+"PlayerLoop",0.001,0.002,430
+"UnityEngine.Physics2DModule.dll!UnityEngine.LowLevelPhysics2D::PhysicsEvents.InvokePreSimulate() [Invoke]",0.001,0.005,194
+"LowLevelPhysics2D.PhysicsWorld.Transform.WriteTweens",0.001,0.002,430
+"Physics.PrepareSimulationStage",0.001,0.007,194
+"Inl_RenderPipeline.BeginContextRendering",0.001,0.008,430
+"DrawTransparentObjects",0.001,0.002,430
+"EarlyUpdate.PerformanceAnalyticsUpdate",0.001,0.001,430
+"PhysX.ScScene.updateCCDMultiPass",0.001,0.004,194
+"PhysX.ScScene.finalizationPhase",0.001,0.004,194
+"TextRendering.CollectGarbage",0.001,0.001,430
+"PreLateUpdate.LegacyAnimationUpdate",0.001,0.002,430
+"Flush DSP connections",0.001,0.014,430
+"PostLateUpdate.TriggerEndOfFrameCallbacks",0.001,0.002,430
+"PostLateUpdate.UpdateRectTransform",0,0.002,430
+"Physics.Simulate",0,0.004,194
+"PreLateUpdate.ScriptRunBehaviourLateUpdate",0,0.002,430
+"MeshRendererPrepareDispatchUpdate",0,0.019,430
+"VideoPlayer.Update",0,0.002,430
+"Physics.SendEvents",0,0.005,194
+"Unity.XR.Interaction.Toolkit.dll!UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals::CurveVisualController.LateUpdate() [Invoke]",0,0.001,430
+"Physics.UpdateRigidbodies",0,0.004,194
+"Physics2D.Simulate",0,0.003,194
+"PreUpdate.WindUpdate",0,0.002,430
+"Update.ScriptRunDelayedDynamicFrameRate",0,0.002,430
+"Initialization.DirectorSampleTime",0,0.002,430
+"EarlyUpdate.TilemapRendererEarlyUpdate",0,0.002,430
+"BatchRenderer.Flush",0,0.002,430
+"EarlyUpdate.PollPlayerConnection",0,0.002,430
+"ParticleSystem.EndUpdateAll",0,0.002,430
+"PhysX.ScScene.secondPassNarrowPhase",0,0.005,194
+"RenderingCommandBuffer.PrepareKeywords",0,0.002,430
+"YarnSpinner.Unity.dll!Yarn.Unity::LineAdvancer.Update() [Invoke]",0,0.002,430
+"SkinnedMeshPrepareDispatchUpdate",0,0.001,430
+"Assembly-CSharp.dll!CrisisVR::Act2Flow.Update() [Invoke]",0,0.001,430
+"PhysX.ScScene.postNarrowPhase",0,0.004,194
+"SoundManager.Update",0,0.002,430
+"EarlyUpdate.UpdateAsyncReadbackManager",0,0.001,430
+"PreLateUpdate.ParticleSystemBeginUpdateAll",0,0.002,430
+"PostLateUpdate.GUIClearEvents",0,0.002,430
+"ConstraintManager::Update",0,0.001,430
+"ClothScene.Update",0,0.002,430
+"Inl_UniversalRenderPipeline.GetPerObjectLightFlags",0,0.001,430
+"PreLateUpdate.DirectorDeferredEvaluate",0,0.002,430
+"EarlyUpdate.SpriteAtlasManagerUpdate",0,0.002,430
+"Director.ProcessFrame",0,0.002,430
+"Set Motion Vector Global Matrices",0,0.001,430
+"LowLevelPhysics2D.PhysicsWorld.WriteTransformTweens",0,0.001,430
+"PostLateUpdate.XRPostLateUpdate",0,0.011,430
+"Inl_Sort Render Passes",0,0.006,430
+"PhysX.ScScene.postBroadPhaseCont",0,0.004,194
+"Inl_ScriptableRenderer.InternalFinishRenderingCommon",0,0.006,430
+"FixedUpdate.AudioFixedUpdate",0,0.021,194
+"RenderTarget.GrabPixels",0,0.008,29
+"Physics.UpdateArticulations",0,0.003,194
+"FrameEvents.XREndFrame",0,0.002,430
+"FixedUpdate.PhysicsClothFixedUpdate",0,0.004,194
+"Inl_RenderPipeline.EndContextRendering",0,0.001,430
+"EarlyUpdate.ResetFrameStatsAfterPresent",0,0.001,430
+"PostLateUpdate.InputEndFrame",0,0.024,430
+"FixedUpdate.ScriptRunBehaviourFixedUpdate",0,0.002,194
+"ComputeNeedsPerObjectLights",0,0.002,430
+"Application.FlushRenderStats",0,0.001,430
+"UnityEngine.Physics2DModule.dll!UnityEngine.LowLevelPhysics2D::PhysicsEvents.InvokePostSimulate() [Invoke]",0,0.003,194
+"FixedUpdate.LegacyFixedAnimationUpdate",0,0.002,194
+"PhysX.ScScene.postBroadPhase3",0,0.005,194
+"NavMeshManager",0,0.002,430
+"Inl_RenderPipeline.BeginCameraRendering",0,0.001,430
+"GameObject.Activate",0,0.001,430
+"UIEvents.CanvasManagerEmitOffScreenGeometry",0,0.001,430
+"PostLateUpdate.SortingGroupsUpdate",0,0.001,430
+"Terrain.Trees.OnWillRender",0,0.014,430
+"EarlyUpdate.PhysicsResetInterpolatedTransformPosition",0,0.002,430
+"EditorConnection.RefreshObservablePlayerList",0,0.001,430
+"ScheduleCullingGroups",0,0.001,430
+"ParticleSystem.WaitForPreviousRenderingToFinish",0,0.001,430
+"PhysX.ScScene.processLostSolverPatchesTask",0,0.007,194
+"PhysX.ScScene.preallocateContactManagers",0,0.002,194
+"PhysX.ThirdPassIslandGenTask",0,0.003,194
+"EarlyUpdate.UpdateMainGameViewRect",0,0.002,430
+"PostLateUpdate.PhysicsSkinnedClothBeginUpdate",0,0.005,430
+"LowLevelPhysics2D.PhysicsWorld.PostSimulate",0,0.003,194
+"PhysX.ScScene.processLostContact3",0,0.004,89
+"PostLateUpdate.DirectorRenderImage",0,0.001,430
+"EarlyUpdate.DispatchEventQueueEvents",0,0.001,430
+"Initialization.SynchronizeState",0,0.001,430
+"Physics.SendTriggerEvents",0,0.003,194
+"PhysX.ScScene.postIslandGen",0,0.002,192
+"PhysX.ScScene.postThirdPassIslandGenTask",0,0.002,194
+"PostLateUpdate.XRPreEndFrame",0,0.009,430
+"EarlyUpdate.UpdatePreloading",0,0.001,430
+"Physics.PublishResultsStage",0,0.002,194
+"UIEvents.WillRenderCanvases",0,0.001,430
+"PostLateUpdate.BatchModeUpdate",0,0.001,430
+"PostLateUpdate.DirectorLateUpdate",0,0.002,430
+"Update Lights",0,0.001,430
+"PreUpdate.SendMouseEvents",0,0.001,430
+"FixedUpdate.ScriptRunDelayedFixedFrameRate",0,0.017,194
+"TextureStreamingManager.Update",0,0.001,430
+"PhysX.ScScene.ccdBroadPhase",0,0.002,194
+"FixedUpdate.DirectorFixedUpdatePostPhysics",0,0.002,194
+"CombineJobResults",0,0.001,422
+"Physics2D.SyncRigidbodyTransformChanges",0,0.002,194
+"PostLateUpdate.ScriptRunDelayedDynamicFrameRate",0,0.001,430
+"FixedUpdate.DirectorFixedSampleTime",0,0.002,194
+"PhysX.ScScene.ccdBroadPhaseAABB",0,0.001,194
+"PhysX.ScScene.constraintProjection",0,0.001,194
+"FindDirectionalShadowCastingLights",0,0.005,430
+"FixedUpdate.ClearLines",0,0.005,194
+"VideoPlayer.InvokeScriptCallbacks",0,0.001,430
+"ClothManager.UploadSimulatedSkinData",0,0.001,430
+"PreLateUpdate.AIUpdatePostScript",0,0.001,430
+"Physics.RunSimulationStage",0,0.002,194
+"CanvasUpdate.PreRender",0,0.001,430
+"PreLateUpdate.EndGraphicsJobsAfterScriptUpdate",0,0.001,430
+"Physics2D.SyncTransformChanges",0,0.001,194
+"EarlyUpdate.ProcessRemoteInput",0,0.001,430
+"PhysX.ScScene.fetchPatchEventsTask",0,0.002,194
+"PreLateUpdate.DirectorUpdateAnimationEnd",0,0.011,430
+"CanvasUpdate.Layout",0,0.001,430
+"FixedUpdate.XRFixedUpdate",0,0.001,194
+"PreLateUpdate.DirectorUpdateAnimationBegin",0,0.001,430
+"CanvasUpdate.PostLayout",0,0.011,430
+"Semaphore.WaitForSignal",0,0.001,430
+"PreLateUpdate.PhysicsLateUpdate",0,0.001,430
+"Cleanup Unused Cached Data",0,0.001,430
+"FindShadowCastingLights",0,0.001,430
+"PhysX.ScScene.updateBodiesAndShapes",0,0.001,194
+"PostLateUpdate.ParticleSystemEndUpdateAll",0,0.001,430
+"PreUpdate.CheckTexFieldInput",0,0.001,430
+"Send messages",0,0.001,430
+"Setup Debug Properties",0,0.001,430
+"Physics2D.SyncColliderTransformChanges",0,0.004,194
+"PostLateUpdate.PhysicsSkinnedClothFinishUpdate",0,0,430
+"PhysX.ScScene.lostTouchReports",0,0.001,194
+"Physics.ReadTransforms",0,0.001,194
+"CanvasUpdate.LatePreRender",0,0,430
+"EarlyUpdate.PlayerCleanupCachedData",0,0.001,430
+"CullSceneDynamicObjectsCombineJob",0,0.001,72
+"Connections.Process",0,0.001,430
+"FindObjectsOfType",0,0.028,1
+"PostLateUpdate.EndGraphicsJobsAfterScriptLateUpdate",0,0,430
+"Profiler.CollectUICanvasStats",0,0.001,430
+"UIEvents.AlignCanvasRectTransformWithCamera",0,0,430
+"ConstraintManager::Update::JobSetup",0,0.003,430
+"PhysX.ScScene.unblockNarrowPhase",0,0.001,194
+"PhysX.PostThirdPassTask",0,0.001,175
+"Terrain.UpdateSplatProperties",0,0,430
+"PostLateUpdate.ResetInputAxis",0,0,430
+"PhysX.ScScene.processNpLostTouchTask",0,0.001,194
+"CullingGroupSendEvents",0,0,430
+"PrepareSceneNodesCombineJob",0,0.002,8
+"Connections.Poll",0,0,430
+"PhysX.Completion Task",0,0,194
+"Physics.SendJointBreakEvents",0,0.001,194
+"PostLateUpdate.UpdateCaptureScreenshot",0,0,430
+"UnsafeUtility.Malloc",0,0.004,1
+"SceneNodesInitJob",0,0.001,6
+"webRequestStop.Invoke",0,0.001,2
+"RenderTarget.SetActive",0,0,29
+"File Seeks",0,0,430
+"Total Contacts",0,0,430
+"Static Shapes",0,0,430
+"Kinematic Shapes",0,0,430
+"Asleep Shapes",0,0,430
+"Added Contacts",0,0,430
+"Awake Shapes",0,0,430
+"Total Shapes",0,0,430
+"Continuous Bodies",0,0,430
+"Dynamic Shapes",0,0,430
+"Removed Contacts",0,0,430
+"Total Callbacks",0,0,430
+"Broadphase Pairs",0,0,430
+"Discrete Bodies",0,0,430
+"Collision Enter",0,0,430
+"Collision Stay",0,0,430
+"Collision Exit",0,0,430
+"Trigger Enter",0,0,430
+"Trigger Stay",0,0,430
+"Trigger Exit",0,0,430
+"Total Queries",0,0,430
+"Raycast Queries",0,0,430
+"Shapecast Queries",0,0,430
+"Broadphase Updates",0,0,430
+"Static Bodies",0,0,430
+"Kinematic Bodies",0,0,430
+"Dynamic Bodies",0,0,430
+"Files Opened",0,0,430
+"Files Closed",0,0,430
+"File Bytes Written",0,0,430
+"File Bytes Read",0,0,430
+"File Reads Started",0,0,430
+"File Reads Finished",0,0,430
+"Other Reads",0,0,430
+"Texture Reads",0,0,430
+"Virtual Texture Reads",0,0,430
+"Mesh Reads",0,0,430
+"Audio Reads",0,0,430
+"Scripting Reads",0,0,430
+"Entities Reads",0,0,430
+"Required Tiles",0,0,430
+"Atlases",0,0,430
+"Total CPU Cache Size",0,0,430
+"Total GPU Cache Size",0,0,430
+"Missing Disk Data",0,0,430
+"Read From Disk",0,0,430
+"Max Cache Mip Bias",0,0,430
+"Max Cache Demand",0,0,430
+"File Handles Open",0,0,430
+"Overlap Queries",0,0,430
+"Reads in Flight",0,0,430
+"Total Bodies",0,0,430
+"Awake Bodies",0,0,430
+"Asleep Bodies",0,0,430
+"Global Illumination Support",0,0,430
+"Missing Streaming Tiles",0,0,430
+"Physics Queries",0,0,430
+"Rigidbodies Synced",0,0,430
+"GC Reserved Memory",0,0,430
+"Profiler Used Memory",0,0,430
+"Profiler Reserved Memory",0,0,430
+"Audio Used Memory",0,0,430
+"Audio Reserved Memory",0,0,430
+"Video Used Memory",0,0,430
+"GC Used Memory",0,0,430
+"Video Reserved Memory",0,0,430
+"Render Textures Bytes",0,0,430
+"Asset Count",0,0,430
+"Scene Object Count",0,0,430
+"Game Object Count",0,0,430
+"GC Allocation In Frame Count",0,0,430
+"GC Allocated In Frame",0,0,430
+"Render Textures Count",0,0,430
+"Gfx Used Memory",0,0,430
+"Total Reserved Memory",0,0,430
+"App Committed Memory",0,0,430
+"Broadphase Adds/Removes",0,0,430
+"Broadphase Adds",0,0,430
+"Colliders Synced",0,0,430
+"Narrowphase Touches",0,0,430
+"Narrowphase New Touches",0,0,430
+"Narrowphase Lost Touches",0,0,430
+"Total Used Memory",0,0,430
+"CPU Total Frame Time",0,0,430
+"CPU Render Thread Frame Time",0,0,430
+"GPU Frame Time",0,0,430
+"Trigger Overlaps",0,0,430
+"System Used Memory",0,0,430
+"System Total Used Memory",0,0,430
+"App Resident Memory",0,0,430
+"CPU Main Thread Frame Time",0,0,430
+"IsTouching Queries",0,0,430
+"Gfx Reserved Memory",0,0,430
+"Texture Count",0,0,430
+"Physics Used Memory",0,0,430
+"Physics Used Memory (2D)",0,0,430
+"Total Joints",0,0,430
+"Solver Continuous Islands",0,0,430
+"Solver Discrete Islands",0,0,430
+"Solver Simulation Count",0,0,430
+"Active Dynamic Bodies",0,0,430
+"Solver World Count",0,0,430
+"Transform Parent Sync Bodies",0,0,430
+"Transform Sync Colliders",0,0,430
+"Transform Sync Bodies",0,0,430
+"Total Transform Sync Calls",0,0,430
+"Particle Queries",0,0,430
+"GetContacts Queries",0,0,430
+"Transform Parent Sync Colliders",0,0,430
+"Texture Memory",0,0,430
+"Active Kinematic Bodies",0,0,430
+"Articulation Bodies",0,0,430
+"Mesh Memory",0,0,430
+"Mesh Count",0,0,430
+"Material Memory",0,0,430
+"Material Count",0,0,430
+"AnimationClip Memory",0,0,430
+"AnimationClip Count",0,0,430
+"Static Colliders",0,0,430
+"AudioClip Memory",0,0,430
+"Object Count",0,0,430
+"Modified Overlaps",0,0,430
+"Continuous Overlaps",0,0,430
+"Discreet Overlaps",0,0,430
+"Overlaps",0,0,430
+"Active Constraints",0,0,430
+"AudioClip Count",0,0,430
+"Broadphase Removes",0,0,430

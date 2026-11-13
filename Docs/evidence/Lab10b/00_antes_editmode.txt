@@ -1,0 +1,6 @@
+Lab10b - Línea base ANTES (EditMode, Unity 6000.3.9f1)
+Fecha: 2026-11-07 00:34:45
+Job MCP: 70c5cacc58654f65aef610e611eec616
+Resultado: total=53 passed=52 failed=0 skipped=1 duration=1.262 s resultState=Passed
+BUG-001: CrisisVREditModeTests.E01_EscenasExistenEnProyecto = Passed (0.0009 s)
+BUG-002: CrisisVRGrabPlayTests.G01_AgarreConSimulador = Skipped:Explicit (corre como EditMode y se omite)

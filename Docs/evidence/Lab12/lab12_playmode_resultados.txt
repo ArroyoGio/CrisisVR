@@ -1,0 +1,36 @@
+LAB 12 — Resultados PlayMode (Unity 6000.3.9f1, Editor/PC, sin visor; NO es prueba en Meta Quest 3)
+Fecha: 2026-11-09
+
+CORRIDA 1 — suite PlayMode completa (job f9687e1f…): 11 pruebas, 10 OK, 1 FALLA, 510.0 s
+  OK    CrisisVRGrabPlayTests.G01_AgarreConSimulador (6.4 s)
+  OK    CrisisVRPlayModeTests.E01_CargaMainMenu_SinExcepciones (1.0 s)
+  OK    CrisisVRPlayModeTests.E02_CargaAct1_SinExcepciones (1.5 s)
+  OK    CrisisVRPlayModeTests.E03_CargaTutorial_SinExcepciones (1.1 s)
+  OK    CrisisVRRayPlayTests.S07_RayoYGatillo_BotonActivoEInactivo (10.6 s)
+  FALLA CrisisVRSessionPlayTests.S01_SesionCompleta_Corregir_PlanNuevo_A (17.3 s)
+  OK    CrisisVRSessionPlayTests.S02_SesionCompleta_NoActua_SinAccion_D (17.4 s)
+  OK    CrisisVRSessionPlayTests.S03_PausaCongelaEspera_Y_TerminarSesionEnActo2 (13.6 s)
+  OK    CrisisVRSessionPlayTests.S04_VeinticuatroCombinaciones_ReporteCoincide (412.2 s)
+  OK    CrisisVRSessionPlayTests.S05_RecordatorioActo3_NoRegistra (24.2 s)
+  OK    CrisisVRSessionPlayTests.S06_PausaMitadDialogo_SigueMismoPunto (4.6 s)
+
+FALLA S01 (sin ocultar): "Unhandled log message: [Exception] MissingReferenceException: The object of type
+  'UnityEngine.CanvasGroup' has been destroyed..." en Yarn.Unity.Effects.FadeAlphaAsync (Effects.cs:47)
+  <- LinePresenter.RunLineAsync <- DialogueRunner.RunLocalisedLine. Las aserciones funcionales de S01 llegaron a ejecutarse
+  (se generó el reporte 'S01 reporte: …').
+
+CAUSA RAIZ: contaminación entre pruebas. S07 (se ejecuta antes) termina con runner.Stop() + 5 frames y deja la escena Act1
+  viva con un fundido de Yarn en curso; el LoadScene("Act1") de S01 destruye el CanvasGroup mientras esa animación asíncrona
+  sigue activa. El stack trace cae por completo en el paquete Yarn Spinner (PackageCache), no en código de CrisisVR.
+
+CORRECCION: solo helper de prueba AislarEscenaCargada (Assets/_Project/Tests/PlayMode/CrisisVRSessionPlayTests.cs): detiene el
+  DialogueRunner, espera a que IsDialogueRunning sea falso (máx. 120 frames) y 0.6 s reales antes de descargar la escena.
+  No se tocó código de runtime ni el paquete Yarn; NO se usó LogAssert.Expect ni ignoreFailingMessages.
+  Archivo original conservado: CrisisVRSessionPlayTests.cs.ANTES_S01.txt
+
+CORRIDA 2 — tras la corrección (S07 y luego S01, mismo orden que reproduce el fallo): 2/2 OK (28.3 s)
+CORRIDA 3 — regresión S02 (usa el mismo helper RunSession): 1/1 OK (17.1 s)
+
+LIMITACION: tras la corrección NO se volvió a ejecutar la suite completa de 11 pruebas ni S04 (24 combinaciones, ~7 min).
+  S04 pasó 24/24 en la corrida 1 (antes del cambio); el cambio solo agrega una espera previa al LoadScene. Estado honesto:
+  suite completa = 10/11 (corrida 1) + S01 corregida y verificada de forma aislada.
